@@ -8,11 +8,14 @@ class AuthenticationRepositoryImpl(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
 ) : AuthenticationRepository {
-    override fun login(username: String, password: String): Boolean {
-        TODO("Not yet implemented")
+    override fun login(email: String, password: String): Boolean {
+        return loginUseCase.invoke(email, password)
     }
 
-    override fun register(username: String, password: String, isOrganisation: Boolean): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+        isOrganisation: Boolean
+    ): Boolean = registerUseCase.invoke(name, email, password, isOrganisation)
 }

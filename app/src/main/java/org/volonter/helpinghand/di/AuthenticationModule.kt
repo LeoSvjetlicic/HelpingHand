@@ -1,6 +1,6 @@
 package org.volonter.helpinghand.di
 
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,14 +18,14 @@ object AuthenticationModule {
     @Provides
     @Singleton
     fun provideLoginUseCase(
-        firebase: FirebaseFirestore
-    ): LoginUseCase = LoginUseCase(firebase)
+        auth: FirebaseAuth
+    ): LoginUseCase = LoginUseCase(auth)
 
     @Provides
     @Singleton
     fun provideRepositoryUseCase(
-        firebase: FirebaseFirestore
-    ): RegisterUseCase = RegisterUseCase(firebase)
+        auth: FirebaseAuth
+    ): RegisterUseCase = RegisterUseCase(auth)
 
     @Provides
     @Singleton
