@@ -7,6 +7,9 @@
     <string name="is_organisation">IS ORGANISATION</string>
     <string name="register">REGISTER</string>
     <string name="login">LOGIN</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="click_here">Click here.</string>
     <string name="applicants">Applicants</string>
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>

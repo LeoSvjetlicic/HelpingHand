@@ -23,4 +23,5 @@ val MiddleBrown = Color(0xFFA77A6B)
 
 
 
-val InputFieldGray = Color(0xFF525252)
+val Gray40 = Color(0xFF525252)
+val Gray20 = Color(0xFF363636)
