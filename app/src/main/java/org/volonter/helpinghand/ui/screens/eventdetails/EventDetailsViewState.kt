@@ -32,6 +32,17 @@ data class FinishedEventDetailsViewState(
                 "Random lik",
                 "random.lik@gmail.com"
             )
+        ),
+        ReviewViewState(
+            3,
+            "Kako da znam",
+            "usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
+            "15.12.2001",
+            UserViewState(
+                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
+                "Random lik",
+                "random.lik@gmail.com"
+            )
         ), ReviewViewState(
             3,
             "Kako da znam",

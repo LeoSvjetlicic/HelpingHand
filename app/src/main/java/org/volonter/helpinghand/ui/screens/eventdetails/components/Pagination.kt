@@ -23,6 +23,7 @@ import org.volonter.helpinghand.ui.screens.eventdetails.EventScreenActions
 import org.volonter.helpinghand.ui.screens.eventdetails.FinishedEventDetailsViewState
 import org.volonter.helpinghand.ui.screens.eventdetails.OnPaginationLeftClick
 import org.volonter.helpinghand.ui.screens.eventdetails.OnPaginationRightClick
+import kotlin.math.ceil
 
 @Composable
 fun Pagination(
@@ -57,7 +58,7 @@ fun Pagination(
             text = getPaginationText(viewState),
             color = Color.White
         )
-        if (viewState.currentPage < (viewState.allReviews.size / viewState.reviewsPerPage) + 1) {
+        if (viewState.currentPage < ceil(viewState.allReviews.size / viewState.reviewsPerPage.toDouble()).toInt()) {
             Icon(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
@@ -72,15 +73,12 @@ fun Pagination(
                 contentDescription = null
             )
         } else {
-            Spacer(Modifier.size(14.dp))
+            Spacer(Modifier.size(24.dp))
         }
     }
 }
 
-private fun getPaginationText(viewState: FinishedEventDetailsViewState): String {
-    return if (viewState.allReviews.size % viewState.reviewsPerPage == 0) {
-        "${viewState.currentPage}" + "/${(viewState.allReviews.size / viewState.reviewsPerPage)}"
-    } else {
-        "${viewState.currentPage}" + "/${(viewState.allReviews.size / viewState.reviewsPerPage) + 1}"
-    }
-}
+private fun getPaginationText(viewState: FinishedEventDetailsViewState): String =
+    "${viewState.currentPage}" +
+            "/${ceil(viewState.allReviews.size / viewState.reviewsPerPage.toDouble()).toInt()}"
+
