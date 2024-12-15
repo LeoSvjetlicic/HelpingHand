@@ -30,7 +30,6 @@ class EventDetailsViewModel @Inject constructor() : ViewModel() {
 
         }
 
-        is OnReviewRateClick -> {}
         is OnReviewUserClick -> {}
         OnToggleApplicationToEventClick -> {}
     }

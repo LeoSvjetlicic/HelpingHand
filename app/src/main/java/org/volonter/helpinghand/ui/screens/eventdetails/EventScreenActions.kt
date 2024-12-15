@@ -2,7 +2,6 @@ package org.volonter.helpinghand.ui.screens.eventdetails
 
 sealed class EventScreenActions
 
-data class OnReviewRateClick(val rating: Int) : EventScreenActions()
 data class OnReviewUserClick(val email: String) : EventScreenActions()
 data class OnOrganisationClick(val email: String) : EventScreenActions()
 data object OnToggleApplicationToEventClick : EventScreenActions()

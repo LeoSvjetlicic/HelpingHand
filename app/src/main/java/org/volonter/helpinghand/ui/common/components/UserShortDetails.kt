@@ -17,19 +17,27 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.google.firebase.auth.FirebaseAuth
 import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 import org.volonter.helpinghand.ui.theme.Gray15
 
 @Composable
 fun UserShortDetails(
     viewState: UserViewState,
+    firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance(),
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit
 ) {
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(90.dp))
-            .clickable { onClick(viewState.email) },
+            .then(
+                if (viewState.email != firebaseAuth.currentUser?.email) {
+                    Modifier.clickable { onClick(viewState.email) }
+                } else {
+                    Modifier
+                }
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row {

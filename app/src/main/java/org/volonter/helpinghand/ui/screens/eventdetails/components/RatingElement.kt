@@ -18,7 +18,7 @@ import org.volonter.helpinghand.ui.theme.StarYellow
 fun RatingElement(
     rating: Int,
     modifier: Modifier = Modifier,
-    onRatingChanged: (Int) -> Unit
+    onRatingChanged: (Int) -> Unit = {}
 ) {
     Row(modifier = modifier) {
         for (i in 1..5) {

@@ -31,7 +31,6 @@ import org.volonter.helpinghand.R
 import org.volonter.helpinghand.ui.common.components.UserShortDetails
 import org.volonter.helpinghand.ui.common.viewstates.ReviewViewState
 import org.volonter.helpinghand.ui.screens.eventdetails.EventScreenActions
-import org.volonter.helpinghand.ui.screens.eventdetails.OnReviewRateClick
 import org.volonter.helpinghand.ui.screens.eventdetails.OnReviewUserClick
 import org.volonter.helpinghand.ui.theme.Gray10
 import org.volonter.helpinghand.ui.theme.SecondaryGreen
@@ -55,9 +54,7 @@ fun ReviewItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                RatingElement(reviewViewState.rating) {
-                    onClick(OnReviewRateClick(it))
-                }
+                RatingElement(reviewViewState.rating)
                 Text(text = reviewViewState.date, color = Gray10, fontSize = 12.sp)
             }
             Spacer(Modifier.height(12.dp))
