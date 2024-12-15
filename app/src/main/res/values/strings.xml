@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">HelpingHand</string>
+    <string name="applicants">Applicants</string>
+    <string name="apply">Apply</string>
+    <string name="undo_apply">Undo apply</string>
+    <string name="more">more</string>
+    <string name="less">less</string>
+    <string name="organiser">Organiser: </string>
+    <string name="user_reviews">User reviews</string>
 </resources>
