@@ -18,15 +18,19 @@ class EventDetailsViewModel @Inject constructor() : ViewModel() {
         OnLocationClick -> {}
         is OnOrganisationClick -> {}
         OnPaginationLeftClick -> {
-            viewState.value as FinishedEventDetailsViewState
             viewState.value =
-                (viewState.value as FinishedEventDetailsViewState).copy(currentPage = (viewState.value as FinishedEventDetailsViewState).currentPage - 1)
+                (viewState.value as FinishedEventDetailsViewState).copy(
+                    currentPage =
+                    (viewState.value as FinishedEventDetailsViewState).currentPage - 1
+                )
         }
 
         OnPaginationRightClick -> {
-            viewState.value as FinishedEventDetailsViewState
             viewState.value =
-                (viewState.value as FinishedEventDetailsViewState).copy(currentPage = (viewState.value as FinishedEventDetailsViewState).currentPage + 1)
+                (viewState.value as FinishedEventDetailsViewState).copy(
+                    currentPage =
+                    (viewState.value as FinishedEventDetailsViewState).currentPage + 1
+                )
 
         }
 

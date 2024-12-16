@@ -9,5 +9,7 @@
     <string name="less">less</string>
     <string name="organiser">Organiser: </string>
     <string name="user_reviews">User reviews</string>
+    <string name="topic">Topic</string>
+    <string name="body">Body</string>
     <string name="help_us_improve">Help us improve and do better by giving us your feedback!</string>
 </resources>

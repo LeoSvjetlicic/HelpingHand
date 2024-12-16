@@ -4,9 +4,11 @@ import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 
 data class AddReviewViewState(
     val rating: Int = 0,
-    val eventName: String = "",
+    val eventName: String = "Udruga Breza - Volonterska akcija",
     val title: String = "",
-    val description: String = "",
+    val isTitleError: Boolean = false,
+    val body: String = "",
+    val isBodyError: Boolean = false,
     val user: UserViewState = UserViewState(
         name = "Random lik",
         email = "random.lik@gmail.com",
