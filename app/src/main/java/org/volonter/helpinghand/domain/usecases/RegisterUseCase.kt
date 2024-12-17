@@ -1,44 +1,77 @@
 package org.volonter.helpinghand.domain.usecases
 
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import org.volonter.helpinghand.data.model.User
+import kotlinx.coroutines.suspendCancellableCoroutine
+import org.volonter.helpinghand.utlis.ToastHelper
 import javax.inject.Inject
-import kotlinx.coroutines.tasks.await
 
 class RegisterUseCase @Inject constructor(
     private val auth: FirebaseAuth,
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
+    private val toastHelper: ToastHelper
 ) {
-    suspend fun invoke(name: String, email: String, password: String, isOrganisation: Boolean): Boolean {
-        return try {
-            // Create the user in Firebase Authentication
-            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+    suspend fun invoke(
+        name: String,
+        email: String,
+        password: String,
+        isOrganisation: Boolean,
+        navigate: () -> Unit
+    ) {
+        try {
+            val registrationResult = suspendCancellableCoroutine { continuation ->
+                auth.createUserWithEmailAndPassword(email.trim(), password.trim())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val userId = auth.currentUser?.uid
+                            if (userId != null) {
+                                val user = hashMapOf(
+                                    "name" to name,
+                                    "email" to email,
+                                    "isOrganisation" to isOrganisation
+                                )
 
-            val uid = authResult.user?.uid
-            if (uid == null) {
-                Log.e("RegisterUseCase", "Failed to register user: User ID is null")
-                return false
+                                firestore.collection("users")
+                                    .document(userId)
+                                    .set(user)
+                                    .addOnSuccessListener {
+                                        Log.d("Firestore", "User successfully added to Firestore")
+                                        continuation.resumeWith(Result.success(true))
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        Log.d(
+                                            "Firestore",
+                                            "Error saving user: ${exception.message}"
+                                        )
+                                        toastHelper.createToast(
+                                            "Failed to save user data",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        continuation.resumeWith(Result.success(false))
+                                    }
+                            } else {
+                                Log.d("AuthError", "User ID is null after registration")
+                                toastHelper.createToast("Registration failed", Toast.LENGTH_SHORT)
+                                continuation.resumeWith(Result.success(false))
+                            }
+                        } else {
+                            toastHelper.createToast("Registration failed", Toast.LENGTH_SHORT)
+                            continuation.resumeWith(Result.success(false))
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d("AuthError", "Registration error: ${exception.message}")
+                        continuation.resumeWith(Result.success(false))
+                    }
             }
 
-            // Create user object
-            val user = User(
-                username = name,
-                city = "",
-                id = uid,
-                imageLink = "",
-                organization = isOrganisation
-            )
-
-            // Save the user in Firestore
-            firestore.collection("users").document(uid).set(user).await()
-
-            Log.d("RegisterUseCase", "User registered successfully")
-            true
-        } catch (e: Exception) {
-            Log.e("RegisterUseCase", "Failed to register user", e)
-            false
+            if (registrationResult) {
+                navigate()
+            }
+        } catch (e: Throwable) {
+            Log.d("Error", "Unexpected error: ${e.message}")
         }
     }
 }

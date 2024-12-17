@@ -6,6 +6,7 @@ interface AuthenticationRepository {
         name: String,
         email: String,
         password: String,
-        isOrganisation: Boolean
-    ): Boolean
+        isOrganisation: Boolean,
+        navigate: () -> Unit
+    )
 }

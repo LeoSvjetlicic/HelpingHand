@@ -16,6 +16,7 @@ class AuthenticationRepositoryImpl(
         name: String,
         email: String,
         password: String,
-        isOrganisation: Boolean
-    ): Boolean = registerUseCase.invoke(name, email, password, isOrganisation)
+        isOrganisation: Boolean,
+        navigate: () -> Unit
+    ) = registerUseCase.invoke(name, email, password, isOrganisation, navigate)
 }

@@ -10,6 +10,7 @@ import org.volonter.helpinghand.data.repository.AuthenticationRepositoryImpl
 import org.volonter.helpinghand.domain.repository.AuthenticationRepository
 import org.volonter.helpinghand.domain.usecases.LoginUseCase
 import org.volonter.helpinghand.domain.usecases.RegisterUseCase
+import org.volonter.helpinghand.utlis.ToastHelper
 import javax.inject.Singleton
 
 @Module
@@ -19,15 +20,17 @@ object AuthenticationModule {
     @Provides
     @Singleton
     fun provideLoginUseCase(
-        auth: FirebaseAuth
-    ): LoginUseCase = LoginUseCase(auth)
+        auth: FirebaseAuth,
+        toastHelper: ToastHelper
+    ): LoginUseCase = LoginUseCase(auth, toastHelper)
 
     @Provides
     @Singleton
     fun provideRepositoryUseCase(
         auth: FirebaseAuth,
-        firestore: FirebaseFirestore
-    ): RegisterUseCase = RegisterUseCase(auth, firestore)
+        firestore: FirebaseFirestore,
+        toastHelper: ToastHelper
+    ): RegisterUseCase = RegisterUseCase(auth, firestore, toastHelper)
 
     @Provides
     @Singleton

@@ -1,9 +1,9 @@
 package org.volonter.helpinghand.ui.screens.login
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,6 +31,7 @@ import org.volonter.helpinghand.R
 import org.volonter.helpinghand.ui.screens.login.components.AuthenticationButton
 import org.volonter.helpinghand.ui.screens.login.components.AuthenticationCheckbox
 import org.volonter.helpinghand.ui.screens.login.components.LoginInputField
+import org.volonter.helpinghand.ui.theme.Gray40
 
 @Composable
 fun LoginScreen(
@@ -40,7 +40,6 @@ fun LoginScreen(
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier
@@ -71,7 +70,7 @@ fun LoginScreen(
                     title = R.string.already_have_account,
                     action = R.string.sign_up_now,
                     onActionClick = {
-                        viewModel.onIsLoginChange(viewModel.viewState.value.isLogin)
+                        viewModel.onIsLoginChange()
                     }
                 )
             } else {
@@ -79,7 +78,7 @@ fun LoginScreen(
                     title = R.string.dont_have_account,
                     action = R.string.create_account,
                     onActionClick = {
-                        viewModel.onIsLoginChange(viewModel.viewState.value.isLogin)
+                        viewModel.onIsLoginChange()
                     }
                 )
             }
@@ -132,7 +131,11 @@ fun LoginScreen(
             AuthenticationButton(
                 text = if (viewModel.viewState.value.isLogin) stringResource(R.string.register) else stringResource(R.string.login),
                 onClick = if (viewModel.viewState.value.isLogin) {
-                    { viewModel.register(context) }
+                    {
+                        viewModel.register({
+
+                        })
+                    }
                 } else {
                     viewModel::login
                 }
@@ -142,7 +145,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun AccountTextSection(title: Int, action: Int, onActionClick: () -> Unit) {
+fun AccountTextSection(title: Int, @StringRes action: Int, onActionClick: () -> Unit) {
     Column(
         modifier = Modifier.padding(start = 100.dp),
         horizontalAlignment = Alignment.Start
@@ -150,7 +153,8 @@ fun AccountTextSection(title: Int, action: Int, onActionClick: () -> Unit) {
         Text(
             text = stringResource(title),
             fontSize = 18.sp,
-            fontWeight = FontWeight.W500
+            fontWeight = FontWeight.W500,
+            color = Gray40
         )
         Spacer(Modifier.height(8.dp))
         Text(
@@ -158,7 +162,8 @@ fun AccountTextSection(title: Int, action: Int, onActionClick: () -> Unit) {
             modifier = Modifier.clickable { onActionClick() },
             fontSize = 18.sp,
             fontWeight = FontWeight.W500,
-            textDecoration = TextDecoration.Underline
+            textDecoration = TextDecoration.Underline,
+            color = Gray40
         )
     }
 }
