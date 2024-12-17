@@ -36,7 +36,8 @@ import org.volonter.helpinghand.ui.theme.Gray40
 @Composable
 fun LoginScreen(
     viewModel: AuthenticationViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigate: () -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     val focusManager = LocalFocusManager.current
@@ -65,7 +66,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Conditional Account Text
-            if (viewModel.viewState.value.isLogin) {
+            if (viewModel.viewState.value.isRegister) {
                 AccountTextSection(
                     title = R.string.already_have_account,
                     action = R.string.sign_up_now,
@@ -86,7 +87,7 @@ fun LoginScreen(
             Spacer(Modifier.height(24.dp))
 
             // Input Fields
-            if (viewModel.viewState.value.isLogin) {
+            if (viewModel.viewState.value.isRegister) {
                 LoginInputField(
                     viewState = viewModel.viewState.value.nameViewState,
                     onQueryChanged = viewModel::onNameChange
@@ -100,17 +101,17 @@ fun LoginScreen(
             Spacer(Modifier.height(4.dp))
             LoginInputField(
                 viewState = viewModel.viewState.value.passwordViewState,
+                isPassword = true,
                 onQueryChanged = viewModel::onPasswordChange
             )
             Spacer(Modifier.height(4.dp))
-            if (viewModel.viewState.value.isLogin) {
+            if (viewModel.viewState.value.isRegister) {
                 LoginInputField(
                     viewState = viewModel.viewState.value.repeatPasswordViewState,
+                    isPassword = true,
                     onQueryChanged = viewModel::onRepeatPasswordChange
                 )
             }
-
-
         }
 
         // Fixed Button at Bottom
@@ -121,7 +122,7 @@ fun LoginScreen(
                 .padding(64.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (viewModel.viewState.value.isLogin) {
+            if (viewModel.viewState.value.isRegister) {
                 AuthenticationCheckbox(
                     isChecked = viewModel.viewState.value.isOrganisation,
                     onCheckedChange = viewModel::onIsOrganizationChange
@@ -129,15 +130,15 @@ fun LoginScreen(
             }
             Spacer(Modifier.height(24.dp))
             AuthenticationButton(
-                text = if (viewModel.viewState.value.isLogin) stringResource(R.string.register) else stringResource(R.string.login),
-                onClick = if (viewModel.viewState.value.isLogin) {
-                    {
-                        viewModel.register({
-
-                        })
-                    }
+                text = if (viewModel.viewState.value.isRegister) stringResource(R.string.register) else stringResource(
+                    R.string.login
+                ),
+                onClick = {
+                    if (viewModel.viewState.value.isRegister) {
+                        viewModel.register(navigate)
                 } else {
-                    viewModel::login
+                        viewModel.login(navigate)
+                    }
                 }
             )
         }

@@ -43,14 +43,15 @@ class AuthenticationViewModel @Inject constructor(
     }
 
     fun onIsLoginChange() {
-        viewState.value = viewState.value.copy(isLogin = !viewState.value.isLogin)
+        viewState.value = viewState.value.copy(isRegister = !viewState.value.isRegister)
     }
 
-    fun login() {
+    fun login(navigate: () -> Unit) {
         viewModelScope.launch {
             repository.login(
                 viewState.value.emailViewState.query,
-                viewState.value.passwordViewState.query
+                viewState.value.passwordViewState.query,
+                navigate
             )
         }
     }

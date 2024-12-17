@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.ui.theme.Gray40
@@ -21,8 +23,9 @@ import org.volonter.helpinghand.ui.theme.Gray40
 @Composable
 fun LoginInputField(
     viewState: LoginInputViewState,
+    modifier: Modifier = Modifier,
+    isPassword: Boolean = false,
     onQueryChanged: (String) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         Text(
@@ -44,6 +47,11 @@ fun LoginInputField(
                 fontSize = 18.sp,
                 lineHeight = 20.sp
             ),
+            visualTransformation = if (isPassword) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            }
         )
         Spacer(Modifier.height(4.dp))
         Spacer(

@@ -21,6 +21,7 @@ class RegisterUseCase @Inject constructor(
         navigate: () -> Unit
     ) {
         try {
+            Log.d("aodhsiudh ", "pokusaj reg")
             val registrationResult = suspendCancellableCoroutine { continuation ->
                 auth.createUserWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener { task ->

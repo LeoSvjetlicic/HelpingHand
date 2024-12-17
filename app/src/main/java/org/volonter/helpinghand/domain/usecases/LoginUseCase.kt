@@ -11,14 +11,15 @@ class LoginUseCase @Inject constructor(
     private val auth: FirebaseAuth,
     private val toastHelper: ToastHelper
 ) {
-    suspend fun invoke(email: String, password: String): Boolean {
+    suspend fun invoke(email: String, password: String, navigate: () -> Unit) {
         if (email.isEmpty() || password.isEmpty()) {
             toastHelper.createToast("Elements can't be empty", Toast.LENGTH_SHORT)
-            return false
+            return
         }
 
-        return try {
-            suspendCancellableCoroutine { continuation ->
+        try {
+            Log.d("aodhsiudh ", "pokusaj log")
+            val loginResult = suspendCancellableCoroutine<Boolean> { continuation ->
                 auth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -32,9 +33,12 @@ class LoginUseCase @Inject constructor(
                         continuation.resumeWith(Result.success(false))
                     }
             }
+
+            if (loginResult) {
+                navigate()
+            }
         } catch (e: Throwable) {
-            Log.d("error", e.message.toString())
-            false
+            Log.d("error", "Unexpected error: ${e.message}")
         }
     }
 }
