@@ -1,5 +1,7 @@
 package org.volonter.helpinghand.ui.screens.login
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -42,6 +44,10 @@ class AuthenticationViewModel @Inject constructor(
         viewState.value = viewState.value.copy(isOrganisation = !viewState.value.isOrganisation)
     }
 
+    fun onIsLoginChange(isLogin: Boolean) {
+        viewState.value = viewState.value.copy(isLogin = !viewState.value.isLogin)
+    }
+
     fun login() {
         viewModelScope.launch {
             repository.login(
@@ -51,14 +57,25 @@ class AuthenticationViewModel @Inject constructor(
         }
     }
 
-    fun register() {
+
+    fun register(context: Context) {
         viewModelScope.launch {
-            repository.register(
+            val isSuccess = repository.register(
                 viewState.value.nameViewState.query,
                 viewState.value.emailViewState.query,
                 viewState.value.passwordViewState.query,
                 viewState.value.isOrganisation
             )
+
+            // Update view state or trigger a Toast message based on success or failure
+            if (isSuccess) {
+                // Handle success (you can show a success Toast here)
+                // For example:
+                Toast.makeText(context, "Registration successful", Toast.LENGTH_SHORT).show()
+            } else {
+                // Handle failure (you can show an error Toast here)
+                Toast.makeText(context, "Registration failed", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

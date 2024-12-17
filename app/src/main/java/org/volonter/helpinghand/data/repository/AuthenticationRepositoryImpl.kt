@@ -8,7 +8,7 @@ class AuthenticationRepositoryImpl(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
 ) : AuthenticationRepository {
-    override fun login(email: String, password: String): Boolean {
+    override suspend fun login(email: String, password: String): Boolean {
         return loginUseCase.invoke(email, password)
     }
 

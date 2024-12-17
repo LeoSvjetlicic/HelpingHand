@@ -8,6 +8,8 @@
     <string name="register">REGISTER</string>
     <string name="login">LOGIN</string>
     <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="sign_up_now">Sign up now!</string>
+    <string name="create_account">Create Account!</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="click_here">Click here.</string>
     <string name="applicants">Applicants</string>

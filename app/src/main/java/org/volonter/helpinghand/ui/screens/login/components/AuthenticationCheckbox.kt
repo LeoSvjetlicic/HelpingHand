@@ -5,6 +5,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -18,7 +19,10 @@ fun AuthenticationCheckbox(
     modifier: Modifier = Modifier,
     onCheckedChange: (Boolean) -> Unit
 ) {
-    Row {
+    Row (
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ){
         Checkbox(
             modifier = modifier,
             checked = isChecked,
