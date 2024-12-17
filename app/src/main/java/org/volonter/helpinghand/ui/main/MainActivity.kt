@@ -13,9 +13,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
+import org.volonter.helpinghand.ui.screens.login.LoginScreen
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
@@ -36,8 +38,22 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
-                        startDestination = Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
+                        startDestination = if (FirebaseAuth.getInstance().currentUser != null) {
+                            Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
+                        } else {
+                            Constants.NavigationRoutes.LOGIN_ROUTE
+                        }
                     ) {
+
+                        composable(route = Constants.NavigationRoutes.LOGIN_ROUTE) {
+                            LoginScreen(
+                                viewModel = hiltViewModel(),
+                                modifier = Modifier,
+                                navigate = {
+                                    navController.navigate(Constants.NavigationRoutes.EVENT_DETAILS_ROUTE)
+                                }
+                            )
+                        }
                         composable(route = Constants.NavigationRoutes.EVENT_DETAILS_ROUTE) {
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
