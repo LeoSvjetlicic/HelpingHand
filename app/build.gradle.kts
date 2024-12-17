@@ -64,6 +64,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
+    implementation(libs.firebase.auth)
     implementation(platform(libs.firebase.bom))
 }
