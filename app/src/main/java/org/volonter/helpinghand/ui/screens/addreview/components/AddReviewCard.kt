@@ -9,9 +9,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import org.volonter.helpinghand.R
+import org.volonter.helpinghand.ui.common.components.BackgroundTextFieldWithLabel
 import org.volonter.helpinghand.ui.common.components.UserShortDetails
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewCardActions
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewViewState
@@ -44,9 +43,7 @@ fun AddReviewCard(
             UserShortDetails(viewState.user, onClick = {}, color = Gray15, onClickNavigate = {})
             Spacer(Modifier.height(8.dp))
             BackgroundTextFieldWithLabel(
-                label = stringResource(R.string.topic),
-                query = viewState.title,
-                isError = viewState.isTitleError,
+                viewState = viewState.title,
                 maxLines = 1,
                 onQueryChange = {
                     onAction(ChangeTitle(it))
@@ -54,9 +51,7 @@ fun AddReviewCard(
             )
             Spacer(Modifier.height(12.dp))
             BackgroundTextFieldWithLabel(
-                label = stringResource(R.string.body),
-                query = viewState.body,
-                isError = viewState.isBodyError,
+                viewState = viewState.body,
                 maxLines = Int.MAX_VALUE,
                 onQueryChange = {
                     onAction(ChangeBody(it))

@@ -1,4 +1,4 @@
-package org.volonter.helpinghand.ui.screens.addreview.components
+package org.volonter.helpinghand.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -8,53 +8,66 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.theme.Gray30
+import org.volonter.helpinghand.ui.common.viewstates.InputFieldState
 
 @Composable
 fun BackgroundTextFieldWithLabel(
-    label: String,
-    query: String,
-    isError: Boolean,
+    viewState: InputFieldState,
     maxLines: Int,
     modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
+    minRowHeight: Dp? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
     onQueryChange: (String) -> Unit
 ) {
     Column(modifier = modifier) {
         Text(
-            text = label,
-            color = Color.White,
+            text = stringResource(viewState.label),
+            color = White,
         )
         Spacer(Modifier.height(4.dp))
         Row(
             modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
+                .then(
+                    if (minRowHeight != null) {
+                        Modifier.height(minRowHeight)
+                    } else {
+                        Modifier
+                    }
+                )
+                .clip(RoundedCornerShape(8.dp))
                 .fillMaxWidth()
-                .background(Gray30),
-            verticalAlignment = Alignment.CenterVertically
+                .background(White),
         ) {
             TextField(
                 modifier = Modifier
                     .weight(1f),
-                value = query,
+                value = viewState.value,
+                readOnly = readOnly,
                 maxLines = maxLines,
+                keyboardOptions = keyboardOptions,
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Gray30,
-                    unfocusedContainerColor = Gray30,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = DarkGray
@@ -64,16 +77,16 @@ fun BackgroundTextFieldWithLabel(
                     color = DarkGray
                 ),
                 placeholder = {
-                    if (query.isEmpty()) {
+                    if (viewState.value.isEmpty()) {
                         Text(
-                            text = label,
+                            text = stringResource(viewState.label),
                             color = DarkGray,
                             fontSize = 16.sp
                         )
                     }
                 },
                 trailingIcon = {
-                    if (isError) {
+                    if (viewState.error.isNotEmpty()) {
                         Spacer(Modifier.width(8.dp))
                         Icon(
                             painter = painterResource(R.drawable.ic_error),

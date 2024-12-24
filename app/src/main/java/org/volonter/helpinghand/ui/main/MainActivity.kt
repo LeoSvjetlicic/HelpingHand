@@ -13,8 +13,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import org.volonter.helpinghand.ui.screens.addevent.AddEventScreen
+import org.volonter.helpinghand.ui.screens.addevent.AddEventViewModel
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
@@ -23,6 +24,7 @@ import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScre
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -40,11 +42,12 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
-                        startDestination = if (FirebaseAuth.getInstance().currentUser != null) {
-                            Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
-                        } else {
-                            Constants.NavigationRoutes.LOGIN_ROUTE
-                        }
+                        startDestination = ADD_EVENT_ROUTE
+//                        if (FirebaseAuth.getInstance().currentUser != null) {
+//                            Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
+//                        } else {
+//                            Constants.NavigationRoutes.LOGIN_ROUTE
+//                        }
                     ) {
 
                         composable(route = Constants.NavigationRoutes.LOGIN_ROUTE) {
@@ -54,6 +57,16 @@ class MainActivity : ComponentActivity() {
                                 navigate = {
                                     navController.navigate(Constants.NavigationRoutes.EVENT_DETAILS_ROUTE)
                                 }
+                            )
+                        }
+                        composable(route = ADD_EVENT_ROUTE) {
+                            val viewModel = hiltViewModel<AddEventViewModel>()
+                            AddEventScreen(
+                                viewState = viewModel.inputViewState.value,
+                                calendarViewState = viewModel.calendarViewState.value,
+                                onPostClick = { },
+                                onCancelClick = {},
+                                onScreenAction = viewModel::onScreenAction,
                             )
                         }
                         composable(route = Constants.NavigationRoutes.EVENT_DETAILS_ROUTE) {

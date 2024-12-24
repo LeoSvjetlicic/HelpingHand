@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.ui.screens.addreview.components.AddReviewCard
 import org.volonter.helpinghand.ui.screens.addreview.components.ButtonPair
 import org.volonter.helpinghand.ui.theme.LightBrown
+import org.volonter.helpinghand.ui.theme.PrimaryCoral
 
 @Composable
 fun AddReviewScreen(
@@ -59,6 +60,7 @@ fun AddReviewScreen(
                         onAction = viewModel::onAddReviewScreenAction
                     )
                     ButtonPair(
+                        primaryColor = PrimaryCoral,
                         onPostClick = {
                             viewModel.onPostClick()
                             onPostClick()

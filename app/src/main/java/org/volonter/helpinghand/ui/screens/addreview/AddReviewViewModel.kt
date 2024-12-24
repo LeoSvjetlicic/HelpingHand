@@ -15,7 +15,8 @@ class AddReviewViewModel @Inject constructor() : ViewModel() {
 
     fun onAddReviewScreenAction(action: AddReviewCardActions) = when (action) {
         is ChangeBody -> {
-            viewState.value = viewState.value.copy(body = action.value)
+            viewState.value =
+                viewState.value.copy(body = viewState.value.body.copy(value = action.value))
         }
 
         is ChangeRating -> {
@@ -29,7 +30,8 @@ class AddReviewViewModel @Inject constructor() : ViewModel() {
         }
 
         is ChangeTitle -> {
-            viewState.value = viewState.value.copy(title = action.value)
+            viewState.value =
+                viewState.value.copy(title = viewState.value.title.copy(value = action.value))
         }
     }
 

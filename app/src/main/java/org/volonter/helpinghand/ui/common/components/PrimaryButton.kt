@@ -10,10 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.volonter.helpinghand.ui.theme.PrimaryCoral
 
 @Composable
 fun PrimaryButton(
+    backgroundColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
@@ -24,7 +24,7 @@ fun PrimaryButton(
         contentPadding = PaddingValues(vertical = 8.dp, horizontal = 30.dp),
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = PrimaryCoral,
+            containerColor = backgroundColor,
             contentColor = Color.White
         ),
         content = content

@@ -20,6 +20,7 @@ import org.volonter.helpinghand.R
 import org.volonter.helpinghand.ui.common.components.PrimaryButton
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsViewState
 import org.volonter.helpinghand.ui.screens.eventdetails.UnfinishedEventDetailsViewState
+import org.volonter.helpinghand.ui.theme.PrimaryCoral
 
 @Composable
 fun EventDetailsTopBar(
@@ -45,7 +46,10 @@ fun EventDetailsTopBar(
             contentDescription = null
         )
         if (showApplyButton) {
-            PrimaryButton(onClick = onToggleApplicationToEventClick) {
+            PrimaryButton(
+                backgroundColor = PrimaryCoral,
+                onClick = onToggleApplicationToEventClick
+            ) {
                 Text(
                     text = if ((viewState as UnfinishedEventDetailsViewState).isUserApplied) {
                         stringResource(R.string.undo_apply)
