@@ -1,14 +1,14 @@
 package org.volonter.helpinghand.ui.screens.addreview
 
+import org.volonter.helpinghand.R
+import org.volonter.helpinghand.ui.common.viewstates.InputFieldState
 import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 
 data class AddReviewViewState(
     val rating: Int = 0,
     val eventName: String = "Udruga Breza - Volonterska akcija",
-    val title: String = "",
-    val isTitleError: Boolean = false,
-    val body: String = "",
-    val isBodyError: Boolean = false,
+    val title: InputFieldState = InputFieldState(label = R.string.topic),
+    val body: InputFieldState = InputFieldState(label = R.string.body),
     val user: UserViewState = UserViewState(
         name = "Random lik",
         email = "random.lik@gmail.com",

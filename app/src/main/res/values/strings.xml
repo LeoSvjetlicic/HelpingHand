@@ -22,7 +22,15 @@
     <string name="organiser">Organiser: </string>
     <string name="user_reviews">User reviews</string>
     <string name="topic">Topic</string>
+    <string name="add_new_event">Add New Event</string>
     <string name="body">Body</string>
+    <string name="title">Title</string>
+    <string name="time">Time</string>
+    <string name="description">Description</string>
+    <string name="address">Address</string>
+    <string name="contact_phone">Contact phone number</string>
+    <string name="close">Close</string>
+    <string name="date_and_time">Date and time</string>
     <string name="help_us_improve">Help us improve and do better by giving us your feedback!</string>
     <string name="previous_events">Previous Events</string>
     <string name="in_progess">In Progress</string>

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -16,6 +17,7 @@ import org.volonter.helpinghand.ui.common.components.SecondaryButton
 
 @Composable
 fun ButtonPair(
+    primaryColor: Color,
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
     onPostClick: () -> Unit
@@ -32,6 +34,7 @@ fun ButtonPair(
             Text(text = stringResource(R.string.cancel), fontSize = 16.sp)
         }
         PrimaryButton(
+            backgroundColor = primaryColor,
             onClick = onPostClick
         ) {
             Text(text = stringResource(R.string.post), fontSize = 16.sp)
