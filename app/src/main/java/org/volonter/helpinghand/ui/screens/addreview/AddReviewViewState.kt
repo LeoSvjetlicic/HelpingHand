@@ -12,6 +12,7 @@ data class AddReviewViewState(
     val user: UserViewState = UserViewState(
         name = "Random lik",
         email = "random.lik@gmail.com",
-        imageLink = "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg"
+        imageLink = "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
+        description = ""
     )
 )

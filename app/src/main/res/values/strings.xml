@@ -24,4 +24,7 @@
     <string name="topic">Topic</string>
     <string name="body">Body</string>
     <string name="help_us_improve">Help us improve and do better by giving us your feedback!</string>
+    <string name="previous_events">Previous Events</string>
+    <string name="in_progess">In Progress</string>
+    <string name="finished">Finished</string>
 </resources>

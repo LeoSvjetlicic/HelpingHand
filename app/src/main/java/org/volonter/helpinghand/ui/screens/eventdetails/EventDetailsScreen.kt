@@ -1,6 +1,7 @@
 package org.volonter.helpinghand.ui.screens.eventdetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,13 +32,16 @@ import org.volonter.helpinghand.ui.screens.eventdetails.components.EventDetailsT
 import org.volonter.helpinghand.ui.screens.eventdetails.components.IconTextElement
 import org.volonter.helpinghand.ui.screens.eventdetails.components.Pagination
 import org.volonter.helpinghand.ui.screens.eventdetails.components.ReviewItem
+import org.volonter.helpinghand.ui.theme.Gray15
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 
 @Composable
 fun EventDetailsScreen(
     viewModel: EventDetailsViewModel,
     modifier: Modifier = Modifier,
-    onAddReviewClick: () -> Unit
+    onAddReviewClick: () -> Unit,
+    onTitleClick: () -> Unit,
+    onUserClick: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
@@ -62,7 +66,9 @@ fun EventDetailsScreen(
                             .padding(horizontal = 26.dp)
                     ) {
                         Text(
-                            modifier = Modifier.padding(vertical = 16.dp),
+                            modifier = Modifier
+                                .padding(vertical = 16.dp)
+                                .clickable { onTitleClick() },
                             fontSize = 26.sp,
                             fontWeight = FontWeight.Bold,
                             text = viewModel.viewState.value.title,
@@ -80,7 +86,9 @@ fun EventDetailsScreen(
                                 viewModel.onScreenAction(
                                     OnOrganisationClick(it)
                                 )
-                            }
+                            },
+                            onClickNavigate = onUserClick,
+                            color = Gray15
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         IconTextElement(

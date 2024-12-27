@@ -1,5 +1,6 @@
-package org.volonter.helpinghand.ui.screens.eventdetails.components
+package org.volonter.helpinghand.ui.screens.organizationProfile.components
 
+import org.volonter.helpinghand.ui.screens.eventdetails.components.RatingElement
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,18 +29,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.common.components.UserShortDetails
-import org.volonter.helpinghand.ui.common.viewstates.ReviewViewState
-import org.volonter.helpinghand.ui.screens.eventdetails.EventScreenActions
-import org.volonter.helpinghand.ui.screens.eventdetails.OnReviewUserClick
-import org.volonter.helpinghand.ui.theme.Gray10
-import org.volonter.helpinghand.ui.theme.Gray15
-import org.volonter.helpinghand.ui.theme.SecondaryGreen
+import org.volonter.helpinghand.ui.common.viewstates.EventViewState
+import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationScreenActions
 
 @Composable
-fun ReviewItem(
-    reviewViewState: ReviewViewState, modifier: Modifier = Modifier,
-    onClick: (EventScreenActions) -> Unit
+fun OrganizationEventElement(
+    eventViewState: EventViewState, modifier: Modifier = Modifier,
+    onClick: (OrganizationScreenActions) -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     var isExpanded by remember { mutableStateOf(false) }
@@ -47,7 +43,7 @@ fun ReviewItem(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = SecondaryGreen)
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -55,13 +51,12 @@ fun ReviewItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                RatingElement(reviewViewState.rating)
-                Text(text = reviewViewState.date, color = Gray10, fontSize = 12.sp)
+                RatingElement(eventViewState.rating)
             }
             Spacer(Modifier.height(12.dp))
             Text(
-                text = reviewViewState.title,
-                color = Color.White,
+                text = eventViewState.title,
+                color = Color.Black,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -69,8 +64,8 @@ fun ReviewItem(
 
             Text(
                 modifier = Modifier.animateContentSize(),
-                text = reviewViewState.description,
-                color = Color.White,
+                text = eventViewState.description,
+                color = Color.Black,
                 maxLines = if (isExpanded) Int.MAX_VALUE else 3,
                 overflow = TextOverflow.Ellipsis,
                 lineHeight = 16.sp,
@@ -90,16 +85,10 @@ fun ReviewItem(
                         },
                     text = if (isExpanded) stringResource(R.string.less) else stringResource(R.string.more),
                     fontSize = 12.sp,
-                    color = Color.LightGray
+                    color = Color.Black
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            UserShortDetails(
-                modifier = Modifier.fillMaxWidth(),
-                viewState = reviewViewState.user,
-                onClick = { onClick(OnReviewUserClick(it)) },
-                onClickNavigate = {}, // right now we don't have navigation
-                color = Gray15)
         }
     }
 }
