@@ -89,7 +89,8 @@ fun AddEventScreen(
                         modifier = Modifier.padding(vertical = 32.dp),
                         text = stringResource(viewState.topicText),
                         fontSize = 30.sp,
-                        lineHeight = 34.sp
+                        lineHeight = 34.sp,
+                        color = White
                     )
                 }
             }
