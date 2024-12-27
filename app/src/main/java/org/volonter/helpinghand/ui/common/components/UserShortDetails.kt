@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,14 +27,18 @@ fun UserShortDetails(
     viewState: UserViewState,
     firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance(),
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    onClickNavigate: () -> Unit,
+    color: Color
 ) {
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(90.dp))
             .then(
                 if (viewState.email != firebaseAuth.currentUser?.email) {
-                    Modifier.clickable { onClick(viewState.email) }
+                    Modifier.clickable {
+                        onClick(viewState.email)
+                        onClickNavigate() }
                 } else {
                     Modifier
                 }
@@ -52,8 +57,8 @@ fun UserShortDetails(
             Spacer(modifier = Modifier.width(6.dp))
         }
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = viewState.name, fontSize = 16.sp, color = Gray15)
-            Text(text = viewState.email, fontSize = 16.sp, color = Gray15)
+            Text(text = viewState.name, fontSize = 16.sp, color = color)
+            Text(text = viewState.email, fontSize = 16.sp, color = color)
         }
     }
 }

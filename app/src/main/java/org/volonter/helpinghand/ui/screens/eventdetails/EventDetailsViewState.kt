@@ -8,7 +8,8 @@ sealed class EventDetailsViewState(
     val organisation: UserViewState = UserViewState(
         imageLink = "https://upload.wikimedia.org/wikipedia/commons/8/8d/Frog_on_palm_frond.jpg",
         name = "Udruga Breza",
-        email = "udruga.breza@gmail.com"
+        email = "udruga.breza@gmail.com",
+        description = "Udruga Breza Osijek posvećena je pružanju podrške osobama s invaliditetom."
     ),
     val imageLink: String = "https://upload.wikimedia.org/wikipedia/commons/8/8d/Frog_on_palm_frond.jpg",
     val title: String = "Udruga Breza - Volonterska akcija",
@@ -30,7 +31,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -41,7 +43,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ), ReviewViewState(
             3,
@@ -51,7 +54,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ), ReviewViewState(
             3,
@@ -61,7 +65,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -72,7 +77,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -83,7 +89,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -94,7 +101,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -105,7 +113,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -116,7 +125,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -127,7 +137,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         ),
         ReviewViewState(
@@ -138,7 +149,8 @@ data class FinishedEventDetailsViewState(
             UserViewState(
                 "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
                 "Random lik",
-                "random.lik@gmail.com"
+                "random.lik@gmail.com",
+                ""
             )
         )
     )

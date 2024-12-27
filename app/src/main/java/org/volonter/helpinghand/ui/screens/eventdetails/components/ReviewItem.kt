@@ -33,6 +33,7 @@ import org.volonter.helpinghand.ui.common.viewstates.ReviewViewState
 import org.volonter.helpinghand.ui.screens.eventdetails.EventScreenActions
 import org.volonter.helpinghand.ui.screens.eventdetails.OnReviewUserClick
 import org.volonter.helpinghand.ui.theme.Gray10
+import org.volonter.helpinghand.ui.theme.Gray15
 import org.volonter.helpinghand.ui.theme.SecondaryGreen
 
 @Composable
@@ -96,7 +97,9 @@ fun ReviewItem(
             UserShortDetails(
                 modifier = Modifier.fillMaxWidth(),
                 viewState = reviewViewState.user,
-                onClick = { onClick(OnReviewUserClick(it)) })
+                onClick = { onClick(OnReviewUserClick(it)) },
+                onClickNavigate = {}, // right now we don't have navigation
+                color = Gray15)
         }
     }
 }

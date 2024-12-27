@@ -20,6 +20,7 @@ val GreenGray40 = Color(0xFF94B0B3)
 val StarYellow = Color(0xFFFFF35F)
 val LightBrown = Color(0xFFC09884)
 val MiddleBrown = Color(0xFFA77A6B)
+val DarkBrown = Color(0xFF8A5F4D)
 
 
 

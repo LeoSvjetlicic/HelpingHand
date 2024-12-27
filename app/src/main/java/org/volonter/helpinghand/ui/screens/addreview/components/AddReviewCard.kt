@@ -19,6 +19,7 @@ import org.volonter.helpinghand.ui.screens.addreview.ChangeBody
 import org.volonter.helpinghand.ui.screens.addreview.ChangeRating
 import org.volonter.helpinghand.ui.screens.addreview.ChangeTitle
 import org.volonter.helpinghand.ui.screens.eventdetails.components.RatingElement
+import org.volonter.helpinghand.ui.theme.Gray15
 import org.volonter.helpinghand.ui.theme.MiddleBrown
 
 @Composable
@@ -40,7 +41,7 @@ fun AddReviewCard(
                 onRatingChanged = { onAction(ChangeRating(it)) }
             )
             Spacer(Modifier.height(8.dp))
-            UserShortDetails(viewState.user, onClick = {})
+            UserShortDetails(viewState.user, onClick = {}, color = Gray15, onClickNavigate = {})
             Spacer(Modifier.height(8.dp))
             BackgroundTextFieldWithLabel(
                 label = stringResource(R.string.topic),

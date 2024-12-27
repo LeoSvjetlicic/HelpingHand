@@ -18,6 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
+import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
+import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
@@ -58,7 +60,9 @@ class MainActivity : ComponentActivity() {
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
-                                onAddReviewClick = { navController.navigate(Constants.NavigationRoutes.ADD_REVIEW_ROUTE) }
+                                onAddReviewClick = { navController.navigate(Constants.NavigationRoutes.ADD_REVIEW_ROUTE) },
+                                onTitleClick = { navController.navigate(Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE) },
+                                onUserClick = { navController.navigate(Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) }
                             )
                         }
 
@@ -67,6 +71,20 @@ class MainActivity : ComponentActivity() {
                                 viewModel = hiltViewModel(),
                                 onCancelClick = { navController.popBackStack() },
                                 onPostClick = { navController.popBackStack() }
+                            )
+                        }
+
+                        composable(route = Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE) {
+                            OrganizationProfileScreen(
+                                viewModel = hiltViewModel(),
+                                modifier = Modifier
+                            )
+                        }
+
+                        composable(route = Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) {
+                            VolunteerProfileScreen(
+                                viewModel = hiltViewModel(),
+                                modifier = Modifier
                             )
                         }
                     }
