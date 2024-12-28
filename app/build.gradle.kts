@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -19,6 +21,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["apiKey"] = apiKey
     }
 
     buildTypes {
@@ -39,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig
     }
 }
 
@@ -72,4 +77,20 @@ dependencies {
     implementation(libs.firebase.auth)
 
     implementation(libs.calendar.library)
+
+    implementation(libs.play.services.maps)
+
+}
+
+val apiKey: String = rootProject.file("local.properties").takeIf { it.exists() }
+    ?.let { file ->
+        Properties().apply {
+            file.inputStream().use { load(it) }
+        }
+    }?.getProperty("customKey", "") ?: ""
+
+android {
+    defaultConfig {
+        buildConfigField("String", "CUSTOM_KEY", "\"$apiKey\"")
+    }
 }
