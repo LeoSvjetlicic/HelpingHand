@@ -6,7 +6,7 @@ firebaseBom = "33.7.0"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.1.0"
-coreKtx = "1.13.1"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -19,6 +19,7 @@ googleServices = "4.4.2"
 firebaseCommonKtx = "21.0.0"
 firebaseFirestoreKtx = "25.1.1"
 playServicesMaps = "19.0.0"
+composeMaps = "6.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+map-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "composeMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -16,5 +16,6 @@ object Constants {
         const val VOLUNTEER_PROFILE_ROUTE = "volunteer profile"
         const val EVENTS_AND_PROFILES_SEARCH_ROUTE = "events and profiles search"
         const val SETTINGS_ROUTE = "settings"
+        const val MAP_ROUTE = "mapica"
     }
 }

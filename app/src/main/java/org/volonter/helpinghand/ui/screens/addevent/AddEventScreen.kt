@@ -122,10 +122,9 @@ fun AddEventScreen(
                                     calendarViewState.selectedRange.endDay,
                                     viewState.time.hour,
                                     viewState.time.minute
-
                                 )
                             ),
-                            maxLines = 1,
+                            maxLines = 2,
                             readOnly = true,
                             keyboardOptions = KeyboardOptions.Default.copy(
                                 keyboardType = KeyboardType.Number

@@ -19,6 +19,7 @@ import org.volonter.helpinghand.ui.screens.addevent.AddEventViewModel
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
+import org.volonter.helpinghand.ui.screens.map.MapScreen
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
@@ -27,6 +28,7 @@ import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.MAP_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 
 @AndroidEntryPoint
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
-                        startDestination = EVENT_DETAILS_ROUTE
+                        startDestination = MAP_ROUTE
 //                        if (FirebaseAuth.getInstance().currentUser != null) {
 //                            Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 //                        } else {
@@ -61,6 +63,11 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate(Constants.NavigationRoutes.EVENT_DETAILS_ROUTE)
                                 }
                             )
+                        }
+
+                        composable(MAP_ROUTE) {
+                            val viewModel = hiltViewModel<MapViewModel>()
+                            MapScreen()
                         }
                         composable(route = ADD_EVENT_ROUTE) {
                             val viewModel = hiltViewModel<AddEventViewModel>()

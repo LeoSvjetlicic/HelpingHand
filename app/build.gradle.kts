@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "org.volonter.helpinghand"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "org.volonter.helpinghand"
@@ -22,7 +22,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders["apiKey"] = apiKey
+//        manifestPlaceholders["com.google.android.geo.API_KEY"] = apiKey
     }
 
     buildTypes {
@@ -79,18 +79,19 @@ dependencies {
     implementation(libs.calendar.library)
 
     implementation(libs.play.services.maps)
+    implementation(libs.map.compose)
 
 }
 
-val apiKey: String = rootProject.file("local.properties").takeIf { it.exists() }
-    ?.let { file ->
-        Properties().apply {
-            file.inputStream().use { load(it) }
-        }
-    }?.getProperty("customKey", "") ?: ""
-
-android {
-    defaultConfig {
-        buildConfigField("String", "CUSTOM_KEY", "\"$apiKey\"")
-    }
-}
+//val apiKey: String = rootProject.file("local.properties").takeIf { it.exists() }
+//    ?.let { file ->
+//        Properties().apply {
+//            file.inputStream().use { load(it) }
+//        }
+//    }?.getProperty("customKey", "") ?: ""
+//
+//android {
+//    defaultConfig {
+//        buildConfigField("String", "customKey", "\"$apiKey\"")
+//    }
+//}
