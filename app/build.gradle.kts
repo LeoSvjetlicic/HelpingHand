@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,7 +20,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-//        manifestPlaceholders["com.google.android.geo.API_KEY"] = apiKey
     }
 
     buildTypes {
@@ -80,18 +77,6 @@ dependencies {
 
     implementation(libs.play.services.maps)
     implementation(libs.map.compose)
+    implementation(libs.places)
 
 }
-
-//val apiKey: String = rootProject.file("local.properties").takeIf { it.exists() }
-//    ?.let { file ->
-//        Properties().apply {
-//            file.inputStream().use { load(it) }
-//        }
-//    }?.getProperty("customKey", "") ?: ""
-//
-//android {
-//    defaultConfig {
-//        buildConfigField("String", "customKey", "\"$apiKey\"")
-//    }
-//}

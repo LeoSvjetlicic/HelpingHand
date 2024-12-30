@@ -10,16 +10,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
 import org.volonter.helpinghand.ui.screens.addevent.AddEventScreen
 import org.volonter.helpinghand.ui.screens.addevent.AddEventViewModel
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
+import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsViewModel
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
 import org.volonter.helpinghand.ui.screens.map.MapScreen
+import org.volonter.helpinghand.ui.screens.map.MapViewModel
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
@@ -28,6 +32,9 @@ import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE_FULL
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_ID
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.MAP_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 
@@ -60,18 +67,31 @@ class MainActivity : ComponentActivity() {
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
                                 navigate = {
-                                    navController.navigate(Constants.NavigationRoutes.EVENT_DETAILS_ROUTE)
+                                    navController.navigate(MAP_ROUTE)
                                 }
                             )
                         }
 
                         composable(MAP_ROUTE) {
                             val viewModel = hiltViewModel<MapViewModel>()
-                            MapScreen()
+                            MapScreen(
+                                currentPosition = viewModel.currentPosition.value,
+                                searchInput = viewModel.searchInput.value,
+                                onSearchInputChange = viewModel::onSearchInoutChange,
+                                markers = viewModel.markers.value,
+                                onEventClick = { eventId ->
+                                    navController.navigate("$EVENT_DETAILS_ROUTE/$eventId")
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+//                                TODO
+                                navController.navigate(ADD_EVENT_ROUTE)
+                            }
                         }
                         composable(route = ADD_EVENT_ROUTE) {
                             val viewModel = hiltViewModel<AddEventViewModel>()
                             AddEventScreen(
+                                context = this@MainActivity,
                                 viewState = viewModel.inputViewState.value,
                                 calendarViewState = viewModel.calendarViewState.value,
                                 onPostClick = { },
@@ -79,7 +99,13 @@ class MainActivity : ComponentActivity() {
                                 onScreenAction = viewModel::onScreenAction,
                             )
                         }
-                        composable(route = Constants.NavigationRoutes.EVENT_DETAILS_ROUTE) {
+                        composable(
+                            route = EVENT_DETAILS_ROUTE_FULL,
+                            arguments = listOf(navArgument(EVENT_ID) { type = NavType.StringType })
+                        ) { backStackEntry ->
+                            val eventId = backStackEntry.arguments?.getString("eventId") ?: ""
+                            val viewModel = hiltViewModel<EventDetailsViewModel>()
+                            viewModel.updateViewState(eventId)
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,

@@ -1,11 +1,30 @@
 package org.volonter.helpinghand.ui.screens.map
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import org.volonter.helpinghand.utlis.SharedPreferencesHelper
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.MarkerState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class MapViewModel @Inject constructor(
-    sharedPrefsHelper: SharedPreferencesHelper
-) : ViewModel() {
+@HiltViewModel
+class MapViewModel @Inject constructor() : ViewModel() {
+    val searchInput = mutableStateOf("")
+    fun onSearchInoutChange(newValue: String) {
+        searchInput.value = newValue
+    }
 
+    val markers = mutableStateOf(
+        listOf(
+            MarkerViewState(
+                markerState = MarkerState(
+                    LatLng(45.560684, 18.695853)
+                ),
+                name = "Tvrda",
+                description = "Tvrdavica",
+                id = "lacabvkjsd"
+            )
+        )
+    )
+    var currentPosition = mutableStateOf(LatLng(45.5544, 18.6624))
 }
