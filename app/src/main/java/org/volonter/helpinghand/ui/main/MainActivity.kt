@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
                             val viewModel = hiltViewModel<MapViewModel>()
                             MapScreen(
                                 currentPosition = viewModel.currentPosition.value,
+                                supportedPlaces = viewModel.supportedTowns.value,
                                 searchInput = viewModel.searchInput.value,
                                 onSearchInputChange = viewModel::onSearchInoutChange,
                                 markers = viewModel.markers.value,

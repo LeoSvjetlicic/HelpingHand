@@ -9,4 +9,4 @@ val supportedPlaces = mapOf(
     "Sibinj" to LatLng(45.192, 17.908),
     "Grad X" to LatLng(45.30833000, 18.41056000),
     "Lipik" to LatLng(45.4142812, 17.1611921),
-).toSortedMap()
+).toSortedMap().toMap()

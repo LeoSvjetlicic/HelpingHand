@@ -27,4 +27,5 @@ class MapViewModel @Inject constructor() : ViewModel() {
         )
     )
     var currentPosition = mutableStateOf(LatLng(45.5544, 18.6624))
+    var supportedTowns = mutableStateOf(supportedPlaces)
 }
