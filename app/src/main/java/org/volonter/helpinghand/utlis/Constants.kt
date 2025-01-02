@@ -15,5 +15,7 @@ object Constants {
         const val ADD_REVIEW_ROUTE = "add review"
         const val ORGANIZATION_PROFILE_ROUTE = "organization profile"
         const val VOLUNTEER_PROFILE_ROUTE = "volunteer profile"
+        const val EVENTS_AND_PROFILES_SEARCH_ROUTE = "events and profiles search"
+        const val SETTINGS_ROUTE = "settings"
     }
 }
