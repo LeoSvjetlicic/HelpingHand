@@ -97,7 +97,9 @@ fun VolunteerProfileScreen(
                     TabRow(
                         selectedTabIndex = selectedTabIndex,
                         modifier = Modifier.fillMaxWidth()
-                            .padding(bottom = 24.dp),
+                            .padding(bottom = 24.dp,
+                                start = 16.dp,
+                                end = 16.dp),
                         containerColor = DarkBrown,
                         contentColor = Color.White,
                         indicator = { tabPositions ->

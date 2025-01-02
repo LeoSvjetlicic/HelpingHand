@@ -21,10 +21,13 @@ import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
+import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
+import org.volonter.helpinghand.ui.screens.settings.SettingsScreen
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
-                        startDestination = ADD_EVENT_ROUTE
+                        startDestination = EVENT_DETAILS_ROUTE
 //                        if (FirebaseAuth.getInstance().currentUser != null) {
 //                            Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 //                        } else {
@@ -75,7 +78,9 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier,
                                 onAddReviewClick = { navController.navigate(Constants.NavigationRoutes.ADD_REVIEW_ROUTE) },
                                 onTitleClick = { navController.navigate(Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE) },
-                                onUserClick = { navController.navigate(Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) }
+                                onUserClick = { navController.navigate(Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) },
+                                onSearchClick = { navController.navigate(Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE) },
+                                onSettingsClick = { navController.navigate(Constants.NavigationRoutes.SETTINGS_ROUTE) }
                             )
                         }
 
@@ -96,6 +101,20 @@ class MainActivity : ComponentActivity() {
 
                         composable(route = Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) {
                             VolunteerProfileScreen(
+                                viewModel = hiltViewModel(),
+                                modifier = Modifier
+                            )
+                        }
+
+                        composable(route = Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE) {
+                            EventsAndProfilesSearchScreen(
+                                viewModel = hiltViewModel(),
+                                modifier = Modifier
+                            )
+                        }
+
+                        composable(route = Constants.NavigationRoutes.SETTINGS_ROUTE) {
+                            SettingsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier
                             )

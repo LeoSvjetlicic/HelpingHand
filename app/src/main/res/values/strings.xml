@@ -35,4 +35,6 @@
     <string name="previous_events">Previous Events</string>
     <string name="in_progess">In Progress</string>
     <string name="finished">Finished</string>
+    <string name="new_username">New Username</string>
+    <string name="save">Save</string>
 </resources>
