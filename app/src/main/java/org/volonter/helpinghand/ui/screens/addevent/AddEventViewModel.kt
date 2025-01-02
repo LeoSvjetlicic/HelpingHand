@@ -24,6 +24,7 @@ import org.volonter.helpinghand.ui.screens.addevent.components.OnEventCancelClic
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDayChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDescriptionChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventHeaderChange
+import org.volonter.helpinghand.ui.screens.addevent.components.OnEventImageLinkChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPhoneNumberChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPostClick
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventTitleChange
@@ -50,6 +51,14 @@ class AddEventViewModel @Inject constructor(
     @OptIn(ExperimentalMaterial3Api::class)
     fun onScreenAction(action: AddEventAction) {
         when (action) {
+            is OnEventImageLinkChange -> {
+                inputViewState.value =
+                    inputViewState.value.copy(
+                        imageLinkViewState = inputViewState.value.imageLinkViewState.copy(
+                            value = action.value
+                        )
+                    )
+            }
             is OnEventTitleChange -> {
                 inputViewState.value =
                     inputViewState.value.copy(

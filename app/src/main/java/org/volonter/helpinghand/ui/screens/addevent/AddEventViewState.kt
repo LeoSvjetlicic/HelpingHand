@@ -8,6 +8,7 @@ import org.volonter.helpinghand.ui.common.viewstates.InputFieldState
 
 data class AddEventViewState @OptIn(ExperimentalMaterial3Api::class) constructor(
     @StringRes val topicText: Int,
+    val imageLinkViewState: InputFieldState,
     val titleViewState: InputFieldState,
     val addressViewState: InputFieldState,
     val calendarViewState: InputFieldState,
@@ -20,6 +21,7 @@ data class AddEventViewState @OptIn(ExperimentalMaterial3Api::class) constructor
         @OptIn(ExperimentalMaterial3Api::class)
         val EMPTY = AddEventViewState(
             topicText = R.string.add_new_event,
+            imageLinkViewState = InputFieldState(label = R.string.image_link),
             titleViewState = InputFieldState(label = R.string.title),
             addressViewState = InputFieldState(label = R.string.address),
             descriptionViewState = InputFieldState(label = R.string.description),

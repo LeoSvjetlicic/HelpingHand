@@ -21,6 +21,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,8 +36,15 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupPositionProvider
+import androidx.compose.ui.window.PopupProperties
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -49,11 +58,15 @@ import org.volonter.helpinghand.ui.screens.addevent.components.AddEventAction
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventAddressChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventAddressSelect
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDescriptionChange
+import org.volonter.helpinghand.ui.screens.addevent.components.OnEventImageLinkChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPhoneNumberChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventTitleChange
+import org.volonter.helpinghand.ui.screens.addevent.components.calendar.RangeCalendar
 import org.volonter.helpinghand.ui.screens.addevent.components.calendar.RangeCalendarViewState
+import org.volonter.helpinghand.ui.theme.Gray40
 import org.volonter.helpinghand.ui.theme.GreenGray40
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
+import org.volonter.helpinghand.ui.theme.SecondaryGreen
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -105,6 +118,12 @@ fun AddEventScreen(
                         .background(GreenGray40)
                         .padding(16.dp)
                 ) {
+                    BackgroundTextFieldWithLabel(
+                        viewState = viewState.imageLinkViewState,
+                        maxLines = 1,
+                        onQueryChange = { onScreenAction(OnEventImageLinkChange(it)) },
+                    )
+                    Spacer(Modifier.height(24.dp))
                     BackgroundTextFieldWithLabel(
                         viewState = viewState.titleViewState,
                         maxLines = 1,
@@ -178,6 +197,78 @@ fun AddEventScreen(
                             tint = White,
                             contentDescription = null
                         )
+                        if (isCalendarVisible) {
+                            var isTimePickerVisible by remember { mutableStateOf(false) }
+                            Popup(
+                                onDismissRequest = { isCalendarVisible = false },
+                                properties = PopupProperties(
+                                    focusable = true,
+                                    dismissOnBackPress = true,
+                                    dismissOnClickOutside = true
+                                ),
+                                popupPositionProvider = object : PopupPositionProvider {
+                                    override fun calculatePosition(
+                                        anchorBounds: IntRect,
+                                        windowSize: IntSize,
+                                        layoutDirection: LayoutDirection,
+                                        popupContentSize: IntSize
+                                    ): IntOffset {
+                                        val x =
+                                            (windowSize.width / 2) - (popupContentSize.width / 2)
+                                        val y =
+                                            (windowSize.height / 2) - (popupContentSize.height / 2)
+                                        return IntOffset(x, y)
+                                    }
+                                }
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .background(Gray40.copy(alpha = 0.5f))
+                                        .fillMaxSize()
+                                ) {
+                                    if (isTimePickerVisible) {
+                                        Column(
+                                            modifier = Modifier
+                                                .align(Alignment.Center)
+                                                .fillMaxSize()
+                                                .background(White)
+                                                .padding(32.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            TimePicker(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .fillMaxWidth(),
+                                                colors = TimePickerDefaults.colors(
+                                                    clockDialColor = PrimaryGreen,
+                                                    clockDialSelectedContentColor = White,
+                                                    containerColor = SecondaryGreen,
+                                                    selectorColor = SecondaryGreen,
+                                                    timeSelectorSelectedContainerColor = PrimaryGreen,
+                                                    timeSelectorUnselectedContainerColor = PrimaryGreen,
+                                                    timeSelectorSelectedContentColor = White,
+                                                    timeSelectorUnselectedContentColor = White
+                                                ),
+                                                state = viewState.time,
+                                            )
+                                            PrimaryButton(PrimaryGreen,
+                                                { isTimePickerVisible = false }) {
+                                                Text(text = stringResource(R.string.close))
+                                            }
+                                        }
+                                    } else {
+                                        RangeCalendar(
+                                            calendarViewState,
+                                            viewState.time,
+                                            { isTimePickerVisible = true },
+                                            onCloseClick = { isCalendarVisible = false },
+                                            Modifier.align(Alignment.Center),
+                                            onScreenAction
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                     Spacer(Modifier.height(24.dp))
                     BackgroundTextFieldWithLabel(

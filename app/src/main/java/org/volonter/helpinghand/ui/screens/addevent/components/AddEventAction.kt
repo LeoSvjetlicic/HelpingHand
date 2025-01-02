@@ -7,6 +7,7 @@ import java.time.LocalDate
 sealed interface AddEventAction
 
 data class OnEventTitleChange(val value: String) : AddEventAction
+data class OnEventImageLinkChange(val value: String) : AddEventAction
 data class OnEventAddressChange(val value: String) : AddEventAction
 data class OnEventAddressSelect(val value: PlaceViewState) : AddEventAction
 data class OnEventPhoneNumberChange(val value: String) : AddEventAction
