@@ -4,6 +4,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.model.LatLng
 import com.leosvjetlicic.calendarlibrary.ui.calendarday.CalendarDaysViewState
 import com.leosvjetlicic.calendarlibrary.ui.calendarheader.CalendarHeaderAction
 import com.leosvjetlicic.calendarlibrary.ui.calendarheader.ContentAction
@@ -17,11 +18,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.volonter.helpinghand.ui.screens.addevent.components.AddEventAction
 import org.volonter.helpinghand.ui.screens.addevent.components.CalendarAction
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventAddressChange
+import org.volonter.helpinghand.ui.screens.addevent.components.OnEventAddressSelect
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventCalendarChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventCancelClick
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDayChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDescriptionChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventHeaderChange
+import org.volonter.helpinghand.ui.screens.addevent.components.OnEventImageLinkChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPhoneNumberChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPostClick
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventTitleChange
@@ -38,7 +41,7 @@ class AddEventViewModel @Inject constructor(
     private var selected: Selected = Selected.DayRange(null, null),
 ) : ViewModel() {
     val inputViewState = mutableStateOf(AddEventViewState.EMPTY)
-
+    val selectedLatLng = mutableStateOf<LatLng?>(null)
     val calendarViewState = mutableStateOf(helper.generateCalendarViewState(selected = selected))
 
     private val month = mutableStateOf(LocalDate.now().month)
@@ -48,6 +51,14 @@ class AddEventViewModel @Inject constructor(
     @OptIn(ExperimentalMaterial3Api::class)
     fun onScreenAction(action: AddEventAction) {
         when (action) {
+            is OnEventImageLinkChange -> {
+                inputViewState.value =
+                    inputViewState.value.copy(
+                        imageLinkViewState = inputViewState.value.imageLinkViewState.copy(
+                            value = action.value
+                        )
+                    )
+            }
             is OnEventTitleChange -> {
                 inputViewState.value =
                     inputViewState.value.copy(
@@ -62,7 +73,12 @@ class AddEventViewModel @Inject constructor(
                     addressViewState = inputViewState.value.addressViewState.copy(value = action.value)
                 )
             }
-
+            is OnEventAddressSelect -> {
+                inputViewState.value = inputViewState.value.copy(
+                    addressViewState = inputViewState.value.addressViewState.copy(value = action.value.name)
+                )
+                selectedLatLng.value = action.value.latLang
+            }
             OnEventCancelClick -> {}
             is OnEventDescriptionChange -> {
                 inputViewState.value = inputViewState.value.copy(

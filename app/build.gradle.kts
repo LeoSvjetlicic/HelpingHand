@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "org.volonter.helpinghand"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "org.volonter.helpinghand"
@@ -19,6 +19,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -39,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig
     }
 }
 
@@ -72,4 +74,9 @@ dependencies {
     implementation(libs.firebase.auth)
 
     implementation(libs.calendar.library)
+
+    implementation(libs.play.services.maps)
+    implementation(libs.map.compose)
+    implementation(libs.places)
+
 }

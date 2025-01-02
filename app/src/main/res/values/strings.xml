@@ -37,4 +37,10 @@
     <string name="finished">Finished</string>
     <string name="new_username">New Username</string>
     <string name="save">Save</string>
+    <string name="search">Search</string>
+    <string name="find_events">Find volunteering events</string>
+    <string name="my_profile">My Profile</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="image_link">Image link</string>
 </resources>

@@ -38,4 +38,7 @@ class EventDetailsViewModel @Inject constructor() : ViewModel() {
         OnToggleApplicationToEventClick -> {}
     }
 
+    fun updateViewState(eventId: String) {
+//        TODO
+    }
 }

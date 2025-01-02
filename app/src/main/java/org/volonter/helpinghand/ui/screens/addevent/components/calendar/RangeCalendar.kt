@@ -30,10 +30,12 @@ import com.leosvjetlicic.calendarlibrary.ui.calendarheader.FirstTrailingAction
 import com.leosvjetlicic.calendarlibrary.ui.calendarheader.SecondLeadingAction
 import com.leosvjetlicic.calendarlibrary.ui.calendarheader.basecontent.BaseActionButtonContent
 import com.leosvjetlicic.calendarlibrary.ui.calendarheader.basecontent.BaseCalendarHeaderContent
+import org.volonter.helpinghand.ui.common.components.PrimaryButton
 import org.volonter.helpinghand.ui.screens.addevent.components.AddEventAction
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventCalendarChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDayChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventHeaderChange
+import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.ui.theme.SecondaryGreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,6 +44,7 @@ fun RangeCalendar(
     calendarViewState: RangeCalendarViewState,
     time: TimePickerState,
     onOpenTimePicker: () -> Unit,
+    onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
     onScreenAction: (AddEventAction) -> Unit
 ) {
@@ -141,6 +144,13 @@ fun RangeCalendar(
                             .clickable { onOpenTimePicker() }
                             .padding(12.dp)
                     )
+                }
+                PrimaryButton(
+                    PrimaryGreen,
+                    { onCloseClick() },
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                ) {
+                    Text(text = stringResource(org.volonter.helpinghand.R.string.close))
                 }
             }
         }
