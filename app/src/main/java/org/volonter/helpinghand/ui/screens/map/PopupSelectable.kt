@@ -5,3 +5,4 @@ sealed interface PopupSelectable
 
 data object MyProfileClick : PopupSelectable
 data object SettingsClick : PopupSelectable
+data object LogoutClick : PopupSelectable

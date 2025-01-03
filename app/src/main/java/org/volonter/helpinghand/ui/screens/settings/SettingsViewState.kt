@@ -6,6 +6,7 @@ import org.volonter.helpinghand.ui.common.viewstates.SettingsUserViewState
 import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 
 data class SettingsViewState(
+    val newImageLink: InputFieldState = InputFieldState(label = R.string.image_link),
     val newUsername: InputFieldState = InputFieldState(label = R.string.new_username),
     val description: InputFieldState = InputFieldState(label = R.string.description),
     val user: SettingsUserViewState = SettingsUserViewState(

@@ -47,4 +47,6 @@
     <string name="success">Event successfully created</string>
     <string name="failed">Event not created</string>
     <string name="this_field_cant_be_empty">This field cannot be empty</string>
+    <string name="profile_updated">Profile updated successfully</string>
+    <string name="profile_not_updated">Profile not updated</string>
 </resources>

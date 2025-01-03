@@ -42,7 +42,8 @@ import org.volonter.helpinghand.ui.theme.MiddleBrown
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSaveClick : () -> Unit
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var uploading by remember { mutableStateOf(false) }
@@ -119,7 +120,7 @@ fun SettingsScreen(
 
         PrimaryButton(
             backgroundColor = MiddleBrown,
-            onClick = viewModel::onSaveClick,
+            onClick = { onSaveClick() },
         ) {
             Text(text = stringResource(R.string.save), fontSize = 16.sp)
         }

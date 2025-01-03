@@ -174,8 +174,19 @@ fun MapScreen(
                                 text = stringResource(R.string.settings),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable {
+                                    .clickable {SettingsClick
                                         onPopupMenuClick(SettingsClick)
+                                        isMenuVisible = false
+                                    }
+                                    .padding(16.dp),
+                                color = Color.Black
+                            )
+                            Text(
+                                text = stringResource(R.string.logout),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        onPopupMenuClick(LogoutClick)
                                         isMenuVisible = false
                                     }
                                     .padding(16.dp),

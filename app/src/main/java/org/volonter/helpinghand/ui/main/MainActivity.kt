@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.volonter.helpinghand.ui.screens.addevent.AddEventScreen
@@ -36,12 +37,14 @@ import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsViewModel
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
+import org.volonter.helpinghand.ui.screens.map.LogoutClick
 import org.volonter.helpinghand.ui.screens.map.MapScreen
 import org.volonter.helpinghand.ui.screens.map.MapViewModel
 import org.volonter.helpinghand.ui.screens.map.MyProfileClick
 import org.volonter.helpinghand.ui.screens.map.SettingsClick
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
 import org.volonter.helpinghand.ui.screens.settings.SettingsScreen
+import org.volonter.helpinghand.ui.screens.settings.SettingsViewModel
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
@@ -93,12 +96,12 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
-                        startDestination = MAP_ROUTE
-//                        if (FirebaseAuth.getInstance().currentUser != null) {
-//                            Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
-//                        } else {
-//                            Constants.NavigationRoutes.LOGIN_ROUTE
-//                        }
+                        startDestination =
+                        if (FirebaseAuth.getInstance().currentUser != null) {
+                           Constants.NavigationRoutes.MAP_ROUTE
+                        } else {
+                           Constants.NavigationRoutes.LOGIN_ROUTE
+                       }
                     ) {
 
                         composable(route = Constants.NavigationRoutes.LOGIN_ROUTE) {
@@ -130,6 +133,10 @@ class MainActivity : ComponentActivity() {
                                         }
 
                                         SettingsClick -> navController.navigate(SETTINGS_ROUTE)
+
+                                        LogoutClick -> viewModel.logout {
+                                            navController.navigate(Constants.NavigationRoutes.LOGIN_ROUTE)
+                                        }
                                     }
                                 },
                                 modifier = Modifier.fillMaxSize()
@@ -202,9 +209,17 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = SETTINGS_ROUTE) {
+                            val viewModel = hiltViewModel<SettingsViewModel>()
                             SettingsScreen(
                                 viewModel = hiltViewModel(),
-                                modifier = Modifier
+                                modifier = Modifier,
+                                onSaveClick = {
+                                    lifecycleScope.launch {
+                                        if (viewModel.onSaveClick()) {
+                                            navController.popBackStack()
+                                        }
+                                    }
+                                }
                             )
                         }
                     }
