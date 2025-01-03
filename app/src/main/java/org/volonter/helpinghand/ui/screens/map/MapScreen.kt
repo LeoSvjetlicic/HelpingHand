@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -89,33 +90,39 @@ fun MapScreen(
                     .padding(16.dp)
                     .align(Alignment.CenterHorizontally),
                 textAlign = TextAlign.Center,
+                color = Color.White,
                 text = stringResource(R.string.find_events)
             )
         }
         Row(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(top = 16.dp),
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Gray.copy(alpha = 0.5f),
+                            Color.Gray.copy(alpha = 0.4f),
+                            Color.Gray.copy(alpha = 0.2f),
+                            Color.Transparent
+                        )
+                    )
+                )
+                .padding(vertical = 16.dp)
+                .padding(bottom = 20.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                Icons.Filled.Menu,
-                null,
-                tint = Color.Transparent,
-                modifier = Modifier
-                    .padding(6.dp)
-                    .size(32.dp)
-            )
             SearchBar(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 12.dp),
                 input = searchInput,
                 onElementSelect = {
                     cameraPositionState.move(
                         CameraUpdateFactory.newCameraPosition(
                             CameraPosition.fromLatLngZoom(
                                 supportedPlaces[it]!!,
-                                15f
+                                10f
                             )
                         )
                     )
@@ -127,7 +134,7 @@ fun MapScreen(
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier
-                    .padding(6.dp)
+                    .padding(12.dp)
                     .size(32.dp)
                     .clickable {
                         isMenuVisible = !isMenuVisible
