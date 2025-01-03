@@ -5,6 +5,9 @@ object Constants {
         const val SHARED_PREFERENCES_FILE_NAME = "sharedPreferences"
 
         const val SHARED_PREFERENCES_INT = "int"
+        const val SHARED_PREFERENCES_STRING = "string"
+
+        const val SHARED_PREFERENCES_IS_ORGANISATION = "stringIDUser"
     }
 
     object NavigationRoutes {

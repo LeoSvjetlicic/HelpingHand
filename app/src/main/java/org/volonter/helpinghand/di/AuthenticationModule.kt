@@ -22,8 +22,9 @@ object AuthenticationModule {
     @Singleton
     fun provideLoginUseCase(
         auth: FirebaseAuth,
+        firestore: FirebaseFirestore,
         toastHelper: ToastHelper
-    ): LoginUseCase = LoginUseCase(auth, toastHelper)
+    ): LoginUseCase = LoginUseCase(auth, firestore, toastHelper)
 
     @Provides
     @Singleton

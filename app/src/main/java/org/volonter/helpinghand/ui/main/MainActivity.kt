@@ -59,6 +59,8 @@ import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.MAP_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.SETTINGS_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE
+import org.volonter.helpinghand.utlis.Constants.SharedPreferencesConstants.SHARED_PREFERENCES_IS_ORGANISATION
+import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -75,7 +77,11 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(PrimaryGreen),
                     floatingActionButton = {
-                        if (currentDestination == MAP_ROUTE) {
+                        if (currentDestination == MAP_ROUTE &&
+                            SharedPreferencesHelper.getBooleanFromSharedPrefs(
+                                SHARED_PREFERENCES_IS_ORGANISATION
+                            )
+                        ) {
                             FloatingActionButton(
                                 modifier = Modifier.padding(bottom = 60.dp),
                                 onClick = {
@@ -98,7 +104,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination =
                         if (FirebaseAuth.getInstance().currentUser != null) {
-                           Constants.NavigationRoutes.MAP_ROUTE
+                            MAP_ROUTE
                         } else {
                            Constants.NavigationRoutes.LOGIN_ROUTE
                        }
@@ -128,8 +134,14 @@ class MainActivity : ComponentActivity() {
                                 onPopupMenuClick = { popupSelectable ->
                                     when (popupSelectable) {
                                         MyProfileClick -> {
-//                                            TODO - if user is organisation go to different route
-                                            navController.navigate(VOLUNTEER_PROFILE_ROUTE)
+                                            if (SharedPreferencesHelper.getBooleanFromSharedPrefs(
+                                                    SHARED_PREFERENCES_IS_ORGANISATION
+                                                )
+                                            ) {
+                                                navController.navigate(ORGANIZATION_PROFILE_ROUTE)
+                                            } else {
+                                                navController.navigate(VOLUNTEER_PROFILE_ROUTE)
+                                            }
                                         }
 
                                         SettingsClick -> navController.navigate(SETTINGS_ROUTE)

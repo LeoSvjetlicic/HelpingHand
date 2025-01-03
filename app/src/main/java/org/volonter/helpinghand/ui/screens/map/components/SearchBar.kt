@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color.Companion.Black
@@ -31,12 +30,13 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import com.google.android.gms.maps.model.LatLng
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.screens.map.supportedPlaces
 
 @Composable
 fun SearchBar(
     input: String,
+    supportedPlaces: Map<String, LatLng>,
     onElementSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
     onInputChanged: (String) -> Unit
@@ -73,8 +73,7 @@ fun SearchBar(
             Popup(onDismissRequest = { isPopupVisible = false }) {
                 LazyColumn(
                     Modifier
-                        .padding(top = 60.dp, start = 32.dp, end = 32.dp)
-                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 60.dp, start = 12.dp, end = 56.dp)
                         .fillMaxWidth()
                         .heightIn(max = 250.dp)
                         .clip(RoundedCornerShape(8.dp))

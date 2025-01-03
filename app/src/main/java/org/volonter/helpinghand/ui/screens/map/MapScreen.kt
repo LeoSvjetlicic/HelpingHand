@@ -127,6 +127,7 @@ fun MapScreen(
                         )
                     )
                 },
+                supportedPlaces = supportedPlaces,
                 onInputChanged = onSearchInputChange
             )
             Icon(
@@ -174,7 +175,8 @@ fun MapScreen(
                                 text = stringResource(R.string.settings),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable {SettingsClick
+                                    .clickable {
+                                        SettingsClick
                                         onPopupMenuClick(SettingsClick)
                                         isMenuVisible = false
                                     }
@@ -192,16 +194,6 @@ fun MapScreen(
                                     .padding(16.dp),
                                 color = Color.Black
                             )
-                            /*Text(
-                                text = stringResource(R.string.post),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        isMenuVisible = false
-                                    }
-                                    .padding(16.dp),
-                                color = Color.Black
-                            )*/
                         }
                     }
                 }

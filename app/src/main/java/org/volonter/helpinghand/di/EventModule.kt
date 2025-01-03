@@ -9,6 +9,8 @@ import dagger.hilt.components.SingletonComponent
 import org.volonter.helpinghand.data.repository.EventRepositoryImpl
 import org.volonter.helpinghand.domain.repository.EventRepository
 import org.volonter.helpinghand.domain.usecases.CreateNewEventUseCase
+import org.volonter.helpinghand.domain.usecases.GetAllMarkersUseCase
+import org.volonter.helpinghand.domain.usecases.GetSupportedCitiesUseCase
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +26,22 @@ object EventModule {
 
     @Provides
     @Singleton
-    fun provideEventRepository(createNewEventUseCase: CreateNewEventUseCase): EventRepository =
-        EventRepositoryImpl(createNewEventUseCase)
+    fun provideGetSupportedCitiesUseCase(
+        firestore: FirebaseFirestore
+    ): GetSupportedCitiesUseCase = GetSupportedCitiesUseCase(firestore)
+
+    @Provides
+    @Singleton
+    fun provideGetAllMarkersUseCase(
+        firestore: FirebaseFirestore
+    ): GetAllMarkersUseCase = GetAllMarkersUseCase(firestore)
+
+    @Provides
+    @Singleton
+    fun provideEventRepository(
+        createNewEventUseCase: CreateNewEventUseCase,
+        getSupportedCitiesUseCase: GetSupportedCitiesUseCase,
+        getAllMarkersUseCase: GetAllMarkersUseCase
+    ): EventRepository =
+        EventRepositoryImpl(createNewEventUseCase, getSupportedCitiesUseCase, getAllMarkersUseCase)
 }

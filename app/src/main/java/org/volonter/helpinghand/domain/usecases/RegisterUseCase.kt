@@ -5,6 +5,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.volonter.helpinghand.utlis.Constants
+import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 import org.volonter.helpinghand.utlis.ToastHelper
 import javax.inject.Inject
 
@@ -23,7 +25,7 @@ class RegisterUseCase @Inject constructor(
         try {
             Log.d("RegisterUseCase", "Attempting registration")
 
-            val registrationResult = suspendCancellableCoroutine<Boolean> { continuation ->
+            val registrationResult = suspendCancellableCoroutine { continuation ->
                 auth.createUserWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -39,7 +41,6 @@ class RegisterUseCase @Inject constructor(
                                     .document(userId)
                                     .set(user)
                                     .addOnSuccessListener {
-                                        Log.d("Firestore", "User successfully added to Firestore")
                                         if (continuation.isActive) {
                                             continuation.resumeWith(Result.success(true))
                                         }
@@ -81,11 +82,14 @@ class RegisterUseCase @Inject constructor(
             }
 
             if (registrationResult) {
+                SharedPreferencesHelper.saveBooleanToPrefs(
+                    Constants.SharedPreferencesConstants.SHARED_PREFERENCES_IS_ORGANISATION,
+                    isOrganisation
+                )
                 navigate()
             }
         } catch (e: Throwable) {
             Log.d("Error", "Unexpected error: ${e.message}")
         }
     }
-
 }
