@@ -35,6 +35,8 @@ import org.volonter.helpinghand.ui.screens.eventdetails.components.Pagination
 import org.volonter.helpinghand.ui.screens.eventdetails.components.ReviewItem
 import org.volonter.helpinghand.ui.theme.Gray15
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
+import org.volonter.helpinghand.utlis.Constants.SharedPreferencesConstants.SHARED_PREFERENCES_IS_ORGANISATION
+import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 
 @Composable
 fun EventDetailsScreen(
@@ -164,7 +166,10 @@ fun EventDetailsScreen(
         }
         EventDetailsTopBar(
             viewState = viewModel.viewState.value,
-            showApplyButton = viewModel.viewState.value is UnfinishedEventDetailsViewState,
+            showApplyButton = (viewModel.viewState.value is UnfinishedEventDetailsViewState) &&
+                    !SharedPreferencesHelper.getBooleanFromSharedPrefs(
+                        SHARED_PREFERENCES_IS_ORGANISATION
+                    ),
             onBackClick = { viewModel.onScreenAction(OnBackClick) },
             onToggleApplicationToEventClick = {
                 viewModel.onScreenAction(

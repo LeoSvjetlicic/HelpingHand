@@ -20,4 +20,19 @@ object SharedPreferencesHelper {
     fun saveIntPrefs(value: Int) {
         sharedPreferences.edit()?.putInt(SHARED_PREFERENCES_INT, value)?.apply()
     }
+
+    fun saveBooleanToPrefs(tag: String, value: Boolean) {
+        sharedPreferences.edit()?.putBoolean(tag, value)?.apply()
+    }
+
+    fun getBooleanFromSharedPrefs(tag: String): Boolean {
+        return sharedPreferences.getBoolean(
+            tag,
+            false
+        )
+    }
+
+    fun clearSharedPrefs() {
+        sharedPreferences.edit()?.clear()?.apply()
+    }
 }

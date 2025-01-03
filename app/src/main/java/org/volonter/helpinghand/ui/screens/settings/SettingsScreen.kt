@@ -11,13 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,8 +33,9 @@ import coil3.compose.AsyncImage
 import org.volonter.helpinghand.R
 import org.volonter.helpinghand.ui.common.components.BackgroundTextFieldWithLabel
 import org.volonter.helpinghand.ui.common.components.PrimaryButton
-import org.volonter.helpinghand.ui.screens.addreview.ChangeTitle
 import org.volonter.helpinghand.ui.theme.MiddleBrown
+import org.volonter.helpinghand.utlis.Constants.SharedPreferencesConstants.SHARED_PREFERENCES_IS_ORGANISATION
+import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 
 @Composable
 fun SettingsScreen(
@@ -62,7 +60,7 @@ fun SettingsScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
-            .padding(top=42.dp)
+            .padding(top = 42.dp)
 
     ){
         Box(modifier = modifier.size(200.dp)){
@@ -106,7 +104,7 @@ fun SettingsScreen(
             }
         )
         Spacer(modifier = modifier.height(16.dp))
-        if(viewModel.viewState.value.user.isOrganization) {
+        if (SharedPreferencesHelper.getBooleanFromSharedPrefs(SHARED_PREFERENCES_IS_ORGANISATION)) {
             BackgroundTextFieldWithLabel(
                 viewState = viewModel.viewState.value.description,
                 maxLines = 4,
@@ -117,14 +115,11 @@ fun SettingsScreen(
             Spacer(modifier = modifier.height(16.dp))
         }
 
-
         PrimaryButton(
             backgroundColor = MiddleBrown,
             onClick = { onSaveClick() },
         ) {
             Text(text = stringResource(R.string.save), fontSize = 16.sp)
         }
-
     }
-
 }
