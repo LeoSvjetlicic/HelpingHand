@@ -61,6 +61,7 @@ import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDescriptio
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventImageLinkChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPhoneNumberChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventTitleChange
+import org.volonter.helpinghand.ui.screens.addevent.components.OnEventVolunteersNumberChange
 import org.volonter.helpinghand.ui.screens.addevent.components.calendar.RangeCalendar
 import org.volonter.helpinghand.ui.screens.addevent.components.calendar.RangeCalendarViewState
 import org.volonter.helpinghand.ui.theme.Gray40
@@ -120,7 +121,7 @@ fun AddEventScreen(
                 ) {
                     BackgroundTextFieldWithLabel(
                         viewState = viewState.imageLinkViewState,
-                        maxLines = 1,
+                        maxLines = 3,
                         onQueryChange = { onScreenAction(OnEventImageLinkChange(it)) },
                     )
                     Spacer(Modifier.height(24.dp))
@@ -131,8 +132,18 @@ fun AddEventScreen(
                     )
                     Spacer(Modifier.height(24.dp))
                     BackgroundTextFieldWithLabel(
-                        viewState = viewState.addressViewState,
+                        viewState = viewState.neededVolunteers,
                         maxLines = 1,
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            keyboardType = KeyboardType.Number
+                        ),
+                        onQueryChange = { onScreenAction(OnEventVolunteersNumberChange(it)) },
+                    )
+
+                    Spacer(Modifier.height(24.dp))
+                    BackgroundTextFieldWithLabel(
+                        viewState = viewState.addressViewState,
+                        maxLines = 2,
                         onQueryChange = { query ->
                             onScreenAction(OnEventAddressChange(query))
                             fetchAddressSuggestions(context, query) { suggestions ->
@@ -291,16 +302,16 @@ fun AddEventScreen(
             item {
                 Row {
                     SecondaryButton(
-                        onClick = { onPostClick() }
+                        onClick = { onCancelClick() }
                     ) {
-                        Text(text = stringResource(R.string.post))
+                        Text(text = stringResource(R.string.cancel))
                     }
                     Spacer(Modifier.weight(1f))
                     PrimaryButton(
                         GreenGray40,
-                        onClick = { onCancelClick() }
+                        onClick = { onPostClick() }
                     ) {
-                        Text(text = stringResource(R.string.cancel))
+                        Text(text = stringResource(R.string.post))
                     }
                 }
             }

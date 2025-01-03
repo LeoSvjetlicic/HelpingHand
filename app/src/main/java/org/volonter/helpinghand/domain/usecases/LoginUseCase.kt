@@ -18,7 +18,6 @@ class LoginUseCase @Inject constructor(
         }
 
         try {
-            Log.d("aodhsiudh ", "pokusaj log")
             val loginResult = suspendCancellableCoroutine<Boolean> { continuation ->
                 auth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener { task ->

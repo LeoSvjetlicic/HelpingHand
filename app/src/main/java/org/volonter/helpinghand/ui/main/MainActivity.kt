@@ -7,36 +7,55 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.volonter.helpinghand.ui.screens.addevent.AddEventScreen
 import org.volonter.helpinghand.ui.screens.addevent.AddEventViewModel
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsViewModel
+import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
 import org.volonter.helpinghand.ui.screens.map.MapScreen
 import org.volonter.helpinghand.ui.screens.map.MapViewModel
+import org.volonter.helpinghand.ui.screens.map.MyProfileClick
+import org.volonter.helpinghand.ui.screens.map.SettingsClick
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
-import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
-import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
 import org.volonter.helpinghand.ui.screens.settings.SettingsScreen
+import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_REVIEW_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE_FULL
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_ID
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.MAP_ROUTE
-import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.SETTINGS_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -45,12 +64,32 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HelpingHandTheme {
+                val navController = rememberNavController()
+                val navBackStack by navController.currentBackStackEntryAsState()
+                val currentDestination by remember { derivedStateOf { navBackStack?.destination?.route } }
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(PrimaryGreen)
+                        .background(PrimaryGreen),
+                    floatingActionButton = {
+                        if (currentDestination == MAP_ROUTE) {
+                            FloatingActionButton(
+                                modifier = Modifier.padding(bottom = 60.dp),
+                                onClick = {
+                                    navController.navigate(ADD_EVENT_ROUTE)
+                                },
+                                containerColor = PrimaryGreen
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Filled.Add,
+                                    contentDescription = null,
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                    },
+                    floatingActionButtonPosition = FabPosition.Start
                 ) { innerPadding ->
-                    val navController = rememberNavController()
                     NavHost(
                         modifier = Modifier.padding(innerPadding),
                         navController = navController,
@@ -83,10 +122,19 @@ class MainActivity : ComponentActivity() {
                                 onEventClick = { eventId ->
                                     navController.navigate("$EVENT_DETAILS_ROUTE/$eventId")
                                 },
+                                onPopupMenuClick = { popupSelectable ->
+                                    when (popupSelectable) {
+                                        MyProfileClick -> {
+//                                            TODO - if user is organisation go to different route
+                                            navController.navigate(VOLUNTEER_PROFILE_ROUTE)
+                                        }
+
+                                        SettingsClick -> navController.navigate(SETTINGS_ROUTE)
+                                    }
+                                },
                                 modifier = Modifier.fillMaxSize()
                             ) {
-//                                TODO
-                                navController.navigate(ADD_EVENT_ROUTE)
+                                navController.navigate(EVENTS_AND_PROFILES_SEARCH_ROUTE)
                             }
                         }
                         composable(route = ADD_EVENT_ROUTE) {
@@ -95,8 +143,14 @@ class MainActivity : ComponentActivity() {
                                 context = this@MainActivity,
                                 viewState = viewModel.inputViewState.value,
                                 calendarViewState = viewModel.calendarViewState.value,
-                                onPostClick = { },
-                                onCancelClick = {},
+                                onPostClick = {
+                                    lifecycleScope.launch {
+                                        if (viewModel.onPostClick()) {
+                                            navController.popBackStack()
+                                        }
+                                    }
+                                },
+                                onCancelClick = { navController.popBackStack() },
                                 onScreenAction = viewModel::onScreenAction,
                             )
                         }
@@ -110,15 +164,15 @@ class MainActivity : ComponentActivity() {
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
-                                onAddReviewClick = { navController.navigate(Constants.NavigationRoutes.ADD_REVIEW_ROUTE) },
-                                onTitleClick = { navController.navigate(Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE) },
-                                onUserClick = { navController.navigate(Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) },
-                                onSearchClick = { navController.navigate(Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE) },
-                                onSettingsClick = { navController.navigate(Constants.NavigationRoutes.SETTINGS_ROUTE) }
+                                onAddReviewClick = { navController.navigate(ADD_REVIEW_ROUTE) },
+                                onTitleClick = { navController.navigate(ORGANIZATION_PROFILE_ROUTE) },
+                                onUserClick = { navController.navigate(VOLUNTEER_PROFILE_ROUTE) },
+                                onSearchClick = { navController.navigate(EVENTS_AND_PROFILES_SEARCH_ROUTE) },
+                                onSettingsClick = { navController.navigate(SETTINGS_ROUTE) }
                             )
                         }
 
-                        composable(route = Constants.NavigationRoutes.ADD_REVIEW_ROUTE) {
+                        composable(route = ADD_REVIEW_ROUTE) {
                             AddReviewScreen(
                                 viewModel = hiltViewModel(),
                                 onCancelClick = { navController.popBackStack() },
@@ -126,28 +180,28 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(route = Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE) {
+                        composable(route = ORGANIZATION_PROFILE_ROUTE) {
                             OrganizationProfileScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier
                             )
                         }
 
-                        composable(route = Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE) {
+                        composable(route = VOLUNTEER_PROFILE_ROUTE) {
                             VolunteerProfileScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier
                             )
                         }
 
-                        composable(route = Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE) {
+                        composable(route = EVENTS_AND_PROFILES_SEARCH_ROUTE) {
                             EventsAndProfilesSearchScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier
                             )
                         }
 
-                        composable(route = Constants.NavigationRoutes.SETTINGS_ROUTE) {
+                        composable(route = SETTINGS_ROUTE) {
                             SettingsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier
