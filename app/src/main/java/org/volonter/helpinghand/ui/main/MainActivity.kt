@@ -44,6 +44,7 @@ import org.volonter.helpinghand.ui.screens.map.MyProfileClick
 import org.volonter.helpinghand.ui.screens.map.SettingsClick
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
 import org.volonter.helpinghand.ui.screens.settings.SettingsScreen
+import org.volonter.helpinghand.ui.screens.settings.SettingsViewModel
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
@@ -208,9 +209,17 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = SETTINGS_ROUTE) {
+                            val viewModel = hiltViewModel<SettingsViewModel>()
                             SettingsScreen(
                                 viewModel = hiltViewModel(),
-                                modifier = Modifier
+                                modifier = Modifier,
+                                onSaveClick = {
+                                    lifecycleScope.launch {
+                                        if (viewModel.onSaveClick()) {
+                                            navController.popBackStack()
+                                        }
+                                    }
+                                }
                             )
                         }
                     }

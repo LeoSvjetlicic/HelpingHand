@@ -6,4 +6,5 @@ data class User(
     val id: String = "",
     val imageLink: String = "",
     val organization: Boolean = false,
+    val description: String = "",
 )
