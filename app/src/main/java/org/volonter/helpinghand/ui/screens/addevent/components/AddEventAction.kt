@@ -11,9 +11,8 @@ data class OnEventImageLinkChange(val value: String) : AddEventAction
 data class OnEventAddressChange(val value: String) : AddEventAction
 data class OnEventAddressSelect(val value: PlaceViewState) : AddEventAction
 data class OnEventPhoneNumberChange(val value: String) : AddEventAction
+data class OnEventVolunteersNumberChange(val value: String) : AddEventAction
 data class OnEventCalendarChange(val value: CalendarAction) : AddEventAction
-data object OnEventCancelClick : AddEventAction
-data object OnEventPostClick : AddEventAction
 data class OnEventDescriptionChange(val value: String) : AddEventAction
 
 sealed interface CalendarAction

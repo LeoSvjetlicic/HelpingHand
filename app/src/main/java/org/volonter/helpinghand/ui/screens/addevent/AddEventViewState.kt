@@ -11,9 +11,9 @@ data class AddEventViewState @OptIn(ExperimentalMaterial3Api::class) constructor
     val imageLinkViewState: InputFieldState,
     val titleViewState: InputFieldState,
     val addressViewState: InputFieldState,
-    val calendarViewState: InputFieldState,
     val descriptionViewState: InputFieldState,
     val contactNumberViewState: InputFieldState,
+    val neededVolunteers: InputFieldState,
     val timeViewState: InputFieldState,
     val time: TimePickerState
 ) {
@@ -26,10 +26,9 @@ data class AddEventViewState @OptIn(ExperimentalMaterial3Api::class) constructor
             addressViewState = InputFieldState(label = R.string.address),
             descriptionViewState = InputFieldState(label = R.string.description),
             contactNumberViewState = InputFieldState(label = R.string.contact_phone),
-            calendarViewState = InputFieldState(label = R.string.contact_phone),
             timeViewState = InputFieldState(label = R.string.date_and_time),
+            neededVolunteers = InputFieldState(label = R.string.needed_people),
             time = TimePickerState(0, 0, true)
-
         )
     }
 }

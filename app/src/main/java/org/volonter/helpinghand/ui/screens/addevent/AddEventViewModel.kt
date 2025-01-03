@@ -1,5 +1,6 @@
 package org.volonter.helpinghand.ui.screens.addevent
 
+import android.widget.Toast
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,38 +16,104 @@ import com.leosvjetlicic.calendarlibrary.ui.calendarheader.SecondTrailingAction
 import com.leosvjetlicic.calendarlibrary.utils.DateHelper.getMiddleDate
 import com.leosvjetlicic.calendarlibrary.utils.Selected
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.volonter.helpinghand.R
+import org.volonter.helpinghand.domain.repository.EventRepository
+import org.volonter.helpinghand.ui.common.viewstates.InputFieldState
 import org.volonter.helpinghand.ui.screens.addevent.components.AddEventAction
 import org.volonter.helpinghand.ui.screens.addevent.components.CalendarAction
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventAddressChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventAddressSelect
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventCalendarChange
-import org.volonter.helpinghand.ui.screens.addevent.components.OnEventCancelClick
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDayChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventDescriptionChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventHeaderChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventImageLinkChange
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPhoneNumberChange
-import org.volonter.helpinghand.ui.screens.addevent.components.OnEventPostClick
 import org.volonter.helpinghand.ui.screens.addevent.components.OnEventTitleChange
+import org.volonter.helpinghand.ui.screens.addevent.components.OnEventVolunteersNumberChange
 import org.volonter.helpinghand.ui.screens.addevent.components.calendar.CalendarHelper
 import org.volonter.helpinghand.ui.screens.addevent.components.calendar.RangeCalendarDayViewState
 import org.volonter.helpinghand.ui.screens.addevent.components.calendar.RangeCalendarViewState
+import org.volonter.helpinghand.utlis.StringResourcesProvider
+import org.volonter.helpinghand.utlis.ToastHelper
 import java.time.LocalDate
 import java.time.Month
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
+    private val eventRepository: EventRepository,
     private val helper: CalendarHelper,
     private var selected: Selected = Selected.DayRange(null, null),
+    private val toastHelper: ToastHelper,
+    private val stringResourcesProvider: StringResourcesProvider
 ) : ViewModel() {
     val inputViewState = mutableStateOf(AddEventViewState.EMPTY)
-    val selectedLatLng = mutableStateOf<LatLng?>(null)
+    private val selectedLatLng = mutableStateOf<LatLng?>(null)
+
     val calendarViewState = mutableStateOf(helper.generateCalendarViewState(selected = selected))
 
     private val month = mutableStateOf(LocalDate.now().month)
 
     private val year = mutableIntStateOf(LocalDate.now().year)
+
+    suspend fun onPostClick(): Boolean {
+        if (validateInputs()) return false
+        val result = eventRepository.createNewEvent(
+            inputViewState.value,
+            selectedLatLng.value ?: LatLng(0.0, 0.0),
+            calendarViewState.value
+        )
+        if (result) {
+            toastHelper.createToast(
+                stringResourcesProvider.getString(R.string.success),
+                Toast.LENGTH_SHORT
+            )
+        } else {
+            toastHelper.createToast(
+                stringResourcesProvider.getString(R.string.failed),
+                Toast.LENGTH_SHORT
+            )
+        }
+        return result
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    private fun validateInputs(): Boolean {
+        var isValid = true
+        with(inputViewState.value) {
+            fun validateField(inputField: InputFieldState): InputFieldState {
+                return if (inputField.value.isBlank()) {
+                    isValid = false
+                    inputField.copy(error = stringResourcesProvider.getString(R.string.this_field_cant_be_empty))
+                } else {
+                    inputField.copy(error = "")
+                }
+            }
+
+            inputViewState.value = inputViewState.value.copy(
+                imageLinkViewState = validateField(imageLinkViewState),
+                titleViewState = validateField(titleViewState),
+                addressViewState = validateField(addressViewState),
+                descriptionViewState = validateField(descriptionViewState),
+                contactNumberViewState = validateField(contactNumberViewState),
+                neededVolunteers = validateField(neededVolunteers),
+                timeViewState = if (formatDateTime(
+                        calendarViewState.value.selectedRange.startDay,
+                        calendarViewState.value.selectedRange.endDay,
+                        inputViewState.value.time.hour,
+                        inputViewState.value.time.minute
+                    ).isBlank()
+                ) timeViewState.copy(
+                    error = stringResourcesProvider.getString(R.string.this_field_cant_be_empty)
+                ) else {
+                    timeViewState.copy(error = "")
+                }
+            )
+        }
+
+        return isValid
+    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     fun onScreenAction(action: AddEventAction) {
@@ -79,7 +146,6 @@ class AddEventViewModel @Inject constructor(
                 )
                 selectedLatLng.value = action.value.latLang
             }
-            OnEventCancelClick -> {}
             is OnEventDescriptionChange -> {
                 inputViewState.value = inputViewState.value.copy(
                     descriptionViewState = inputViewState.value.descriptionViewState.copy(
@@ -96,9 +162,16 @@ class AddEventViewModel @Inject constructor(
                 )
             }
 
-            OnEventPostClick -> {}
             is OnEventCalendarChange -> {
                 onCalendarAction(action.value)
+            }
+
+            is OnEventVolunteersNumberChange -> {
+                inputViewState.value = inputViewState.value.copy(
+                    neededVolunteers = inputViewState.value.neededVolunteers.copy(
+                        value = action.value
+                    )
+                )
             }
         }
     }

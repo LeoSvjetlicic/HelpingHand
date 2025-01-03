@@ -31,6 +31,7 @@
     <string name="contact_phone">Contact phone number</string>
     <string name="close">Close</string>
     <string name="date_and_time">Date and time</string>
+    <string name="needed_people">Needed volunteers</string>
     <string name="help_us_improve">Help us improve and do better by giving us your feedback!</string>
     <string name="previous_events">Previous Events</string>
     <string name="in_progess">In Progress</string>
@@ -43,4 +44,7 @@
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="image_link">Image link</string>
+    <string name="success">Event successfully created</string>
+    <string name="failed">Event not created</string>
+    <string name="this_field_cant_be_empty">This field cannot be empty</string>
 </resources>

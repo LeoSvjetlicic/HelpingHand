@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationViewModel @Inject constructor(
-    val repository: AuthenticationRepository
+    private val repository: AuthenticationRepository
 ) : ViewModel() {
     val viewState = mutableStateOf(AuthenticationViewState())
 
@@ -55,7 +55,6 @@ class AuthenticationViewModel @Inject constructor(
             )
         }
     }
-
 
     fun register(navigate: () -> Unit) {
         viewModelScope.launch {

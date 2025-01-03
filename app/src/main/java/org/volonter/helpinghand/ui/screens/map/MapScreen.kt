@@ -45,9 +45,10 @@ fun MapScreen(
     currentPosition: LatLng,
     supportedPlaces: Map<String, LatLng>,
     searchInput: String,
+    markers: List<MarkerViewState>,
     onSearchInputChange: (String) -> Unit,
     onEventClick: (String) -> Unit,
-    markers: List<MarkerViewState>,
+    onPopupMenuClick: (PopupSelectable) -> Unit,
     modifier: Modifier = Modifier,
     onFindEventsClick: () -> Unit
 ) {
@@ -156,6 +157,7 @@ fun MapScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
+                                        onPopupMenuClick(MyProfileClick)
                                         isMenuVisible = false
                                     }
                                     .padding(16.dp),
@@ -166,12 +168,13 @@ fun MapScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
+                                        onPopupMenuClick(SettingsClick)
                                         isMenuVisible = false
                                     }
                                     .padding(16.dp),
                                 color = Color.Black
                             )
-                            Text(
+                            /*Text(
                                 text = stringResource(R.string.post),
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -180,7 +183,7 @@ fun MapScreen(
                                     }
                                     .padding(16.dp),
                                 color = Color.Black
-                            )
+                            )*/
                         }
                     }
                 }
