@@ -33,6 +33,7 @@ import kotlinx.coroutines.launch
 import org.volonter.helpinghand.ui.screens.addevent.AddEventScreen
 import org.volonter.helpinghand.ui.screens.addevent.AddEventViewModel
 import org.volonter.helpinghand.ui.screens.addreview.AddReviewScreen
+import org.volonter.helpinghand.ui.screens.addreview.AddReviewViewModel
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsViewModel
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
@@ -192,10 +193,17 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = ADD_REVIEW_ROUTE) {
+                            val viewModel = hiltViewModel<AddReviewViewModel>()
                             AddReviewScreen(
                                 viewModel = hiltViewModel(),
                                 onCancelClick = { navController.popBackStack() },
-                                onPostClick = { navController.popBackStack() }
+                                onPostClick = {
+                                    lifecycleScope.launch {
+                                        if (viewModel.onPostClick()) {
+                                            navController.popBackStack()
+                                        }
+                                    }
+                                }
                             )
                         }
 

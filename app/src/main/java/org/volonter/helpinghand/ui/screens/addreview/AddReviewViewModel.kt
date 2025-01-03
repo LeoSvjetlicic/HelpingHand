@@ -61,6 +61,13 @@ class AddReviewViewModel @Inject constructor(
                 title = validateField(title),
                 body = validateField(body)
             )
+            if (rating == 0) {
+                isValid = false
+                toastHelper.createToast(
+                    stringResourcesProvider.getString(R.string.rating_cannot_be_zero),
+                    Toast.LENGTH_SHORT
+                )
+            }
         }
 
         return isValid
