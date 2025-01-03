@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import org.volonter.helpinghand.data.repository.AuthenticationRepositoryImpl
 import org.volonter.helpinghand.domain.repository.AuthenticationRepository
 import org.volonter.helpinghand.domain.usecases.LoginUseCase
+import org.volonter.helpinghand.domain.usecases.LogoutUseCase
 import org.volonter.helpinghand.domain.usecases.RegisterUseCase
 import org.volonter.helpinghand.utlis.ToastHelper
 import javax.inject.Singleton
@@ -36,6 +37,7 @@ object AuthenticationModule {
     @Singleton
     fun provideAuthenticationRepository(
         loginUseCase: LoginUseCase,
-        registerUseCase: RegisterUseCase
-    ): AuthenticationRepository = AuthenticationRepositoryImpl(loginUseCase, registerUseCase)
+        registerUseCase: RegisterUseCase,
+        logoutUseCase: LogoutUseCase
+    ): AuthenticationRepository = AuthenticationRepositoryImpl(loginUseCase, registerUseCase, logoutUseCase)
 }

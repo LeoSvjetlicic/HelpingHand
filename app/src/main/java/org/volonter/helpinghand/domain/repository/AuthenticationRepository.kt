@@ -9,4 +9,5 @@ interface AuthenticationRepository {
         isOrganisation: Boolean,
         navigate: () -> Unit
     )
+    fun logout(navigate: () -> Unit)
 }

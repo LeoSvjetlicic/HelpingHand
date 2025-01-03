@@ -21,8 +21,9 @@ class RegisterUseCase @Inject constructor(
         navigate: () -> Unit
     ) {
         try {
-            Log.d("aodhsiudh ", "pokusaj reg")
-            val registrationResult = suspendCancellableCoroutine { continuation ->
+            Log.d("RegisterUseCase", "Attempting registration")
+
+            val registrationResult = suspendCancellableCoroutine<Boolean> { continuation ->
                 auth.createUserWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -39,7 +40,9 @@ class RegisterUseCase @Inject constructor(
                                     .set(user)
                                     .addOnSuccessListener {
                                         Log.d("Firestore", "User successfully added to Firestore")
-                                        continuation.resumeWith(Result.success(true))
+                                        if (continuation.isActive) {
+                                            continuation.resumeWith(Result.success(true))
+                                        }
                                     }
                                     .addOnFailureListener { exception ->
                                         Log.d(
@@ -50,21 +53,30 @@ class RegisterUseCase @Inject constructor(
                                             "Failed to save user data",
                                             Toast.LENGTH_SHORT
                                         )
-                                        continuation.resumeWith(Result.success(false))
+                                        if (continuation.isActive) {
+                                            continuation.resumeWith(Result.success(false))
+                                        }
                                     }
                             } else {
                                 Log.d("AuthError", "User ID is null after registration")
                                 toastHelper.createToast("Registration failed", Toast.LENGTH_SHORT)
-                                continuation.resumeWith(Result.success(false))
+                                if (continuation.isActive) {
+                                    continuation.resumeWith(Result.success(false))
+                                }
                             }
                         } else {
+                            Log.d("AuthError", "Registration failed: ${task.exception?.message}")
                             toastHelper.createToast("Registration failed", Toast.LENGTH_SHORT)
-                            continuation.resumeWith(Result.success(false))
+                            if (continuation.isActive) {
+                                continuation.resumeWith(Result.success(false))
+                            }
                         }
                     }
                     .addOnFailureListener { exception ->
                         Log.d("AuthError", "Registration error: ${exception.message}")
-                        continuation.resumeWith(Result.success(false))
+                        if (continuation.isActive) {
+                            continuation.resumeWith(Result.success(false))
+                        }
                     }
             }
 
@@ -75,4 +87,5 @@ class RegisterUseCase @Inject constructor(
             Log.d("Error", "Unexpected error: ${e.message}")
         }
     }
+
 }
