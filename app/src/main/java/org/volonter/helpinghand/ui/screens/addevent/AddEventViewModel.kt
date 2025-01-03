@@ -58,7 +58,7 @@ class AddEventViewModel @Inject constructor(
     private val year = mutableIntStateOf(LocalDate.now().year)
 
     suspend fun onPostClick(): Boolean {
-        if (validateInputs()) return false
+        if (!validateInputs()) return false
         val result = eventRepository.createNewEvent(
             inputViewState.value,
             selectedLatLng.value ?: LatLng(0.0, 0.0),

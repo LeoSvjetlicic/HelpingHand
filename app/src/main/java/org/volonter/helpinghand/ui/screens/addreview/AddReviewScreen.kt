@@ -61,10 +61,7 @@ fun AddReviewScreen(
                     )
                     ButtonPair(
                         primaryColor = PrimaryCoral,
-                        onPostClick = {
-                            viewModel.onPostClick()
-                            onPostClick()
-                        },
+                        onPostClick = onPostClick,
                         onCancelClick = onCancelClick
                     )
                 }
