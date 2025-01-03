@@ -35,7 +35,7 @@ fun ButtonPair(
         }
         PrimaryButton(
             backgroundColor = primaryColor,
-            onClick = onPostClick
+            onClick = { onPostClick() }
         ) {
             Text(text = stringResource(R.string.post), fontSize = 16.sp)
         }
