@@ -3,6 +3,7 @@ package org.volonter.helpinghand.data.repository
 import com.google.android.gms.maps.model.LatLng
 import org.volonter.helpinghand.domain.repository.EventRepository
 import org.volonter.helpinghand.domain.usecases.CreateNewEventUseCase
+import org.volonter.helpinghand.domain.usecases.GetAllEventsForSearchUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllMarkersUseCase
 import org.volonter.helpinghand.domain.usecases.GetSupportedCitiesUseCase
 import org.volonter.helpinghand.ui.screens.addevent.AddEventViewState
@@ -14,6 +15,7 @@ class EventRepositoryImpl @Inject constructor(
     private val createNewEventUseCase: CreateNewEventUseCase,
     private val getSupportedCitiesUseCase: GetSupportedCitiesUseCase,
     private val getAllMarkers: GetAllMarkersUseCase,
+    private val getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase
 ) : EventRepository {
     override suspend fun createNewEvent(
         inputViewState: AddEventViewState,
@@ -25,4 +27,6 @@ class EventRepositoryImpl @Inject constructor(
 
     override suspend fun getSupportedCities(): Map<String, LatLng> =
         getSupportedCitiesUseCase.invoke()
+
+    override suspend fun getAllEventsForSearch() = getAllEventsForSearchUseCase.invoke()
 }

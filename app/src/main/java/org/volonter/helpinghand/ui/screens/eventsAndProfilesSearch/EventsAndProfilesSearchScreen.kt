@@ -14,7 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -45,16 +47,16 @@ import org.volonter.helpinghand.ui.theme.MiddleBrown
 @Composable
 fun EventsAndProfilesSearchScreen(
     viewModel: EventsAndProfilesSearchViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val selectedTabIndex by viewModel.selectedTab.collectAsState()
     val searchText by viewModel.searchText.collectAsState()
     val isSearching by viewModel.isSearching.collectAsState()
 
     val filteredEvents by viewModel.filteredEvents.collectAsState()
     val filteredProfiles by viewModel.filteredProfiles.collectAsState()
 
-    viewModel.setTab(selectedTabIndex)
+    //viewModel.setTab(selectedTabIndex)
 
     Box(modifier = modifier.fillMaxSize()) {
         Image(
@@ -123,12 +125,17 @@ fun EventsAndProfilesSearchScreen(
                                     .height(4.dp)
                                     .background(LightBrown)
                             )
-                        }
+                        },
+                        divider = {
+                            HorizontalDivider(
+                                thickness = 0.dp,
+                            )
+                        },
                     ) {
                         tabs.forEachIndexed { index, title ->
                             Tab(
                                 selected = selectedTabIndex == index,
-                                onClick = { selectedTabIndex = index },
+                                onClick = { viewModel.setTab(index) },
                                 text = { Text(text = title, color = Color.White) }
                             )
                         }

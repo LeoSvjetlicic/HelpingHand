@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -108,6 +109,11 @@ fun VolunteerProfileScreen(
                                     .tabIndicatorOffset(tabPositions[selectedTabIndex])
                                     .height(4.dp)
                                     .background(LightBrown)
+                            )
+                        },
+                        divider = {
+                            HorizontalDivider(
+                                thickness = 0.dp,
                             )
                         }
                     ) {
