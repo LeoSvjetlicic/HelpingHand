@@ -10,12 +10,35 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import org.volonter.helpinghand.domain.repository.EventRepository
+import org.volonter.helpinghand.domain.repository.UserProfileRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class EventsAndProfilesSearchViewModel @Inject constructor() : ViewModel() {
-    private val _eventsViewState = MutableStateFlow(EventsAndProfilesSearchViewState.EventsViewState())
-    private val _profilesViewState = MutableStateFlow(EventsAndProfilesSearchViewState.ProfilesViewState())
+class EventsAndProfilesSearchViewModel @Inject constructor(
+    private val eventRepository: EventRepository,
+    private val userProfileRepository: UserProfileRepository
+) : ViewModel() {
+    private val _eventsViewState = MutableStateFlow(EventsAndProfilesSearchViewState.EventsViewState(
+        emptyList()
+    ))
+    private val _profilesViewState = MutableStateFlow(EventsAndProfilesSearchViewState.ProfilesViewState(
+        emptyList()
+    ))
+
+    init {
+        viewModelScope.launch {
+            _eventsViewState.value = EventsAndProfilesSearchViewState.EventsViewState(
+                events = eventRepository.getAllEventsForSearch()
+            )
+        }
+        viewModelScope.launch {
+            _profilesViewState.value = EventsAndProfilesSearchViewState.ProfilesViewState(
+                profiles = userProfileRepository.getAllUsers()
+            )
+        }
+    }
 
     private val _viewState: MutableStateFlow<EventsAndProfilesSearchViewState> =
         MutableStateFlow(_eventsViewState.value)
@@ -59,13 +82,19 @@ class EventsAndProfilesSearchViewModel @Inject constructor() : ViewModel() {
             _profilesViewState.value.profiles
         )
 
+    var selectedTab = MutableStateFlow(0)
+
     fun setTab(tabIndex: Int) {
+        selectedTab.value = tabIndex
+    }
+
+/*    fun setTab(tabIndex: Int) {
         _viewState.value = when (tabIndex) {
             0 -> _eventsViewState.value
             1 -> _profilesViewState.value
             else -> _viewState.value
         }
-    }
+    }*/
 
     fun onSearchTextChange(text: String) {
         _searchText.value = text

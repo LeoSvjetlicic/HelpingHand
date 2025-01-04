@@ -37,6 +37,7 @@ import org.volonter.helpinghand.ui.screens.addreview.AddReviewViewModel
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsScreen
 import org.volonter.helpinghand.ui.screens.eventdetails.EventDetailsViewModel
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchScreen
+import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchViewModel
 import org.volonter.helpinghand.ui.screens.login.LoginScreen
 import org.volonter.helpinghand.ui.screens.map.LogoutClick
 import org.volonter.helpinghand.ui.screens.map.MapScreen
@@ -222,9 +223,10 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = EVENTS_AND_PROFILES_SEARCH_ROUTE) {
+                            val viewModel = hiltViewModel<EventsAndProfilesSearchViewModel>()
                             EventsAndProfilesSearchScreen(
                                 viewModel = hiltViewModel(),
-                                modifier = Modifier
+                                modifier = Modifier,
                             )
                         }
 

@@ -28,19 +28,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.common.viewstates.EventViewState
-import org.volonter.helpinghand.ui.common.viewstates.InProgressEventViewState
+import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventViewState
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchActions
 
 
 @Composable
 fun EventElement(
-    eventViewState: InProgressEventViewState, modifier: Modifier = Modifier,
+    eventViewState: EventViewState, modifier: Modifier = Modifier,
     onClick: (EventsAndProfilesSearchActions) -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     var isExpanded by remember { mutableStateOf(false) }
     var isOverflowing: Boolean? by remember { mutableStateOf(null) }
+
+    val datePart = eventViewState.time.substringBeforeLast(",").trim()
+    val timePart = eventViewState.time.substringAfterLast(",").trim()
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
@@ -60,12 +62,12 @@ fun EventElement(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = eventViewState.date,
+                    text = datePart,
                     color = Color.Black,
                     fontSize = 14.sp
                 )
                 Text(
-                    text = eventViewState.time,
+                    text = timePart,
                     color = Color.Black,
                     fontSize = 14.sp
                 )

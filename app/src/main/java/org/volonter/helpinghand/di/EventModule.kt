@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import org.volonter.helpinghand.data.repository.EventRepositoryImpl
 import org.volonter.helpinghand.domain.repository.EventRepository
 import org.volonter.helpinghand.domain.usecases.CreateNewEventUseCase
+import org.volonter.helpinghand.domain.usecases.GetAllEventsForSearchUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllMarkersUseCase
 import org.volonter.helpinghand.domain.usecases.GetSupportedCitiesUseCase
 import javax.inject.Singleton
@@ -41,7 +42,8 @@ object EventModule {
     fun provideEventRepository(
         createNewEventUseCase: CreateNewEventUseCase,
         getSupportedCitiesUseCase: GetSupportedCitiesUseCase,
-        getAllMarkersUseCase: GetAllMarkersUseCase
+        getAllMarkersUseCase: GetAllMarkersUseCase,
+        getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase
     ): EventRepository =
-        EventRepositoryImpl(createNewEventUseCase, getSupportedCitiesUseCase, getAllMarkersUseCase)
+        EventRepositoryImpl(createNewEventUseCase, getSupportedCitiesUseCase, getAllMarkersUseCase, getAllEventsForSearchUseCase)
 }

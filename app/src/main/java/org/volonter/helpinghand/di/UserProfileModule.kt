@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import org.volonter.helpinghand.data.repository.UserProfileRepositoryImpl
 import org.volonter.helpinghand.domain.repository.UserProfileRepository
 import org.volonter.helpinghand.domain.usecases.EditUserProfileUseCase
+import org.volonter.helpinghand.domain.usecases.GetAllUsersUseCase
 import javax.inject.Singleton
 
 
@@ -25,7 +26,10 @@ object UserProfileModule {
 
     @Provides
     @Singleton
-    fun provideUserProfileRepository(editUserProfileUseCase: EditUserProfileUseCase): UserProfileRepository =
-        UserProfileRepositoryImpl(editUserProfileUseCase)
+    fun provideUserProfileRepository(
+        editUserProfileUseCase: EditUserProfileUseCase,
+        getAllUsersUseCase: GetAllUsersUseCase
+    ): UserProfileRepository =
+        UserProfileRepositoryImpl(editUserProfileUseCase, getAllUsersUseCase)
 
 }
