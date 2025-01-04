@@ -10,6 +10,7 @@ import org.volonter.helpinghand.data.repository.UserProfileRepositoryImpl
 import org.volonter.helpinghand.domain.repository.UserProfileRepository
 import org.volonter.helpinghand.domain.usecases.EditUserProfileUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllUsersUseCase
+import org.volonter.helpinghand.domain.usecases.GetUserDetailsUseCase
 import javax.inject.Singleton
 
 
@@ -28,8 +29,9 @@ object UserProfileModule {
     @Singleton
     fun provideUserProfileRepository(
         editUserProfileUseCase: EditUserProfileUseCase,
-        getAllUsersUseCase: GetAllUsersUseCase
+        getAllUsersUseCase: GetAllUsersUseCase,
+        getUserDetailsUseCase: GetUserDetailsUseCase
     ): UserProfileRepository =
-        UserProfileRepositoryImpl(editUserProfileUseCase, getAllUsersUseCase)
+        UserProfileRepositoryImpl(editUserProfileUseCase, getAllUsersUseCase, getUserDetailsUseCase)
 
 }

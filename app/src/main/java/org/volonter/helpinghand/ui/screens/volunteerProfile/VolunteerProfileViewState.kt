@@ -12,6 +12,7 @@ interface PaginatedViewState {
 sealed class VolunteerProfileViewState(
     val id: String = "",
     val volunteer: UserViewState = UserViewState(
+        id = "",
         imageLink = "https://upload.wikimedia.org/wikipedia/commons/8/8d/Frog_on_palm_frond.jpg",
         name = "Udruga Breza",
         email = "udruga.breza@gmail.com",

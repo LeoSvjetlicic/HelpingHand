@@ -6,6 +6,7 @@ import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 sealed class OrganizationProfileViewState(
     val id: String = "",
     val organisation: UserViewState = UserViewState(
+        id = "",
         imageLink = "https://upload.wikimedia.org/wikipedia/commons/8/8d/Frog_on_palm_frond.jpg",
         name = "Udruga Breza",
         email = "udruga.breza@gmail.com",

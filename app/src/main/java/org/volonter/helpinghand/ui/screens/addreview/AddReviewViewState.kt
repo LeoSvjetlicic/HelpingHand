@@ -10,6 +10,7 @@ data class AddReviewViewState(
     val title: InputFieldState = InputFieldState(label = R.string.topic),
     val body: InputFieldState = InputFieldState(label = R.string.body),
     val user: UserViewState = UserViewState(
+        id = "",
         name = "Random lik",
         email = "random.lik@gmail.com",
         imageLink = "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",

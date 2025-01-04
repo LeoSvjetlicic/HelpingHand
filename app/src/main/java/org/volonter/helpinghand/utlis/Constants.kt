@@ -17,6 +17,7 @@ object Constants {
         const val EVENT_ID = "eventId"
         const val EVENT_DETAILS_ROUTE_FULL = "$EVENT_DETAILS_ROUTE/{$EVENT_ID}"
         const val ADD_REVIEW_ROUTE = "add review"
+        const val ADD_REVIEW_ROUTE_FULL = "$ADD_REVIEW_ROUTE/{$EVENT_ID}"
         const val ORGANIZATION_PROFILE_ROUTE = "organization profile"
         const val VOLUNTEER_PROFILE_ROUTE = "volunteer profile"
         const val EVENTS_AND_PROFILES_SEARCH_ROUTE = "events and profiles search"

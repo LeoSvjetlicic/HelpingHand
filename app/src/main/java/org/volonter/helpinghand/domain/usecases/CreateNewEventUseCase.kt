@@ -32,6 +32,7 @@ class CreateNewEventUseCase @Inject constructor(
             "description" to inputViewState.descriptionViewState.value,
             "imageLink" to inputViewState.imageLinkViewState.value,
             "name" to inputViewState.titleViewState.value,
+            "callingNumber" to inputViewState.contactNumberViewState.value,
             "numberOfNeededVolunteers" to (inputViewState.neededVolunteers.value.toIntOrNull()
                 ?: 0),
             "organisationId" to organisationId,

@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +54,7 @@ import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_REVIEW_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_REVIEW_ROUTE_FULL
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE_FULL
@@ -66,7 +68,11 @@ import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    var isOrganisation = mutableStateOf(false)
     override fun onCreate(savedInstanceState: Bundle?) {
+        isOrganisation.value = SharedPreferencesHelper.getBooleanFromSharedPrefs(
+            SHARED_PREFERENCES_IS_ORGANISATION
+        )
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
@@ -79,11 +85,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(PrimaryGreen),
                     floatingActionButton = {
-                        if (currentDestination == MAP_ROUTE &&
-                            SharedPreferencesHelper.getBooleanFromSharedPrefs(
-                                SHARED_PREFERENCES_IS_ORGANISATION
-                            )
-                        ) {
+                        if (currentDestination == MAP_ROUTE && isOrganisation.value) {
                             FloatingActionButton(
                                 modifier = Modifier.padding(bottom = 60.dp),
                                 onClick = {
@@ -149,7 +151,12 @@ class MainActivity : ComponentActivity() {
                                         SettingsClick -> navController.navigate(SETTINGS_ROUTE)
 
                                         LogoutClick -> viewModel.logout {
-                                            navController.navigate(Constants.NavigationRoutes.LOGIN_ROUTE)
+                                            navController.navigate(Constants.NavigationRoutes.LOGIN_ROUTE) {
+                                                popUpTo(navController.graph.startDestinationId) {
+                                                    inclusive = true
+                                                }
+                                                launchSingleTop = true
+                                            }
                                         }
                                     }
                                 },
@@ -185,16 +192,29 @@ class MainActivity : ComponentActivity() {
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
-                                onAddReviewClick = { navController.navigate(ADD_REVIEW_ROUTE) },
-                                onTitleClick = { navController.navigate(ORGANIZATION_PROFILE_ROUTE) },
-                                onUserClick = { navController.navigate(VOLUNTEER_PROFILE_ROUTE) },
-                                onSearchClick = { navController.navigate(EVENTS_AND_PROFILES_SEARCH_ROUTE) },
-                                onSettingsClick = { navController.navigate(SETTINGS_ROUTE) }
+                                onReviewUserClick = {
+//                                    TODO
+                                },
+                                onAddReviewClick = {
+                                    navController.navigate("$ADD_REVIEW_ROUTE/$eventId")
+                                },
+                                onUserClick = {
+//                                    TODO - add id to navigation route
+                                    navController.navigate(ORGANIZATION_PROFILE_ROUTE)
+                                },
+                                onBackClick = { navController.popBackStack() },
                             )
                         }
 
-                        composable(route = ADD_REVIEW_ROUTE) {
+                        composable(
+                            route = ADD_REVIEW_ROUTE_FULL,
+                            arguments = listOf(navArgument(EVENT_ID) {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            val eventId = backStackEntry.arguments?.getString("eventId") ?: ""
                             val viewModel = hiltViewModel<AddReviewViewModel>()
+                            viewModel.eventId.value = eventId
                             AddReviewScreen(
                                 viewModel = hiltViewModel(),
                                 onCancelClick = { navController.popBackStack() },
@@ -225,7 +245,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = EVENTS_AND_PROFILES_SEARCH_ROUTE) {
                             val viewModel = hiltViewModel<EventsAndProfilesSearchViewModel>()
                             EventsAndProfilesSearchScreen(
-                                viewModel = hiltViewModel(),
+                                viewModel = viewModel,
                                 modifier = Modifier,
                             )
                         }

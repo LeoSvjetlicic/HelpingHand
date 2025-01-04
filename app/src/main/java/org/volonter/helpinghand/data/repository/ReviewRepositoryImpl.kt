@@ -8,5 +8,6 @@ import javax.inject.Inject
 class ReviewRepositoryImpl @Inject constructor(
     private val addReviewUseCase: AddReviewUseCase
 ) : ReviewRepository {
-    override suspend fun addReview(inputViewState: AddReviewViewState): Boolean = addReviewUseCase.invoke(inputViewState)
+    override suspend fun addReview(eventId: String, inputViewState: AddReviewViewState): Boolean =
+        addReviewUseCase.invoke(eventId, inputViewState)
 }

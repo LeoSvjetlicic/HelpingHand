@@ -8,7 +8,7 @@
     <string name="register">REGISTER</string>
     <string name="login">LOGIN</string>
     <string name="dont_have_account">Don\'t have an account?</string>
-    <string name="sign_up_now">Sign up now!</string>
+    <string name="log_in_now">Log in now!</string>
     <string name="create_account">Create Account!</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="click_here">Click here.</string>
@@ -21,6 +21,7 @@
     <string name="less">less</string>
     <string name="organiser">Organiser: </string>
     <string name="user_reviews">User reviews</string>
+    <string name="no_user_reviews">There are no user reviews</string>
     <string name="topic">Topic</string>
     <string name="add_new_event">Add New Event</string>
     <string name="body">Body</string>

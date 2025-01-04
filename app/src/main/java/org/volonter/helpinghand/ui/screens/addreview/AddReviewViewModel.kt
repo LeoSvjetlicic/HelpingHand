@@ -1,34 +1,44 @@
 package org.volonter.helpinghand.ui.screens.addreview
 
 import android.widget.Toast
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.maps.model.LatLng
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import org.volonter.helpinghand.R
+import org.volonter.helpinghand.data.repository.UserProfileRepositoryImpl
 import org.volonter.helpinghand.domain.repository.ReviewRepository
 import org.volonter.helpinghand.ui.common.viewstates.InputFieldState
-import org.volonter.helpinghand.ui.screens.addevent.formatDateTime
 import org.volonter.helpinghand.utlis.StringResourcesProvider
 import org.volonter.helpinghand.utlis.ToastHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
+    val firebaseAuth: FirebaseAuth,
     private val reviewRepository: ReviewRepository,
+    private val userProfileRepositoryImpl: UserProfileRepositoryImpl,
     private val toastHelper: ToastHelper,
     private val stringResourcesProvider: StringResourcesProvider
 ) : ViewModel() {
     var viewState = mutableStateOf(AddReviewViewState())
-
+    var eventId = mutableStateOf("")
     init {
-//        TODO - load user data
+        viewModelScope.launch {
+            viewState.value = viewState.value.copy(
+                user = userProfileRepositoryImpl.getUserById(
+                    firebaseAuth.currentUser?.uid ?: ""
+                )
+            )
+        }
     }
 
     suspend fun onPostClick(): Boolean {
         if (!validateInputs()) return false
         val result = reviewRepository.addReview(
+            eventId.value,
             viewState.value
         )
         if (result) {

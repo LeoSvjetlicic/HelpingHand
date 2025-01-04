@@ -1,7 +1,6 @@
 package org.volonter.helpinghand.ui.screens.eventdetails
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,11 +40,10 @@ import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 fun EventDetailsScreen(
     viewModel: EventDetailsViewModel,
     modifier: Modifier = Modifier,
+    onReviewUserClick: (String) -> Unit,
     onAddReviewClick: () -> Unit,
-    onTitleClick: () -> Unit,
-    onUserClick: () -> Unit,
-    onSearchClick: () -> Unit,
-    onSettingsClick: () -> Unit
+    onUserClick: (String) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
@@ -72,8 +69,7 @@ fun EventDetailsScreen(
                     ) {
                         Text(
                             modifier = Modifier
-                                .padding(vertical = 16.dp)
-                                .clickable { onTitleClick() },
+                                .padding(vertical = 16.dp),
                             fontSize = 26.sp,
                             fontWeight = FontWeight.Bold,
                             text = viewModel.viewState.value.title,
@@ -87,12 +83,7 @@ fun EventDetailsScreen(
                         Spacer(modifier = Modifier.height(4.dp))
                         UserShortDetails(
                             viewState = viewModel.viewState.value.organisation,
-                            onClick = {
-                                viewModel.onScreenAction(
-                                    OnOrganisationClick(it)
-                                )
-                            },
-                            onClickNavigate = onUserClick,
+                            onClick = onUserClick,
                             color = Gray15
                         )
                         Spacer(modifier = Modifier.height(20.dp))
@@ -109,7 +100,6 @@ fun EventDetailsScreen(
                         IconTextElement(
                             vectorId = R.drawable.ic_clock,
                             label = viewModel.viewState.value.date,
-                            modifier = Modifier.clickable { onSearchClick() }
                         )
                         if (viewModel.viewState.value is UnfinishedEventDetailsViewState) {
                             Spacer(modifier = Modifier.height(12.dp))
@@ -148,7 +138,7 @@ fun EventDetailsScreen(
                                         ReviewItem(
                                             reviewViewState = it,
                                             modifier = Modifier.padding(horizontal = 32.dp),
-                                            onClick = viewModel::onScreenAction
+                                            onReviewUserClick = onReviewUserClick
                                         )
                                     }
                             }
@@ -157,6 +147,16 @@ fun EventDetailsScreen(
                                     viewState = viewModel.viewState.value as FinishedEventDetailsViewState,
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                     onScreenAction = viewModel::onScreenAction
+                                )
+                            } else {
+                                Text(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .align(Alignment.CenterHorizontally),
+                                    text = stringResource(R.string.no_user_reviews),
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
                                 )
                             }
                         }
@@ -170,19 +170,13 @@ fun EventDetailsScreen(
                     !SharedPreferencesHelper.getBooleanFromSharedPrefs(
                         SHARED_PREFERENCES_IS_ORGANISATION
                     ),
-            onBackClick = { viewModel.onScreenAction(OnBackClick) },
+            onBackClick = onBackClick,
             onToggleApplicationToEventClick = {
                 viewModel.onScreenAction(
                     OnToggleApplicationToEventClick
                 )
             }
         )
-        Button(
-            onClick = onSettingsClick,
-            modifier = Modifier.align(Alignment.TopEnd)
-        ) {
-            Text(text = "settings")
-        }
         if (viewModel.viewState.value is FinishedEventDetailsViewState) {
             AddReviewButton(
                 modifier = Modifier.align(Alignment.BottomEnd),
@@ -207,6 +201,6 @@ private fun getPaginationSublist(viewState: FinishedEventDetailsViewState): List
 }
 
 private fun getApplicants(viewState: UnfinishedEventDetailsViewState): String {
-    return ": ${(viewState).appliedVolunteers}/" +
+    return ": ${(viewState).appliedVolunteers.size}/" +
             "${(viewState).neededVolunteers}"
 }

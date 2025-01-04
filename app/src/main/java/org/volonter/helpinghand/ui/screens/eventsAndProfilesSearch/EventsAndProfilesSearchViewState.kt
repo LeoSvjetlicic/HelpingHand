@@ -1,5 +1,6 @@
 package org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch
 
+import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 
 
 sealed class EventsAndProfilesSearchViewState {
@@ -17,10 +18,4 @@ data class EventViewState(
     val title: String,
     val description: String,
     val time: String = "",
-)
-
-data class UserViewState(
-    val id: String,
-    val imageLink: String,
-    val name: String,
 )
