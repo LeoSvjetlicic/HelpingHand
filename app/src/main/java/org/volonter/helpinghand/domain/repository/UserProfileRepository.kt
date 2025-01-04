@@ -1,6 +1,6 @@
 package org.volonter.helpinghand.domain.repository
 
-import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.UserViewState
+import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 
 interface UserProfileRepository {
     suspend fun editUserProfile(
@@ -9,6 +9,6 @@ interface UserProfileRepository {
         description: String
     ): Boolean
 
-
     suspend fun getAllUsers(): List<UserViewState>
+    suspend fun getUserById(id: String): UserViewState
 }

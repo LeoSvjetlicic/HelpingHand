@@ -54,6 +54,7 @@ import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_EVENT_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_REVIEW_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ADD_REVIEW_ROUTE_FULL
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENTS_AND_PROFILES_SEARCH_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE_FULL
@@ -194,7 +195,9 @@ class MainActivity : ComponentActivity() {
                                 onReviewUserClick = {
 //                                    TODO
                                 },
-                                onAddReviewClick = { navController.navigate(ADD_REVIEW_ROUTE) },
+                                onAddReviewClick = {
+                                    navController.navigate("$ADD_REVIEW_ROUTE/$eventId")
+                                },
                                 onUserClick = {
 //                                    TODO - add id to navigation route
                                     navController.navigate(ORGANIZATION_PROFILE_ROUTE)
@@ -203,8 +206,15 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(route = ADD_REVIEW_ROUTE) {
+                        composable(
+                            route = ADD_REVIEW_ROUTE_FULL,
+                            arguments = listOf(navArgument(EVENT_ID) {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            val eventId = backStackEntry.arguments?.getString("eventId") ?: ""
                             val viewModel = hiltViewModel<AddReviewViewModel>()
+                            viewModel.eventId.value = eventId
                             AddReviewScreen(
                                 viewModel = hiltViewModel(),
                                 onCancelClick = { navController.popBackStack() },
@@ -235,7 +245,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = EVENTS_AND_PROFILES_SEARCH_ROUTE) {
                             val viewModel = hiltViewModel<EventsAndProfilesSearchViewModel>()
                             EventsAndProfilesSearchScreen(
-                                viewModel = hiltViewModel(),
+                                viewModel = viewModel,
                                 modifier = Modifier,
                             )
                         }

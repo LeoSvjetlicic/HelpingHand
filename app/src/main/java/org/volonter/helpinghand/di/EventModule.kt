@@ -81,7 +81,7 @@ object EventModule {
         createNewEventUseCase: CreateNewEventUseCase,
         getSupportedCitiesUseCase: GetSupportedCitiesUseCase,
         getEventByIdUseCase: GetEventByIdUseCase,
-        toggleApplicationButtonUseCase: ToggleApplicationButtonUseCase
+        toggleApplicationButtonUseCase: ToggleApplicationButtonUseCase,
         getAllMarkersUseCase: GetAllMarkersUseCase,
         getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase
     ): EventRepository =

@@ -37,7 +37,6 @@ class GetEventByIdUseCase @Inject constructor(
             val today = Date()
             val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             val lastDate = parseLastDate(time, dateFormat)
-
             if (lastDate != null && lastDate.after(today)) {
                 UnfinishedEventDetailsViewState(
                     id = eventId,
@@ -62,7 +61,9 @@ class GetEventByIdUseCase @Inject constructor(
                     callingNumber = callingNumber,
                     location = address,
                     description = description,
-                    allReviews = reviewIds.mapNotNull { getReviewUseCase.invoke(it) }
+                    allReviews = reviewIds.mapNotNull {
+                        getReviewUseCase.invoke(it)
+                    }
                 )
             }
         } catch (e: Exception) {

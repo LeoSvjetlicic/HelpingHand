@@ -1,10 +1,8 @@
 package org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow

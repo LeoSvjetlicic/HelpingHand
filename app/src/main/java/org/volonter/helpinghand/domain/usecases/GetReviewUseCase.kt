@@ -19,7 +19,7 @@ class GetReviewUseCase @Inject constructor(
 
             val content = data["content"] as? String ?: ""
             val creationDate = data["creationDate"] as? String ?: ""
-            val rating = (data["start"] as? Long)?.toInt() ?: 0
+            val rating = (data["stars"] as? Long)?.toInt() ?: 0
             val title = data["title"] as? String ?: ""
             val userId = data["userId"] as? String ?: ""
 

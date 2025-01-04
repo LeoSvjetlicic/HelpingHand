@@ -19,7 +19,7 @@ class EventRepositoryImpl @Inject constructor(
     private val getSupportedCitiesUseCase: GetSupportedCitiesUseCase,
     private val getAllMarkers: GetAllMarkersUseCase,
     private val getEventByIdUseCase: GetEventByIdUseCase,
-    private val toggleApplicationUseCase: ToggleApplicationButtonUseCase
+    private val toggleApplicationUseCase: ToggleApplicationButtonUseCase,
     private val getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase
 ) : EventRepository {
     override suspend fun createNewEvent(
