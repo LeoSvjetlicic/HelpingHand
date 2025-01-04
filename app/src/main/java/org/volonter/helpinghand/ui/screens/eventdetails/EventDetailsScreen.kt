@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,11 +41,12 @@ import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 fun EventDetailsScreen(
     viewModel: EventDetailsViewModel,
     modifier: Modifier = Modifier,
+    onReviewUserClick: (String) -> Unit,
     onAddReviewClick: () -> Unit,
     onTitleClick: () -> Unit,
     onUserClick: () -> Unit,
-    onSearchClick: () -> Unit,
-    onSettingsClick: () -> Unit
+    onBackClick: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
@@ -148,7 +148,7 @@ fun EventDetailsScreen(
                                         ReviewItem(
                                             reviewViewState = it,
                                             modifier = Modifier.padding(horizontal = 32.dp),
-                                            onClick = viewModel::onScreenAction
+                                            onReviewUserClick = onReviewUserClick
                                         )
                                     }
                             }
@@ -170,19 +170,13 @@ fun EventDetailsScreen(
                     !SharedPreferencesHelper.getBooleanFromSharedPrefs(
                         SHARED_PREFERENCES_IS_ORGANISATION
                     ),
-            onBackClick = { viewModel.onScreenAction(OnBackClick) },
+            onBackClick = onBackClick,
             onToggleApplicationToEventClick = {
                 viewModel.onScreenAction(
                     OnToggleApplicationToEventClick
                 )
             }
         )
-        Button(
-            onClick = onSettingsClick,
-            modifier = Modifier.align(Alignment.TopEnd)
-        ) {
-            Text(text = "settings")
-        }
         if (viewModel.viewState.value is FinishedEventDetailsViewState) {
             AddReviewButton(
                 modifier = Modifier.align(Alignment.BottomEnd),
@@ -207,6 +201,6 @@ private fun getPaginationSublist(viewState: FinishedEventDetailsViewState): List
 }
 
 private fun getApplicants(viewState: UnfinishedEventDetailsViewState): String {
-    return ": ${(viewState).appliedVolunteers}/" +
+    return ": ${(viewState).appliedVolunteers.size}/" +
             "${(viewState).neededVolunteers}"
 }

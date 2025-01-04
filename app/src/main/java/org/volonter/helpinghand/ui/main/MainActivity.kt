@@ -185,11 +185,14 @@ class MainActivity : ComponentActivity() {
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
+                                onReviewUserClick = {
+//                                    TODO
+                                },
                                 onAddReviewClick = { navController.navigate(ADD_REVIEW_ROUTE) },
                                 onTitleClick = { navController.navigate(ORGANIZATION_PROFILE_ROUTE) },
                                 onUserClick = { navController.navigate(VOLUNTEER_PROFILE_ROUTE) },
+                                onBackClick = { navController.popBackStack() },
                                 onSearchClick = { navController.navigate(EVENTS_AND_PROFILES_SEARCH_ROUTE) },
-                                onSettingsClick = { navController.navigate(SETTINGS_ROUTE) }
                             )
                         }
 

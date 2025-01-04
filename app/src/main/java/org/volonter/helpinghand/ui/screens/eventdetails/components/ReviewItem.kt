@@ -30,8 +30,6 @@ import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.R
 import org.volonter.helpinghand.ui.common.components.UserShortDetails
 import org.volonter.helpinghand.ui.common.viewstates.ReviewViewState
-import org.volonter.helpinghand.ui.screens.eventdetails.EventScreenActions
-import org.volonter.helpinghand.ui.screens.eventdetails.OnReviewUserClick
 import org.volonter.helpinghand.ui.theme.Gray10
 import org.volonter.helpinghand.ui.theme.Gray15
 import org.volonter.helpinghand.ui.theme.SecondaryGreen
@@ -39,7 +37,7 @@ import org.volonter.helpinghand.ui.theme.SecondaryGreen
 @Composable
 fun ReviewItem(
     reviewViewState: ReviewViewState, modifier: Modifier = Modifier,
-    onClick: (EventScreenActions) -> Unit
+    onReviewUserClick: (String) -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     var isExpanded by remember { mutableStateOf(false) }
@@ -97,8 +95,8 @@ fun ReviewItem(
             UserShortDetails(
                 modifier = Modifier.fillMaxWidth(),
                 viewState = reviewViewState.user,
-                onClick = { onClick(OnReviewUserClick(it)) },
-                onClickNavigate = {}, // right now we don't have navigation
+                onClick = onReviewUserClick,
+                onClickNavigate = {},
                 color = Gray15)
         }
     }
