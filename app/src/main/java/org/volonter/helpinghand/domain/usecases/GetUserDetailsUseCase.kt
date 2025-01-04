@@ -16,6 +16,7 @@ class GetUserDetailsUseCase @Inject constructor(
             val data = documentSnapshot.data
 
             UserViewState(
+                id = documentSnapshot.id,
                 description = data?.get("description") as? String ?: "No description available",
                 email = data?.get("email") as? String ?: "-",
                 imageLink = data?.get("imageLink") as? String
@@ -24,6 +25,7 @@ class GetUserDetailsUseCase @Inject constructor(
             )
         } catch (e: Exception) {
             UserViewState(
+                id = "error",
                 description = "No description available",
                 email = "-",
                 imageLink = "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png",

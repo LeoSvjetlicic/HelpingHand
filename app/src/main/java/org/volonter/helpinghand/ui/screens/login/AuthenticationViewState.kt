@@ -9,5 +9,5 @@ data class AuthenticationViewState(
     val passwordViewState: LoginInputViewState = LoginInputViewState(label = R.string.password),
     val repeatPasswordViewState: LoginInputViewState = LoginInputViewState(label = R.string.repeat_password),
     val isOrganisation: Boolean = false,
-    val isRegister: Boolean = true
+    val isRegister: Boolean = false
 )

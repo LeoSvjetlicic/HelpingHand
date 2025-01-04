@@ -23,11 +23,9 @@ class MapViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             supportedTowns.value = eventRepository.getSupportedCities()
-            println("fetchedGafasa: ${supportedTowns.value}")
         }
         viewModelScope.launch {
             markers.value = eventRepository.getAllEvents()
-            println("fetchedGafaas: ${markers.value}")
         }
     }
 

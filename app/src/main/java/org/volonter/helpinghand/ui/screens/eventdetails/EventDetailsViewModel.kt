@@ -17,7 +17,6 @@ class EventDetailsViewModel @Inject constructor(
         mutableStateOf(FinishedEventDetailsViewState())
     fun onScreenAction(action: EventScreenActions) {
         when (action) {
-        is OnOrganisationClick -> {}
         OnPaginationLeftClick -> {
             viewState.value =
                 (viewState.value as FinishedEventDetailsViewState).copy(

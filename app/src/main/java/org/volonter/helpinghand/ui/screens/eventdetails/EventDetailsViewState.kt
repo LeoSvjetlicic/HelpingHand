@@ -17,6 +17,7 @@ open class EventDetailsViewState(
         val ERROR = EventDetailsViewState(
             "Error",
             UserViewState(
+                "error",
                 "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png",
                 "Error loading",
                 "Error loading",
@@ -34,7 +35,7 @@ open class EventDetailsViewState(
 
 data class FinishedEventDetailsViewState(
     override val id: String = "",
-    override val organisation: UserViewState = UserViewState("", "", "", ""),
+    override val organisation: UserViewState = UserViewState("", "", "", "", ""),
     override val imageLink: String = "",
     override val title: String = "",
     override val date: String = "",
@@ -43,138 +44,7 @@ data class FinishedEventDetailsViewState(
     override val description: String = "",
     val reviewsPerPage: Int = 5,
     val currentPage: Int = 1,
-    val allReviews: List<ReviewViewState> = listOf(
-        ReviewViewState(
-            3,
-            "Kako da znam",
-            "usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            3,
-            "Kako da znam",
-            "usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ), ReviewViewState(
-            3,
-            "Kako da znam",
-            "usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ), ReviewViewState(
-            3,
-            "Kako da znam",
-            "usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            5,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            1,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            0,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            0,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            0,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            0,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        ),
-        ReviewViewState(
-            0,
-            "Kako da znam",
-            "aifhsidufh wofhseiuf suifh bsfbsi bfksubfiusbfkshflsig hoh gksuh su hgsouhg surg sukgh uis bg usbg ksb gusgiu sugbsugsgn sg bsg sg sg bs g sl ig ioshg lishglish glishg lishg i",
-            "15.12.2001",
-            UserViewState(
-                "https://upload.wikimedia.org/wikipedia/commons/7/78/Wikipedia_Profile_picture.jpg",
-                "Random lik",
-                "random.lik@gmail.com",
-                ""
-            )
-        )
-    )
+    val allReviews: List<ReviewViewState> = emptyList()
 ) : EventDetailsViewState(
     id,
     organisation,
@@ -188,7 +58,7 @@ data class FinishedEventDetailsViewState(
 
 data class UnfinishedEventDetailsViewState(
     override val id: String = "",
-    override val organisation: UserViewState = UserViewState("", "", "", ""),
+    override val organisation: UserViewState = UserViewState("", "", "", "", ""),
     override val imageLink: String = "",
     override val title: String = "",
     override val date: String = "",

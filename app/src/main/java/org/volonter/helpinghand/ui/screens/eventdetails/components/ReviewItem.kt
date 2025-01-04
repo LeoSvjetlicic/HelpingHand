@@ -96,7 +96,6 @@ fun ReviewItem(
                 modifier = Modifier.fillMaxWidth(),
                 viewState = reviewViewState.user,
                 onClick = onReviewUserClick,
-                onClickNavigate = {},
                 color = Gray15)
         }
     }

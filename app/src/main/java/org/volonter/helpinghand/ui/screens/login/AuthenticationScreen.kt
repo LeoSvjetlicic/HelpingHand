@@ -69,7 +69,7 @@ fun LoginScreen(
             if (viewModel.viewState.value.isRegister) {
                 AccountTextSection(
                     title = R.string.already_have_account,
-                    action = R.string.sign_up_now,
+                    action = R.string.log_in_now,
                     onActionClick = {
                         viewModel.onIsLoginChange()
                     }

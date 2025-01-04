@@ -1,7 +1,6 @@
 package org.volonter.helpinghand.ui.screens.eventdetails
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,10 +42,8 @@ fun EventDetailsScreen(
     modifier: Modifier = Modifier,
     onReviewUserClick: (String) -> Unit,
     onAddReviewClick: () -> Unit,
-    onTitleClick: () -> Unit,
-    onUserClick: () -> Unit,
+    onUserClick: (String) -> Unit,
     onBackClick: () -> Unit,
-    onSearchClick: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
@@ -72,8 +69,7 @@ fun EventDetailsScreen(
                     ) {
                         Text(
                             modifier = Modifier
-                                .padding(vertical = 16.dp)
-                                .clickable { onTitleClick() },
+                                .padding(vertical = 16.dp),
                             fontSize = 26.sp,
                             fontWeight = FontWeight.Bold,
                             text = viewModel.viewState.value.title,
@@ -87,12 +83,7 @@ fun EventDetailsScreen(
                         Spacer(modifier = Modifier.height(4.dp))
                         UserShortDetails(
                             viewState = viewModel.viewState.value.organisation,
-                            onClick = {
-                                viewModel.onScreenAction(
-                                    OnOrganisationClick(it)
-                                )
-                            },
-                            onClickNavigate = onUserClick,
+                            onClick = onUserClick,
                             color = Gray15
                         )
                         Spacer(modifier = Modifier.height(20.dp))
@@ -109,7 +100,6 @@ fun EventDetailsScreen(
                         IconTextElement(
                             vectorId = R.drawable.ic_clock,
                             label = viewModel.viewState.value.date,
-                            modifier = Modifier.clickable { onSearchClick() }
                         )
                         if (viewModel.viewState.value is UnfinishedEventDetailsViewState) {
                             Spacer(modifier = Modifier.height(12.dp))
@@ -157,6 +147,16 @@ fun EventDetailsScreen(
                                     viewState = viewModel.viewState.value as FinishedEventDetailsViewState,
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                     onScreenAction = viewModel::onScreenAction
+                                )
+                            } else {
+                                Text(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .align(Alignment.CenterHorizontally),
+                                    text = stringResource(R.string.no_user_reviews),
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
                                 )
                             }
                         }

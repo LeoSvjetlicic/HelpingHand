@@ -34,7 +34,8 @@ class RegisterUseCase @Inject constructor(
                                 val user = hashMapOf(
                                     "name" to name,
                                     "email" to email,
-                                    "isOrganisation" to isOrganisation
+                                    "isOrganisation" to isOrganisation,
+                                    "imageLink" to "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png"
                                 )
 
                                 firestore.collection("users")

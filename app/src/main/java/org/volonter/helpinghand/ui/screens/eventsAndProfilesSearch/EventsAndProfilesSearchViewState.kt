@@ -1,5 +1,7 @@
 package org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch
 
+import org.volonter.helpinghand.ui.common.viewstates.InProgressEventViewState
+import org.volonter.helpinghand.ui.common.viewstates.UserViewState
 
 
 sealed class EventsAndProfilesSearchViewState {

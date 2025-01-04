@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.google.firebase.auth.FirebaseAuth
 import org.volonter.helpinghand.ui.common.viewstates.UserViewState
-import org.volonter.helpinghand.ui.theme.Gray15
 
 @Composable
 fun UserShortDetails(
@@ -28,17 +27,16 @@ fun UserShortDetails(
     firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance(),
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit,
-    onClickNavigate: () -> Unit,
     color: Color
 ) {
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(90.dp))
             .then(
-                if (viewState.email != firebaseAuth.currentUser?.email) {
+                if (viewState.id != firebaseAuth.currentUser?.uid) {
                     Modifier.clickable {
-                        onClick(viewState.email)
-                        onClickNavigate() }
+                        onClick(viewState.id)
+                    }
                 } else {
                     Modifier
                 }
