@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.volonter.helpinghand.ui.common.viewstates.EventViewState
+import org.volonter.helpinghand.ui.screens.volunteerProfile.EventViewState
 import org.volonter.helpinghand.ui.screens.volunteerProfile.PaginatedViewState
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileViewModel
 

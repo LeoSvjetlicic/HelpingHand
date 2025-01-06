@@ -15,7 +15,10 @@ import org.volonter.helpinghand.ui.screens.volunteerProfile.components.Volunteer
 
 
 @Composable
-fun EventsSearchList(viewState: EventsAndProfilesSearchViewState.EventsViewState, viewModel: EventsAndProfilesSearchViewModel) {
+fun EventsSearchList(
+    viewState: EventsAndProfilesSearchViewState.EventsViewState,
+    onEventClick: (String) -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -26,7 +29,7 @@ fun EventsSearchList(viewState: EventsAndProfilesSearchViewState.EventsViewState
                 EventElement(
                     eventViewState = it,
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    onClick = viewModel::onScreenAction
+                    onClick = { id -> onEventClick(id) }
                 )
             }
         }

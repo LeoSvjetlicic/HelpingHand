@@ -6,6 +6,8 @@ import org.volonter.helpinghand.domain.usecases.CreateNewEventUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllEventsForSearchUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllMarkersUseCase
 import org.volonter.helpinghand.domain.usecases.GetEventByIdUseCase
+import org.volonter.helpinghand.domain.usecases.GetEventsByVolunteerUseCase
+import org.volonter.helpinghand.domain.usecases.GetFinishedEventsWithRatingsUseCase
 import org.volonter.helpinghand.domain.usecases.GetSupportedCitiesUseCase
 import org.volonter.helpinghand.domain.usecases.ToggleApplicationButtonUseCase
 import org.volonter.helpinghand.ui.screens.addevent.AddEventViewState
@@ -20,7 +22,9 @@ class EventRepositoryImpl @Inject constructor(
     private val getAllMarkers: GetAllMarkersUseCase,
     private val getEventByIdUseCase: GetEventByIdUseCase,
     private val toggleApplicationUseCase: ToggleApplicationButtonUseCase,
-    private val getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase
+    private val getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase,
+    private val getFinishedEventsWithRatingsUseCase: GetFinishedEventsWithRatingsUseCase,
+    private val getEventsByVolunteerUseCase: GetEventsByVolunteerUseCase
 ) : EventRepository {
     override suspend fun createNewEvent(
         inputViewState: AddEventViewState,
@@ -40,4 +44,8 @@ class EventRepositoryImpl @Inject constructor(
         toggleApplicationUseCase.invoke(eventId)
 
     override suspend fun getAllEventsForSearch() = getAllEventsForSearchUseCase.invoke()
+
+    override suspend fun getFinishedEventsWithRatings(organisationId: String) = getFinishedEventsWithRatingsUseCase.invoke(organisationId)
+
+    override suspend fun getEventsByVolunteerId(volunteerId: String) = getEventsByVolunteerUseCase.invoke(volunteerId)
 }

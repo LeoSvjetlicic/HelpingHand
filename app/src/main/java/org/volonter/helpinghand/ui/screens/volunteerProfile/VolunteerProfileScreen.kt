@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
@@ -26,6 +27,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -57,96 +59,108 @@ fun VolunteerProfileScreen(
     viewModel: VolunteerProfileViewModel,
     modifier: Modifier = Modifier
 ) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
-    viewModel.setTab(selectedTabIndex)
+    var selectedTabIndex by remember { mutableStateOf(viewModel.selectedTabIndex.value) }
+        viewModel.setTab(selectedTabIndex)
 
-    Box(modifier = modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MiddleBrown),
-            contentPadding = PaddingValues(bottom = 24.dp)
-        ) {
-            item {
-                Column(modifier = Modifier.fillMaxSize()) {
+    val isLoading = viewModel.isLoading.value
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 26.dp, vertical = 16.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        AsyncImage(
-                            model = viewModel.viewState.value.imageLink,
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
+    if(isLoading){
+        Box(modifier = modifier.fillMaxSize().background(MiddleBrown)) {
+        }
+    }
+    else {
+
+        Box(modifier = modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MiddleBrown),
+                contentPadding = PaddingValues(bottom = 24.dp)
+            ) {
+                item {
+                    Column(modifier = Modifier.fillMaxSize()) {
+
+                        Column(
                             modifier = Modifier
-                                .size(200.dp)
-                                .clip(CircleShape)
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(
-                            text = viewModel.viewState.value.volunteer.name,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.W500,
-                            color = Color.White
-                        )
-                    }
+                                .fillMaxWidth()
+                                .padding(horizontal = 26.dp, vertical = 16.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            AsyncImage(
+                                model = viewModel.viewState.value.imageLink,
+                                contentScale = ContentScale.Crop,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(200.dp)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(
+                                text = viewModel.viewState.value.title,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.W500,
+                                color = Color.White
+                            )
+                        }
 
-                    val tabs = listOf("In progress", "Finished")
-                    TabRow(
-                        selectedTabIndex = selectedTabIndex,
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(bottom = 24.dp,
-                                start = 16.dp,
-                                end = 16.dp),
-                        containerColor = DarkBrown,
-                        contentColor = Color.White,
-                        indicator = { tabPositions ->
-                            Box(
-                                Modifier
-                                    .tabIndicatorOffset(tabPositions[selectedTabIndex])
-                                    .height(4.dp)
-                                    .background(LightBrown)
-                            )
-                        },
-                        divider = {
-                            HorizontalDivider(
-                                thickness = 0.dp,
-                            )
+                        val tabs = listOf("In progress", "Finished")
+                        TabRow(
+                            selectedTabIndex = selectedTabIndex,
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(
+                                    bottom = 24.dp,
+                                    start = 16.dp,
+                                    end = 16.dp
+                                ),
+                            containerColor = DarkBrown,
+                            contentColor = Color.White,
+                            indicator = { tabPositions ->
+                                Box(
+                                    Modifier
+                                        .tabIndicatorOffset(tabPositions[selectedTabIndex])
+                                        .height(4.dp)
+                                        .background(LightBrown)
+                                )
+                            },
+                            divider = {
+                                HorizontalDivider(
+                                    thickness = 0.dp,
+                                )
+                            }
+                        ) {
+                            tabs.forEachIndexed { index, title ->
+                                Tab(
+                                    selected = selectedTabIndex == index,
+                                    onClick = { selectedTabIndex = index },
+                                    text = { Text(text = title, color = Color.White) }
+                                )
+                            }
                         }
-                    ) {
-                        tabs.forEachIndexed { index, title ->
-                            Tab(
-                                selected = selectedTabIndex == index,
-                                onClick = { selectedTabIndex = index },
-                                text = { Text(text = title, color = Color.White) }
-                            )
-                        }
-                    }
 
-                    when (viewModel.viewState.value) {
-                        is InProgressEventsViewState -> {
-                            EventList(viewState = viewModel.viewState.value as InProgressEventsViewState, viewModel)
-                        }
-                        is FinishedEventsViewState -> {
-                            EventList(viewState = viewModel.viewState.value as FinishedEventsViewState, viewModel)
+                        when (val currentState = viewModel.viewState.value) {
+                            is InProgressEventsViewState -> {
+                                EventList(viewState = currentState, viewModel)
+                            }
+
+                            is FinishedEventsViewState -> {
+                                EventList(viewState = currentState, viewModel)
+                            }
                         }
                     }
                 }
             }
-        }
 
-        Icon(
-            modifier = Modifier
-                .padding(start = 22.dp, top = 22.dp, end = 22.dp)
-                .clickable {
-                    viewModel.onScreenAction(OnBackClick)
-                },
-            painter = painterResource(R.drawable.ic_arrow_left),
-            contentDescription = null
-        )
+            Icon(
+                modifier = Modifier
+                    .padding(start = 22.dp, top = 22.dp, end = 22.dp)
+                    .clickable {
+                        viewModel.onScreenAction(OnBackClick)
+                    },
+                painter = painterResource(R.drawable.ic_arrow_left),
+                contentDescription = null
+            )
+        }
     }
 }
 

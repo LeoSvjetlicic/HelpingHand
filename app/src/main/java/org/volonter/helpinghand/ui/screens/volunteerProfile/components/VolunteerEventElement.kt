@@ -29,8 +29,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.common.viewstates.EventViewState
-import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationScreenActions
+import org.volonter.helpinghand.ui.screens.volunteerProfile.EventViewState
+
 import org.volonter.helpinghand.ui.screens.volunteerProfile.FinishedEventsViewState
 import org.volonter.helpinghand.ui.screens.volunteerProfile.PaginatedViewState
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileViewState
