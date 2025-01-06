@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.common.viewstates.EventViewState
 import org.volonter.helpinghand.ui.screens.eventdetails.components.IconTextElement
 import org.volonter.helpinghand.ui.screens.organizationProfile.components.ProfilePagination
 import org.volonter.helpinghand.ui.screens.organizationProfile.components.OrganizationEventElement
@@ -87,16 +86,6 @@ fun OrganizationProfileScreen(
 
 
                         Spacer(modifier = Modifier.height(20.dp))
-                        IconTextElement(
-                            vectorId = R.drawable.ic_map_pin,
-                            label = viewModel.viewState.value.location
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        IconTextElement(
-                            vectorId = R.drawable.ic_phone,
-                            label = viewModel.viewState.value.callingNumber
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
                         Text(
                             text = viewModel.viewState.value.description,
                             fontSize = 16.sp,

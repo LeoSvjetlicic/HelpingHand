@@ -48,6 +48,8 @@ import org.volonter.helpinghand.ui.theme.MiddleBrown
 fun EventsAndProfilesSearchScreen(
     viewModel: EventsAndProfilesSearchViewModel,
     modifier: Modifier = Modifier,
+    onEventClick:(String) -> Unit,
+    onUserClick: (String) -> Unit
 ) {
     val selectedTabIndex by viewModel.selectedTab.collectAsState()
     val searchText by viewModel.searchText.collectAsState()
@@ -145,13 +147,13 @@ fun EventsAndProfilesSearchScreen(
                         0 -> {
                             EventsSearchList(
                                 viewState = EventsAndProfilesSearchViewState.EventsViewState(filteredEvents),
-                                viewModel
+                                onEventClick
                             )
                         }
                         1 -> {
                             ProfilesSearchList(
                                 viewState = EventsAndProfilesSearchViewState.ProfilesViewState(filteredProfiles),
-                                viewModel
+                                onUserClick
                             )
                         }
                     }

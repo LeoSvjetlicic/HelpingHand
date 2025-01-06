@@ -12,6 +12,8 @@ import org.volonter.helpinghand.domain.usecases.CreateNewEventUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllEventsForSearchUseCase
 import org.volonter.helpinghand.domain.usecases.GetAllMarkersUseCase
 import org.volonter.helpinghand.domain.usecases.GetEventByIdUseCase
+import org.volonter.helpinghand.domain.usecases.GetEventsByVolunteerUseCase
+import org.volonter.helpinghand.domain.usecases.GetFinishedEventsWithRatingsUseCase
 import org.volonter.helpinghand.domain.usecases.GetReviewUseCase
 import org.volonter.helpinghand.domain.usecases.GetSupportedCitiesUseCase
 import org.volonter.helpinghand.domain.usecases.GetUserDetailsUseCase
@@ -21,6 +23,26 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object EventModule {
+
+    @Provides
+    @Singleton
+    fun provideEventsByVolunteerUseCase(
+        firestore: FirebaseFirestore,
+        getUserDetailsUseCase: GetUserDetailsUseCase
+    ): GetEventsByVolunteerUseCase = GetEventsByVolunteerUseCase(firestore, getUserDetailsUseCase)
+
+    @Provides
+    @Singleton
+    fun provideGetAllEventsForSearchUseCase(
+        firestore: FirebaseFirestore
+    ): GetAllEventsForSearchUseCase = GetAllEventsForSearchUseCase(firestore)
+
+    @Provides
+    @Singleton
+    fun provideGetFinishedEventsWithRatingsUseCase(
+        firestore: FirebaseFirestore,
+        getUserDetailsUseCase: GetUserDetailsUseCase
+    ): GetFinishedEventsWithRatingsUseCase = GetFinishedEventsWithRatingsUseCase(firestore, getUserDetailsUseCase)
 
     @Provides
     @Singleton
@@ -83,7 +105,9 @@ object EventModule {
         getEventByIdUseCase: GetEventByIdUseCase,
         toggleApplicationButtonUseCase: ToggleApplicationButtonUseCase,
         getAllMarkersUseCase: GetAllMarkersUseCase,
-        getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase
+        getAllEventsForSearchUseCase: GetAllEventsForSearchUseCase,
+        getFinishedEventsWithRatingsUseCase: GetFinishedEventsWithRatingsUseCase,
+        getEventsByVolunteerUseCase: GetEventsByVolunteerUseCase
     ): EventRepository =
         EventRepositoryImpl(
             createNewEventUseCase,
@@ -91,6 +115,8 @@ object EventModule {
             getAllMarkersUseCase,
             getEventByIdUseCase,
             toggleApplicationButtonUseCase,
-            getAllEventsForSearchUseCase
+            getAllEventsForSearchUseCase,
+            getFinishedEventsWithRatingsUseCase,
+            getEventsByVolunteerUseCase
         )
 }

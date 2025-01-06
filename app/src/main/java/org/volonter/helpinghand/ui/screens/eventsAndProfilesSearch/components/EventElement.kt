@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +36,7 @@ import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProf
 @Composable
 fun EventElement(
     eventViewState: EventViewState, modifier: Modifier = Modifier,
-    onClick: (EventsAndProfilesSearchActions) -> Unit
+    onClick: (String) -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     var isExpanded by remember { mutableStateOf(false) }
@@ -44,7 +45,9 @@ fun EventElement(
     val datePart = eventViewState.time.substringBeforeLast(",").trim()
     val timePart = eventViewState.time.substringAfterLast(",").trim()
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { onClick(eventViewState.id) },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {

@@ -13,7 +13,10 @@ import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProf
 
 
 @Composable
-fun ProfilesSearchList(viewState: EventsAndProfilesSearchViewState.ProfilesViewState, viewModel: EventsAndProfilesSearchViewModel) {
+fun ProfilesSearchList(
+    viewState: EventsAndProfilesSearchViewState.ProfilesViewState,
+    onUserClick: (String) -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -24,7 +27,7 @@ fun ProfilesSearchList(viewState: EventsAndProfilesSearchViewState.ProfilesViewS
                 ProfileElement(
                     userViewState = it,
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    onClick = viewModel::onScreenAction
+                    onClick = { id -> onUserClick(id) }
                 )
             }
         }

@@ -13,6 +13,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,9 +47,11 @@ import org.volonter.helpinghand.ui.screens.map.MapViewModel
 import org.volonter.helpinghand.ui.screens.map.MyProfileClick
 import org.volonter.helpinghand.ui.screens.map.SettingsClick
 import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileScreen
+import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileViewModel
 import org.volonter.helpinghand.ui.screens.settings.SettingsScreen
 import org.volonter.helpinghand.ui.screens.settings.SettingsViewModel
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileScreen
+import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileViewModel
 import org.volonter.helpinghand.ui.theme.HelpingHandTheme
 import org.volonter.helpinghand.ui.theme.PrimaryGreen
 import org.volonter.helpinghand.utlis.Constants
@@ -60,9 +63,12 @@ import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_R
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_DETAILS_ROUTE_FULL
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.EVENT_ID
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.MAP_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ORGANIZATION_ID
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.ORGANIZATION_PROFILE_ROUTE_FULL
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.SETTINGS_ROUTE
 import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE
+import org.volonter.helpinghand.utlis.Constants.NavigationRoutes.VOLUNTEER_PROFILE_ROUTE_FULL
 import org.volonter.helpinghand.utlis.Constants.SharedPreferencesConstants.SHARED_PREFERENCES_IS_ORGANISATION
 import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 
@@ -199,8 +205,7 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate("$ADD_REVIEW_ROUTE/$eventId")
                                 },
                                 onUserClick = {
-//                                    TODO - add id to navigation route
-                                    navController.navigate(ORGANIZATION_PROFILE_ROUTE)
+                                    navController.navigate("$ORGANIZATION_PROFILE_ROUTE/$it")
                                 },
                                 onBackClick = { navController.popBackStack() },
                             )
@@ -228,16 +233,36 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(route = ORGANIZATION_PROFILE_ROUTE) {
+                        composable(
+                            route = ORGANIZATION_PROFILE_ROUTE_FULL,
+                            arguments = listOf(navArgument(ORGANIZATION_ID) {
+                                type = NavType.StringType
+                            })
+                        ) {
+                            backStackEntry ->
+                            val organisationId = backStackEntry.arguments?.getString("organisationId") ?: ""
+                            val viewModel = hiltViewModel<OrganizationProfileViewModel>()
+                            viewModel.updateViewState(organisationId)
                             OrganizationProfileScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier
                             )
                         }
 
-                        composable(route = VOLUNTEER_PROFILE_ROUTE) {
+                        composable(
+                            route = VOLUNTEER_PROFILE_ROUTE_FULL,
+                            arguments = listOf(navArgument(Constants.NavigationRoutes.VOLUNTEER_ID) {
+                                type = NavType.StringType
+                            })
+                        ) {
+                            backStackEntry ->
+                            val volunteerId = backStackEntry.arguments?.getString("volunteerId") ?: ""
+                            val viewModel = hiltViewModel<VolunteerProfileViewModel>()
+                            LaunchedEffect(volunteerId) {
+                                viewModel.updateViewState(volunteerId)
+                            }
                             VolunteerProfileScreen(
-                                viewModel = hiltViewModel(),
+                                viewModel = viewModel,
                                 modifier = Modifier
                             )
                         }
@@ -247,6 +272,21 @@ class MainActivity : ComponentActivity() {
                             EventsAndProfilesSearchScreen(
                                 viewModel = viewModel,
                                 modifier = Modifier,
+                                onEventClick = {
+                                    navController.navigate("$EVENT_DETAILS_ROUTE/$it")
+                                },
+                                onUserClick = {
+        //                            TODO() - navigate based on user type
+
+                              /*          userId ->
+                                    if (SharedPreferencesHelper.getBooleanFromSharedPrefs(SHARED_PREFERENCES_IS_ORGANISATION)) {
+                                        navController.navigate("$ORGANIZATION_PROFILE_ROUTE/$userId")
+                                    } else {
+                                        navController.navigate("$VOLUNTEER_PROFILE_ROUTE/$userId")
+                                    }*/
+                                    navController.navigate("$VOLUNTEER_PROFILE_ROUTE/$it")
+
+                                }
                             )
                         }
 

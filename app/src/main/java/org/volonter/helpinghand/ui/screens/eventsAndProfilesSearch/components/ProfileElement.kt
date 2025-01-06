@@ -1,5 +1,6 @@
 package org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,10 +30,12 @@ import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProf
 @Composable
 fun ProfileElement(
     userViewState: UserViewState, modifier: Modifier = Modifier,
-    onClick: (EventsAndProfilesSearchActions) -> Unit
+    onClick: (String) -> Unit
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { onClick(userViewState.id)},
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {

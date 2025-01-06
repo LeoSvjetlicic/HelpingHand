@@ -27,6 +27,12 @@ object UserProfileModule {
 
     @Provides
     @Singleton
+    fun provideGetAllUsersUseCase(
+        firestore: FirebaseFirestore
+    ): GetAllUsersUseCase = GetAllUsersUseCase(firestore)
+
+    @Provides
+    @Singleton
     fun provideUserProfileRepository(
         editUserProfileUseCase: EditUserProfileUseCase,
         getAllUsersUseCase: GetAllUsersUseCase,
