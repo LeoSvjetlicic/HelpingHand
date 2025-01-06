@@ -75,7 +75,7 @@ import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        var isOrganisation = mutableStateOf(
+        val isOrganisation = mutableStateOf(
             SharedPreferencesHelper.getBooleanFromSharedPrefs(
                 SHARED_PREFERENCES_IS_ORGANISATION
             )
@@ -126,7 +126,7 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier,
                                 navigate = {
                                     navController.navigate(MAP_ROUTE) {
-                                        popUpTo(navController.graph.startDestinationId) {
+                                        popUpTo(Constants.NavigationRoutes.LOGIN_ROUTE) {
                                             inclusive = true
                                         }
                                         launchSingleTop = true
