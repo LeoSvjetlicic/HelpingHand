@@ -74,10 +74,11 @@ import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    var isOrganisation = mutableStateOf(false)
     override fun onCreate(savedInstanceState: Bundle?) {
-        isOrganisation.value = SharedPreferencesHelper.getBooleanFromSharedPrefs(
-            SHARED_PREFERENCES_IS_ORGANISATION
+        var isOrganisation = mutableStateOf(
+            SharedPreferencesHelper.getBooleanFromSharedPrefs(
+                SHARED_PREFERENCES_IS_ORGANISATION
+            )
         )
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -119,19 +120,28 @@ class MainActivity : ComponentActivity() {
                            Constants.NavigationRoutes.LOGIN_ROUTE
                        }
                     ) {
-
                         composable(route = Constants.NavigationRoutes.LOGIN_ROUTE) {
                             LoginScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
                                 navigate = {
-                                    navController.navigate(MAP_ROUTE)
+                                    navController.navigate(MAP_ROUTE) {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            inclusive = true
+                                        }
+                                        launchSingleTop = true
+                                    }
                                 }
                             )
                         }
 
                         composable(MAP_ROUTE) {
+                            isOrganisation.value =
+                                SharedPreferencesHelper.getBooleanFromSharedPrefs(
+                                    SHARED_PREFERENCES_IS_ORGANISATION
+                                )
                             val viewModel = hiltViewModel<MapViewModel>()
+                            viewModel.refreshViewStates()
                             MapScreen(
                                 currentPosition = viewModel.currentPosition.value,
                                 supportedPlaces = viewModel.supportedTowns.value,
@@ -144,16 +154,17 @@ class MainActivity : ComponentActivity() {
                                 onPopupMenuClick = { popupSelectable ->
                                     when (popupSelectable) {
                                         MyProfileClick -> {
-                                            if (SharedPreferencesHelper.getBooleanFromSharedPrefs(
-                                                    SHARED_PREFERENCES_IS_ORGANISATION
-                                                )
-                                            ) {
-                                                navController.navigate(ORGANIZATION_PROFILE_ROUTE)
-                                            } else {
-                                                navController.navigate(VOLUNTEER_PROFILE_ROUTE)
+                                            FirebaseAuth.getInstance().currentUser?.uid.let {
+                                                if (SharedPreferencesHelper.getBooleanFromSharedPrefs(
+                                                        SHARED_PREFERENCES_IS_ORGANISATION
+                                                    )
+                                                ) {
+                                                    navController.navigate("$ORGANIZATION_PROFILE_ROUTE/${it}")
+                                                } else {
+                                                    navController.navigate("$VOLUNTEER_PROFILE_ROUTE/${it}")
+                                                }
                                             }
                                         }
-
                                         SettingsClick -> navController.navigate(SETTINGS_ROUTE)
 
                                         LogoutClick -> viewModel.logout {
@@ -198,14 +209,22 @@ class MainActivity : ComponentActivity() {
                             EventDetailsScreen(
                                 viewModel = hiltViewModel(),
                                 modifier = Modifier,
-                                onReviewUserClick = {
-//                                    TODO
+                                onReviewUserClick = { userId, isUserOrganisation ->
+                                    if (isUserOrganisation) {
+                                        navController.navigate("$ORGANIZATION_PROFILE_ROUTE/$userId")
+                                    } else {
+                                        navController.navigate("$VOLUNTEER_PROFILE_ROUTE/$eventId")
+                                    }
                                 },
                                 onAddReviewClick = {
                                     navController.navigate("$ADD_REVIEW_ROUTE/$eventId")
                                 },
-                                onUserClick = {
-                                    navController.navigate("$ORGANIZATION_PROFILE_ROUTE/$it")
+                                onUserClick = { userId, isUserOrganisation ->
+                                    if (isUserOrganisation) {
+                                        navController.navigate("$ORGANIZATION_PROFILE_ROUTE/$userId")
+                                    } else {
+                                        navController.navigate("$VOLUNTEER_PROFILE_ROUTE/$eventId")
+                                    }
                                 },
                                 onBackClick = { navController.popBackStack() },
                             )
@@ -245,7 +264,11 @@ class MainActivity : ComponentActivity() {
                             viewModel.updateViewState(organisationId)
                             OrganizationProfileScreen(
                                 viewModel = hiltViewModel(),
-                                modifier = Modifier
+                                modifier = Modifier,
+                                onEventClick = {
+                                    navController.navigate("$EVENT_DETAILS_ROUTE/$it")
+                                },
+                                onBackClick = { navController.popBackStack() }
                             )
                         }
 
@@ -263,7 +286,11 @@ class MainActivity : ComponentActivity() {
                             }
                             VolunteerProfileScreen(
                                 viewModel = viewModel,
-                                modifier = Modifier
+                                onEventClick = {
+                                    navController.navigate("$EVENT_DETAILS_ROUTE/$it")
+                                },
+                                modifier = Modifier,
+                                onBackClick = { navController.popBackStack() }
                             )
                         }
 
@@ -275,17 +302,13 @@ class MainActivity : ComponentActivity() {
                                 onEventClick = {
                                     navController.navigate("$EVENT_DETAILS_ROUTE/$it")
                                 },
-                                onUserClick = {
-        //                            TODO() - navigate based on user type
-
-                              /*          userId ->
-                                    if (SharedPreferencesHelper.getBooleanFromSharedPrefs(SHARED_PREFERENCES_IS_ORGANISATION)) {
+                                onBackClick = { navController.popBackStack() },
+                                onUserClick = { userId, isUserOrganisation ->
+                                    if (isUserOrganisation) {
                                         navController.navigate("$ORGANIZATION_PROFILE_ROUTE/$userId")
                                     } else {
                                         navController.navigate("$VOLUNTEER_PROFILE_ROUTE/$userId")
-                                    }*/
-                                    navController.navigate("$VOLUNTEER_PROFILE_ROUTE/$it")
-
+                                    }
                                 }
                             )
                         }

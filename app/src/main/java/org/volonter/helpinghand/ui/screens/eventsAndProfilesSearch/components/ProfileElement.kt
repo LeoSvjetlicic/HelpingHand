@@ -24,18 +24,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import org.volonter.helpinghand.ui.common.viewstates.UserViewState
-import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchActions
 
 
 @Composable
 fun ProfileElement(
     userViewState: UserViewState, modifier: Modifier = Modifier,
-    onClick: (String) -> Unit
+    onClick: (String, Boolean) -> Unit
 ) {
     Card(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .clickable { onClick(userViewState.id)},
+            .clickable { onClick(userViewState.id, userViewState.isOrganisation) },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {

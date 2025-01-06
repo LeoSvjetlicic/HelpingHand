@@ -40,9 +40,9 @@ import org.volonter.helpinghand.utlis.SharedPreferencesHelper
 fun EventDetailsScreen(
     viewModel: EventDetailsViewModel,
     modifier: Modifier = Modifier,
-    onReviewUserClick: (String) -> Unit,
+    onReviewUserClick: (String, Boolean) -> Unit,
     onAddReviewClick: () -> Unit,
-    onUserClick: (String) -> Unit,
+    onUserClick: (String, Boolean) -> Unit,
     onBackClick: () -> Unit,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -57,7 +57,7 @@ fun EventDetailsScreen(
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(max = 300.dp),
+                            .heightIn(max = 300.dp, min = 70.dp),
                         model = viewModel.viewState.value.imageLink,
                         contentScale = ContentScale.FillWidth,
                         contentDescription = null

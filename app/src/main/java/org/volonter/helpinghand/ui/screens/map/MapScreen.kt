@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
@@ -73,7 +74,7 @@ fun MapScreen(
                         snippet = marker.description,
                         onClick = {
                             marker.markerState.showInfoWindow()
-                            true
+                            false
                         },
                         onInfoWindowClick = {
                             onEventClick(marker.id)
@@ -151,12 +152,13 @@ fun MapScreen(
                     Card(
                         modifier = Modifier
                             .padding(horizontal = 12.dp, vertical = 50.dp)
-                            .background(Color.White)
+                            .background(Color.Transparent)
                             .wrapContentWidth(),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White,
                             contentColor = Color.Black
                         ),
+                        shape = RoundedCornerShape(12.dp),
                         elevation = CardDefaults.elevatedCardElevation(4.dp)
                     ) {
                         Column(modifier = Modifier.widthIn(max = 120.dp)) {

@@ -37,7 +37,7 @@ import org.volonter.helpinghand.ui.theme.SecondaryGreen
 @Composable
 fun ReviewItem(
     reviewViewState: ReviewViewState, modifier: Modifier = Modifier,
-    onReviewUserClick: (String) -> Unit
+    onReviewUserClick: (String, Boolean) -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     var isExpanded by remember { mutableStateOf(false) }

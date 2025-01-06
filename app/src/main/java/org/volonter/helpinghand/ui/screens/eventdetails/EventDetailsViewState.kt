@@ -22,6 +22,7 @@ open class EventDetailsViewState(
                 "Error loading",
                 "Error loading",
                 "Error loading",
+                false
             ),
             imageLink = "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png",
             title = "Error loading",
@@ -35,7 +36,7 @@ open class EventDetailsViewState(
 
 data class FinishedEventDetailsViewState(
     override val id: String = "",
-    override val organisation: UserViewState = UserViewState("", "", "", "", ""),
+    override val organisation: UserViewState = UserViewState("", "", "", "", "", false),
     override val imageLink: String = "",
     override val title: String = "",
     override val date: String = "",
@@ -58,7 +59,7 @@ data class FinishedEventDetailsViewState(
 
 data class UnfinishedEventDetailsViewState(
     override val id: String = "",
-    override val organisation: UserViewState = UserViewState("", "", "", "", ""),
+    override val organisation: UserViewState = UserViewState("", "", "", "", "", false),
     override val imageLink: String = "",
     override val title: String = "",
     override val date: String = "",

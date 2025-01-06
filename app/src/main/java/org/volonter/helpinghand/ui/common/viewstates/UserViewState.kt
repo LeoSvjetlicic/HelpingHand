@@ -5,5 +5,6 @@ data class UserViewState(
     val imageLink: String,
     val name: String,
     val email: String,
-    val description: String
+    val description: String,
+    val isOrganisation: Boolean
 )

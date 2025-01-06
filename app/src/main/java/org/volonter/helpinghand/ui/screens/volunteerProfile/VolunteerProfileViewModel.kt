@@ -1,14 +1,15 @@
 package org.volonter.helpinghand.ui.screens.volunteerProfile
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.volonter.helpinghand.domain.repository.EventRepository
 import javax.inject.Inject
+
 @HiltViewModel
 class VolunteerProfileViewModel @Inject constructor(
     private val eventRepository: EventRepository
@@ -19,7 +20,7 @@ class VolunteerProfileViewModel @Inject constructor(
     var viewState: MutableState<VolunteerProfileViewState> =
         mutableStateOf(inProgressEventsViewState)
 
-    var selectedTabIndex: MutableState<Int> = mutableStateOf(0)
+    var selectedTabIndex: MutableState<Int> = mutableIntStateOf(0)
 
     var isLoading: MutableState<Boolean> = mutableStateOf(true)
         private set
@@ -40,8 +41,6 @@ class VolunteerProfileViewModel @Inject constructor(
                 inProgressEventsViewState.id = inProgressEvents.id
                 inProgressEventsViewState.title = inProgressEvents.title
                 inProgressEventsViewState.imageLink = inProgressEvents.imageLink
-
-                println("Finished events: ${finishedEvents}")
             }
             isLoading.value = false
         }
@@ -59,11 +58,8 @@ class VolunteerProfileViewModel @Inject constructor(
 
     fun onScreenAction(action: VolunteerScreenActions) {
         when (action) {
-            is OnEventUserClick -> { }
-            OnBackClick -> {}
             OnPaginationLeftClick -> updatePagination(-1)
             OnPaginationRightClick -> updatePagination(1)
-            OnToggleApplicationToEventClick -> { }
         }
     }
 

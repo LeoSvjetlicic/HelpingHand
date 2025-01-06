@@ -13,7 +13,11 @@ import org.volonter.helpinghand.ui.screens.volunteerProfile.PaginatedViewState
 import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileViewModel
 
 @Composable
-fun EventList(viewState: PaginatedViewState, viewModel: VolunteerProfileViewModel) {
+fun EventList(
+    viewState: PaginatedViewState,
+    viewModel: VolunteerProfileViewModel,
+    onElementClick: (String) -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -25,7 +29,7 @@ fun EventList(viewState: PaginatedViewState, viewModel: VolunteerProfileViewMode
                     eventViewState = it,
                     viewState = viewState,
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    onClick = viewModel::onScreenAction
+                    onClick = onElementClick
                 )
             }
         }

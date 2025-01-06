@@ -8,10 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchViewModel
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchViewState
-import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileViewModel
-import org.volonter.helpinghand.ui.screens.volunteerProfile.components.VolunteerProfilePagination
 
 
 @Composable

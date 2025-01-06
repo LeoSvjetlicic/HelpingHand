@@ -1,6 +1,5 @@
 package org.volonter.helpinghand.ui.screens.organizationProfile
 
-import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationScreenActions.*
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -22,10 +21,6 @@ class OrganizationProfileViewModel @Inject constructor(
     }
 
     fun onScreenAction(action: OrganizationScreenActions) = when (action) {
-        is OnEventUserClick -> {}
-        OnBackClick -> {}
-        OnCallClick -> {}
-        OnLocationClick -> {}
         OnPaginationLeftClick -> {
             viewState.value =
                 (viewState.value as FinishedEventsViewState).copy(

@@ -44,6 +44,11 @@ class SettingsViewModel @Inject constructor(
             viewState.value =
                 viewState.value.copy(newUsername = viewState.value.newUsername.copy(value = action.value))
         }
+
+        is ChangeImageLink -> {
+            viewState.value =
+                viewState.value.copy(newImageLink = viewState.value.newImageLink.copy(value = action.value))
+        }
     }
 
     suspend fun onSaveClick(): Boolean {

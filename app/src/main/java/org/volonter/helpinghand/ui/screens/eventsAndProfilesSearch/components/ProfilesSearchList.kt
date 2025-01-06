@@ -8,14 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchViewModel
 import org.volonter.helpinghand.ui.screens.eventsAndProfilesSearch.EventsAndProfilesSearchViewState
 
 
 @Composable
 fun ProfilesSearchList(
     viewState: EventsAndProfilesSearchViewState.ProfilesViewState,
-    onUserClick: (String) -> Unit
+    onUserClick: (String, Boolean) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Column(
@@ -27,7 +26,7 @@ fun ProfilesSearchList(
                 ProfileElement(
                     userViewState = it,
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    onClick = { id -> onUserClick(id) }
+                    onClick = onUserClick
                 )
             }
         }

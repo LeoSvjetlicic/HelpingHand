@@ -26,25 +26,19 @@ class LoginUseCase @Inject constructor(
                 auth.signInWithEmailAndPassword(email.trim(), password.trim())
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            if(continuation.isActive) {
                                 continuation.resumeWith(Result.success(true))
-                            }
                         } else {
                             toastHelper.createToast("Login failed", Toast.LENGTH_SHORT)
-                            if(continuation.isActive) {
                                 continuation.resumeWith(Result.success(false))
-                            }
                         }
                     }.addOnFailureListener { exception ->
                         Log.d("error", exception.message.toString())
-                        if(continuation.isActive) {
                             continuation.resumeWith(Result.success(false))
-                        }
                     }
             }
 
             if (loginResult) {
-                val userId = FirebaseAuth.getInstance().currentUser?.uid
+                val userId = auth.uid
                 userId?.let {
                     firestore.collection("users")
                         .document(it)

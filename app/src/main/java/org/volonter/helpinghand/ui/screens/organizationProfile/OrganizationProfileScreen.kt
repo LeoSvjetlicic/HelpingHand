@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -32,17 +31,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import org.volonter.helpinghand.R
-import org.volonter.helpinghand.ui.screens.eventdetails.components.IconTextElement
-import org.volonter.helpinghand.ui.screens.organizationProfile.components.ProfilePagination
 import org.volonter.helpinghand.ui.screens.organizationProfile.components.OrganizationEventElement
-
+import org.volonter.helpinghand.ui.screens.organizationProfile.components.ProfilePagination
 import org.volonter.helpinghand.ui.theme.MiddleBrown
-import org.volonter.helpinghand.ui.theme.PrimaryGreen
 
 @Composable
 fun OrganizationProfileScreen(
     viewModel: OrganizationProfileViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEventClick: (String) -> Unit,
+    onBackClick: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
@@ -59,7 +57,6 @@ fun OrganizationProfileScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 26.dp)
                     ) {
-
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -69,9 +66,9 @@ fun OrganizationProfileScreen(
                         ) {
                             AsyncImage(
                                 modifier = Modifier
-                                    .widthIn(max = 80.dp),
+                                    .size(80.dp),
                                 model = viewModel.viewState.value.imageLink,
-                                contentScale = ContentScale.Fit,
+                                contentScale = ContentScale.Crop,
                                 contentDescription = null
                             )
                             Spacer(modifier = Modifier.width(16.dp))
@@ -84,7 +81,6 @@ fun OrganizationProfileScreen(
                             )
                         }
 
-
                         Spacer(modifier = Modifier.height(20.dp))
                         Text(
                             text = viewModel.viewState.value.description,
@@ -92,7 +88,6 @@ fun OrganizationProfileScreen(
                             color = Color.White
                         )
                     }
-                    if (viewModel.viewState.value is FinishedEventsViewState) {
                         Column(modifier = Modifier.fillMaxWidth()) {
                             Text(
                                 modifier = Modifier
@@ -103,38 +98,50 @@ fun OrganizationProfileScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
+                            if ((viewModel.viewState.value).allReviews.isNotEmpty()) {
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                getPaginationSublist(viewModel.viewState.value as FinishedEventsViewState)
+                                getPaginationSublist(viewModel.viewState.value)
                                     .forEach {
                                         OrganizationEventElement(
                                             eventViewState = it,
-                                            modifier = Modifier.padding(horizontal = 32.dp),
+                                            modifier = Modifier
+                                                .padding(horizontal = 32.dp)
+                                                .clickable {
+                                                    onEventClick(it.id)
+                                                },
                                             onClick = viewModel::onScreenAction
                                         )
                                     }
                             }
-                            if ((viewModel.viewState.value as FinishedEventsViewState).allReviews.isNotEmpty()) {
                                 ProfilePagination(
-                                    viewState = viewModel.viewState.value as FinishedEventsViewState,
+                                    viewState = viewModel.viewState.value,
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                     onScreenAction = viewModel::onScreenAction
                                 )
+                            } else {
+                                Text(
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally),
+                                    text = stringResource(R.string.there_are_no_events),
+                                    fontSize = 16.sp,
+                                    color = Color.White
+                                )
                             }
-                        }
                     }
                 }
             }
         }
         val interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
         Icon(
-            modifier = Modifier.padding(start = 22.dp, top = 22.dp, end = 22.dp)
+            modifier = Modifier
+                .padding(start = 22.dp, top = 22.dp, end = 22.dp)
                 .clickable(interactionSource, null) {
-                viewModel.onScreenAction(OnBackClick)
-            },
+                    onBackClick()
+                },
             painter = painterResource(R.drawable.ic_arrow_left),
             contentDescription = null
         )

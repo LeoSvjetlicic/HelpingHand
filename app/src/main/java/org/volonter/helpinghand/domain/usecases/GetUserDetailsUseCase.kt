@@ -21,7 +21,8 @@ class GetUserDetailsUseCase @Inject constructor(
                 email = data?.get("email") as? String ?: "-",
                 imageLink = data?.get("imageLink") as? String
                     ?: "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png",
-                name = data?.get("name") as? String ?: "-"
+                name = data?.get("name") as? String ?: "-",
+                isOrganisation = data?.get("isOrganisation") as? Boolean ?: false
             )
         } catch (e: Exception) {
             UserViewState(
@@ -29,7 +30,8 @@ class GetUserDetailsUseCase @Inject constructor(
                 description = "No description available",
                 email = "-",
                 imageLink = "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png",
-                name = "-"
+                name = "-",
+                isOrganisation = false
             )
         }
     }

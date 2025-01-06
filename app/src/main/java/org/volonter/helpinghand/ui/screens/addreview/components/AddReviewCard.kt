@@ -40,7 +40,7 @@ fun AddReviewCard(
                 onRatingChanged = { onAction(ChangeRating(it)) }
             )
             Spacer(Modifier.height(8.dp))
-            UserShortDetails(viewState.user, onClick = {}, color = Gray15)
+            UserShortDetails(viewState.user, onClick = { _, _ -> }, color = Gray15)
             Spacer(Modifier.height(8.dp))
             BackgroundTextFieldWithLabel(
                 viewState = viewState.title,

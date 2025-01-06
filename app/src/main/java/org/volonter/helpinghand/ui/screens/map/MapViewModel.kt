@@ -21,12 +21,7 @@ class MapViewModel @Inject constructor(
     var supportedTowns = mutableStateOf(emptyMap<String, LatLng>())
 
     init {
-        viewModelScope.launch {
-            supportedTowns.value = eventRepository.getSupportedCities()
-        }
-        viewModelScope.launch {
-            markers.value = eventRepository.getAllEvents()
-        }
+        refreshViewStates()
     }
 
     fun onSearchInoutChange(newValue: String) {
@@ -35,5 +30,14 @@ class MapViewModel @Inject constructor(
 
     fun logout(navigate : () -> Unit) {
         repository.logout(navigate)
+    }
+
+    fun refreshViewStates() {
+        viewModelScope.launch {
+            supportedTowns.value = eventRepository.getSupportedCities()
+        }
+        viewModelScope.launch {
+            markers.value = eventRepository.getAllEvents()
+        }
     }
 }

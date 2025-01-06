@@ -1,6 +1,5 @@
 package org.volonter.helpinghand.ui.screens.volunteerProfile.components
 
-import org.volonter.helpinghand.ui.screens.eventdetails.components.RatingElement
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,28 +29,32 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.volonter.helpinghand.R
+import org.volonter.helpinghand.ui.screens.eventdetails.components.RatingElement
 import org.volonter.helpinghand.ui.screens.volunteerProfile.EventViewState
-
 import org.volonter.helpinghand.ui.screens.volunteerProfile.FinishedEventsViewState
 import org.volonter.helpinghand.ui.screens.volunteerProfile.PaginatedViewState
-import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerProfileViewState
-import org.volonter.helpinghand.ui.screens.volunteerProfile.VolunteerScreenActions
 
 @Composable
 fun VolunteerEventElement(
     eventViewState: EventViewState, modifier: Modifier = Modifier,
     viewState: PaginatedViewState,
-    onClick: (VolunteerScreenActions) -> Unit
+    onClick: (String) -> Unit
 ) {
     val interactionSource by remember { mutableStateOf(MutableInteractionSource()) }
     var isExpanded by remember { mutableStateOf(false) }
     var isOverflowing: Boolean? by remember { mutableStateOf(null) }
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { onClick(eventViewState.id) },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        Column(modifier = Modifier.padding(16.dp).fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
             if (viewState is FinishedEventsViewState) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

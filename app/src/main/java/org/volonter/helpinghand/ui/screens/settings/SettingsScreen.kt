@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,27 +70,36 @@ fun SettingsScreen(
                     .background(Color.Black),
                 contentScale = ContentScale.Crop,
             )
-            Box(
-                modifier = modifier
-                    .align(Alignment.BottomEnd)
-                    .size(56.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-            ) {
-                IconButton(
-                    onClick = { galleryLauncher.launch("image/*") },
-                    modifier = modifier
-                        .align(Alignment.Center)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_add),
-                        contentDescription = "Add Image",
-                        modifier = modifier.size(56.dp),
-                        tint = Color.Black
-                        )
-                }
-            }
+//            Box(
+//                modifier = modifier
+//                    .align(Alignment.BottomEnd)
+//                    .size(56.dp)
+//                    .clip(CircleShape)
+//                    .background(Color.White)
+//            ) {
+//                IconButton(
+//                    onClick = { galleryLauncher.launch("image/*") },
+//                    modifier = modifier
+//                        .align(Alignment.Center)
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.ic_add),
+//                        contentDescription = "Add Image",
+//                        modifier = modifier.size(56.dp),
+//                        tint = Color.Black
+//                        )
+//                }
+//            }
         }
+        Spacer(modifier = modifier.height(24.dp))
+
+        BackgroundTextFieldWithLabel(
+            viewState = viewModel.viewState.value.newImageLink,
+            maxLines = 4,
+            onQueryChange = { value ->
+                viewModel.onSettingsScreenAction(ChangeImageLink(value))
+            }
+        )
         Spacer(modifier = modifier.height(24.dp))
 
         BackgroundTextFieldWithLabel(

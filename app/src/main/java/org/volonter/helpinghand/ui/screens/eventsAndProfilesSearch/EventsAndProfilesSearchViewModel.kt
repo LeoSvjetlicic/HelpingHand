@@ -86,14 +86,6 @@ class EventsAndProfilesSearchViewModel @Inject constructor(
         selectedTab.value = tabIndex
     }
 
-/*    fun setTab(tabIndex: Int) {
-        _viewState.value = when (tabIndex) {
-            0 -> _eventsViewState.value
-            1 -> _profilesViewState.value
-            else -> _viewState.value
-        }
-    }*/
-
     fun onSearchTextChange(text: String) {
         _searchText.value = text
     }
@@ -102,14 +94,6 @@ class EventsAndProfilesSearchViewModel @Inject constructor(
         _isSearching.value = !_isSearching.value
         if (!_isSearching.value) {
             onSearchTextChange("")
-        }
-    }
-
-    fun onScreenAction(action: EventsAndProfilesSearchActions) {
-        when (action) {
-            is OnEventUserClick -> {  }
-            is OnProfileUserClick -> {  }
-            OnBackClick -> {}
         }
     }
 }

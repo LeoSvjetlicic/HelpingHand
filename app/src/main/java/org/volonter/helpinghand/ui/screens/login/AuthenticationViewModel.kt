@@ -50,9 +50,11 @@ class AuthenticationViewModel @Inject constructor(
         viewModelScope.launch {
             repository.login(
                 viewState.value.emailViewState.query,
-                viewState.value.passwordViewState.query,
-                navigate
-            )
+                viewState.value.passwordViewState.query
+            ) {
+                viewState.value = AuthenticationViewState()
+                navigate()
+            }
         }
     }
 
@@ -63,8 +65,10 @@ class AuthenticationViewModel @Inject constructor(
                 viewState.value.emailViewState.query,
                 viewState.value.passwordViewState.query,
                 viewState.value.isOrganisation,
-                navigate
-            )
+            ) {
+                viewState.value = AuthenticationViewState()
+                navigate()
+            }
         }
     }
 }

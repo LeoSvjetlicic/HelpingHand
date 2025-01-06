@@ -26,7 +26,7 @@ fun UserShortDetails(
     viewState: UserViewState,
     firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance(),
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit,
+    onClick: (String, Boolean) -> Unit,
     color: Color
 ) {
     Row(
@@ -35,7 +35,7 @@ fun UserShortDetails(
             .then(
                 if (viewState.id != firebaseAuth.currentUser?.uid) {
                     Modifier.clickable {
-                        onClick(viewState.id)
+                        onClick(viewState.id, viewState.isOrganisation)
                     }
                 } else {
                     Modifier

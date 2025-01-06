@@ -39,9 +39,11 @@ fun EventDetailsTopBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.clickable(interactionSource, null) {
-                onBackClick()
-            },
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable(interactionSource, null) {
+                    onBackClick()
+                },
             painter = painterResource(R.drawable.ic_arrow_left),
             contentDescription = null
         )

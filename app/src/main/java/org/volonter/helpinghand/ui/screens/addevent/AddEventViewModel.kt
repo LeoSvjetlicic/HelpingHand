@@ -69,6 +69,7 @@ class AddEventViewModel @Inject constructor(
                 stringResourcesProvider.getString(R.string.success),
                 Toast.LENGTH_SHORT
             )
+            inputViewState.value = AddEventViewState.EMPTY
         } else {
             toastHelper.createToast(
                 stringResourcesProvider.getString(R.string.failed),

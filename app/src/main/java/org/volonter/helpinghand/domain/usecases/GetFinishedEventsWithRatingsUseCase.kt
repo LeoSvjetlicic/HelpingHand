@@ -5,7 +5,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import org.volonter.helpinghand.ui.screens.organizationProfile.EventViewState
 import org.volonter.helpinghand.ui.screens.organizationProfile.FinishedEventsViewState
-import org.volonter.helpinghand.ui.screens.organizationProfile.OrganizationProfileViewState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -47,7 +46,7 @@ class GetFinishedEventsWithRatingsUseCase @Inject constructor(
                     } else null
                 } else null
             }
-
+            println("afadoifaiof ${organisationDetails.imageLink}")
             FinishedEventsViewState(
                 id = organisationDetails.id,
                 title = organisationDetails.name,
