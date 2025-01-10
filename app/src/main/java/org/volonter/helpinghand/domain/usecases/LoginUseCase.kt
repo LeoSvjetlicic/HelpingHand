@@ -29,7 +29,7 @@ class LoginUseCase @Inject constructor(
                                 continuation.resumeWith(Result.success(true))
                         } else {
                             toastHelper.createToast("Login failed", Toast.LENGTH_SHORT)
-                                continuation.resumeWith(Result.success(false))
+                            return@addOnCompleteListener
                         }
                     }.addOnFailureListener { exception ->
                         Log.d("error", exception.message.toString())
